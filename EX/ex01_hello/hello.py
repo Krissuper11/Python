@@ -1,4 +1,4 @@
-"""asks input and gives results"""
+"""asks input and gives results."""
 name = input("What is your name? ")
 arv1 = int(input("Hello, " + name + "! Enter a random number: "))
 arv2 = int(input("Great! Now enter a second random number: "))
