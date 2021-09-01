@@ -1,5 +1,5 @@
 """Asks for sum and gives amount of coins needed."""
-sum = int(input("Enter a sum : "))  # reads input
+sum = int(input("Enter a sum: "))  # reads input
 
 # counts how many 50 cent coins
 fifty_cent = sum // 50
@@ -19,4 +19,4 @@ left = left - five_cent * 5
 
 one_cent = left   # all what left is 1 cent coin
 amount = fifty_cent + twenty_cent + ten_cent + five_cent + one_cent  # counts amount of coins
-print(f"Amount of coins needed: {amount}") # prints the result
+print(f"Amount of coins needed: {amount}")  # prints the result
