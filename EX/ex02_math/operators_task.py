@@ -14,12 +14,12 @@ def sub(x, y):
 
 
 def multiply(x, y):
-    """Subtract x from y"""
+    """Subtract x from y."""
     result = x - y
     return result
 
 
-def divide(x, y):
+def div(x, y):
     """Divide x by y."""
     result = x / y
     return result
@@ -76,7 +76,7 @@ def x_is_not_y(x, y):
 
 
 def if_else(a, b, c, d):
-    """Multiply parameters 1-2 and divide 3-4, then check greater value"""
+    """Multiply parameters 1-2 and divide 3-4, then check greater value."""
     num1 = a * b
     num2 = c / d
     if num1 > num2:
