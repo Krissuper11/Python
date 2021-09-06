@@ -17,6 +17,6 @@ def average(a, b, c, d):
 
 
 def clock(a, b, c, d):
-    """Convert days, hours, minutes, seconds to minutes"""
+    """Convert days, hours, minutes, seconds to minutes."""
     result = a * 1440 + b * 60 + c + d / 60
     return result
