@@ -3,17 +3,14 @@
 
 def ects(ects, weeks):
     """Convert EAP to hour per week."""
-    if weeks < 1:
-        return False
+    if weeks < 1:  # can't divide by zero
+        return "Impossible!"
     else:
         result = ects * 26 / weeks
         if result < 168:  # 168 hours in week
             return result
         else:
             return "Impossible!"
-
-
-print(ects(1, 0))
 
 
 def average(a, b, c, d):
