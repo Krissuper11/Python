@@ -15,7 +15,7 @@ def sub(x, y):
 
 def multiply(x, y):
     """Subtract x from y."""
-    result = x - y
+    result = x * y
     return result
 
 
