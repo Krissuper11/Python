@@ -2,9 +2,10 @@
 
 
 def is_prime_number(number: int) -> bool:
-    number_list = [5, 7, 3, 2]
-    for element in number_list:
-        if (number % element != 0 or number == element) and number != 1:
+    if number == 1 or number == 0:
+        return False
+    for i in range(2, number):
+        if number % i != 0:
             continue
         else:
             return False
