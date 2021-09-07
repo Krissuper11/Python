@@ -4,11 +4,8 @@
 def is_prime_number(number: int) -> bool:
     number_list = [5, 7, 3, 2]
     for element in number_list:
-        if number % element != 0 or number == element:
+        if (number % element != 0 or number == element) and number != 1:
             continue
-        elif number % element == 0:
+        else:
             return False
     return True
-
-
-print(is_prime_number(49))
