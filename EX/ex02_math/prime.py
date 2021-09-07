@@ -2,7 +2,7 @@
 
 
 def is_prime_number(number: int) -> bool:
-    """Check if the parameter number is a prime number"""
+    """Check if the parameter number is a prime number."""
     if number == 1 or number == 0:
         return False
     for i in range(2, number):
