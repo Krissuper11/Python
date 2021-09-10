@@ -14,4 +14,3 @@ def encode(message: str, shift: int) -> str:
         else:
             pass
     return new_letter
-print(encode("ab c ' _+", 3))
