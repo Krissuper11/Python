@@ -7,6 +7,8 @@ def encode(message: str, shift: int) -> str:
     for i in range(len(message)):
         if message[i] == " ":
             new_letter += " "
+        elif message[i] == "'":
+            new_letter += "'"
         elif message[i].isalpha():
             index = ord(message[i]) + shift
             index -= 26 * ((index - 97) // 26)
