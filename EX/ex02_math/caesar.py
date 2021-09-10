@@ -1,4 +1,4 @@
-"""Caesar cipher"""
+"""Caesar cipher."""
 
 
 def encode(message: str, shift: int) -> str:
@@ -7,8 +7,10 @@ def encode(message: str, shift: int) -> str:
     for i in range(len(message)):
         if message[i] == " ":
             new_letter += " "
-        else:
+        elif message[i].isalpha():
             index = ord(message[i]) + shift
             index -= 26 * ((index - 97) // 26)
             new_letter += chr(index)
+        else:
+            pass
     return new_letter
