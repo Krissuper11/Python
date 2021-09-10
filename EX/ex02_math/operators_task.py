@@ -3,44 +3,37 @@
 
 def add(x, y):
     """Add x to y."""
-    result = x + y
-    return result
+    return x + y
 
 
 def sub(x, y):
     """Subtract x to y."""
-    result = x - y
-    return result
+    return x - y
 
 
 def multiply(x, y):
     """Subtract x from y."""
-    result = x * y
-    return result
+    return x * y
 
 
 def div(x, y):
     """Divide x by y."""
-    result = x / y
-    return result
+    return x / y
 
 
 def modulus(x, y):
     """Divide x by y and return remainder."""
-    result = x % y
-    return result
+    return x % y
 
 
 def floor_div(x, y):
     """Divide x by y and floor the value."""
-    result = x // y
-    return result
+    return x // y
 
 
 def exponent(x, y):
     """Calculate x where y is an exponent."""
-    result = x ** y
-    return result
+    return x ** y
 
 
 def first_greater_or_equal(x, y):
@@ -89,11 +82,9 @@ def if_else(a, b, c, d):
 
 def surface(a, b):
     """Add the missing parameters to calculate the surface. Calculate and return the value of surface."""
-    result = a * b
-    return result
+    return a * b
 
 
 def volume(a, b, c):
     """Add the missing parameters to calculate the volume. Calculate and return the value of volume."""
-    result = a * b * c
-    return result
+    return a * b * c
