@@ -57,3 +57,51 @@ def is_valid_birth_number(birth_number: int):
         return True
     else:
         return False
+
+
+def is_leap_year(year_number):
+    """Check for leap year."""
+    if year_number % 4 == 0 and year_number % 100 != 0:
+        return True
+    elif year_number % 400 == 0:
+        return True
+    else:
+        return False
+
+
+def get_full_year(gender_number: int, year_number: int):
+    """Get full year number."""
+    full_year_number = 0
+    if gender_number <= 2:
+        full_year_number += 1800
+    elif 2 < gender_number <= 4:
+        full_year_number += 1900
+    elif 4 < gender_number <= 6:
+        full_year_number += 2000
+    full_year_number += year_number
+    return full_year_number
+
+
+def get_birth_place(birth_number: int):
+    """Get birth place by birth number."""
+    if not is_valid_birth_number(birth_number):
+        return "Wrong input!"
+    else:
+        if 0 < birth_number <= 10:
+            return "Kuressaare"
+        elif 10 < birth_number <= 20:
+            return "Tartu"
+        elif 20 < birth_number <= 220:
+            return "Tallinn"
+        elif 220 < birth_number <= 270:
+            return "Kohtla-Järve"
+        elif 270 < birth_number <= 370:
+            return "Tartu"
+        elif 370 < birth_number <= 420:
+            return "Narva"
+        elif 420 < birth_number <= 470:
+            return "Pärnu"
+        elif 470 < birth_number <= 710:
+            return "Tallinn"
+        elif 710 < birth_number <= 999:
+            return "undefined"
