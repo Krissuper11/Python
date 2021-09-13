@@ -53,7 +53,7 @@ def is_valid_month_number(month_number: int):
 
 def is_valid_birth_number(birth_number: int):
     """Check for valid birth number."""
-    if 0 <= birth_number <= 999:
+    if 0 < birth_number <= 999:
         return True
     else:
         return False
