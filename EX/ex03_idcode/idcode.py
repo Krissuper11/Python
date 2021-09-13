@@ -89,19 +89,15 @@ def get_birth_place(birth_number: int):
     else:
         if 0 < birth_number <= 10:
             return "Kuressaare"
-        elif 10 < birth_number <= 20:
+        elif 10 < birth_number <= 20 or 270 < birth_number <= 370:
             return "Tartu"
-        elif 20 < birth_number <= 220:
+        elif 20 < birth_number <= 220 or 470 < birth_number <= 710:
             return "Tallinn"
         elif 220 < birth_number <= 270:
             return "Kohtla-Järve"
-        elif 270 < birth_number <= 370:
-            return "Tartu"
         elif 370 < birth_number <= 420:
             return "Narva"
         elif 420 < birth_number <= 470:
             return "Pärnu"
-        elif 470 < birth_number <= 710:
-            return "Tallinn"
         elif 710 < birth_number <= 999:
             return "undefined"
