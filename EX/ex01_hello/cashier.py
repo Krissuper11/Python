@@ -16,4 +16,4 @@ sum = sum % 5
 
 coins += sum
 
-print(f"Amount of coins needed: {coins}")  # prints the result
+print(f"Amount of coins needed: {coins}")
