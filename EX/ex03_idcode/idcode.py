@@ -162,15 +162,19 @@ def is_valid_day_number(gender_number: int, year_number: int, month_number: int,
 
 def is_id_valid(id_code: str):
     """Check if ID code is valid."""
-    gender_number = int(id_code[0])
-    year_number = int(id_code[1:3])
-    month_number = int(id_code[3:5])
-    day_number = int(id_code[5:7])
-    birth_number = int(id_code[7:10])
-    if is_valid_gender_number(gender_number) and is_valid_year_number(year_number) and is_valid_control_number(id_code):
-        if is_valid_month_number(month_number) and is_valid_birth_number(birth_number):
-            if is_valid_day_number(gender_number, year_number, month_number, day_number):
-                return True
+    id_code = find_id_code(id_code)
+    if not find_id_code(id_code) == "Not enough numbers!" or find_id_code(id_code) == "Too many numbers!":
+        gender_number = int(id_code[0])
+        year_number = int(id_code[1:3])
+        month_number = int(id_code[3:5])
+        day_number = int(id_code[5:7])
+        birth_number = int(id_code[7:10])
+        if is_valid_gender_number(gender_number) and is_valid_year_number(year_number) and is_valid_control_number(id_code):
+            if is_valid_month_number(month_number) and is_valid_birth_number(birth_number):
+                if is_valid_day_number(gender_number, year_number, month_number, day_number):
+                    return True
+                else:
+                    return False
             else:
                 return False
         else:
@@ -181,12 +185,13 @@ def is_id_valid(id_code: str):
 
 def get_data_from_id(id_code: str):
     """Get data from ID code."""
-    gender_number = int(id_code[0])
-    year_number = int(id_code[1:3])
-    month_number = int(id_code[3:5])
-    day_number = int(id_code[5:7])
-    birth_number = int(id_code[7:10])
+    id_code = find_id_code(id_code)
     if is_id_valid(id_code):
-        return f"This is {get_gender(gender_number)} born on {day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+        gender_number = int(id_code[0])
+        year_number = int(id_code[1:3])
+        month_number = int(id_code[3:5])
+        day_number = int(id_code[5:7])
+        birth_number = int(id_code[7:10])
+        return f"This is a {get_gender(gender_number)} born on {day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
     else:
         return "Given invalid ID code!"
