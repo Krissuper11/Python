@@ -120,8 +120,8 @@ def is_valid_control_number(id_code: str):
             control_number += int(id_code[u]) * i
             u += 1
             for num in range(1, 4):
-                control_number += int(id_code[u]) * i
-                u += 1
+                control_number += int(id_code[num]) * i
+                num += 1
         if control_number % 11 < 10:
             control_number %= 11
         else:
