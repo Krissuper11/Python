@@ -17,19 +17,19 @@ def find_id_code(text: str) -> str:
         return id_code
 
 
-def is_valid_gender_number(first_number: int) -> bool:
+def is_valid_gender_number(gender_number: int) -> bool:
     """Check for valid gender number."""
-    if first_number == 0 or first_number > 6:
+    if gender_number == 0 or gender_number > 6:
         return False
     else:
         return True
 
 
-def get_gender(first_number: int):
+def get_gender(gender_number: int):
     """Check for valid gender number."""
-    if first_number % 2 == 0 and 0 < first_number <= 6:
+    if gender_number % 2 == 0 and 0 < gender_number <= 6:
         return "female"
-    elif first_number % 2 != 0 and 0 < first_number <= 5:
+    elif gender_number % 2 != 0 and 0 < gender_number <= 5:
         return "male"
     else:
         return False
@@ -101,3 +101,92 @@ def get_birth_place(birth_number: int):
             return "Pärnu"
         elif 710 < birth_number <= 999:
             return "undefined"
+
+
+def is_valid_control_number(id_code: str):
+    """Check for control number."""
+    u = 0
+    control_number = 0
+    for i in range(1, 10):
+        control_number += int(id_code[u]) * i
+        u += 1
+    control_number += int(id_code[9]) * 1
+    if control_number % 11 < 10:
+        control_number %= 11
+    else:
+        control_number = 0
+        u = 0
+        for i in range(3, 10):
+            control_number += int(id_code[u]) * i
+            u += 1
+            for num in range(1, 4):
+                control_number += int(id_code[u]) * i
+                u += 1
+        if control_number % 11 < 10:
+            control_number %= 11
+        else:
+            control_number = 0
+    if control_number == int(id_code[10]):
+        return True
+    else:
+        return False
+
+
+def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int):
+    """Check for valid day number."""
+    if month_number in (1, 3, 5, 7, 8, 10, 12):
+        if 0 < day_number <= 31:
+            return True
+        else:
+            return False
+    elif month_number in (4, 6, 9, 11):
+        if 0 < day_number < 31:
+            return True
+        else:
+            return False
+    elif month_number == 2:
+        year = get_full_year(gender_number, year_number)
+        if is_leap_year(year):
+            if 0 < day_number <= 29:
+                return True
+            else:
+                return False
+        else:
+            if 0 < day_number <= 28:
+                return True
+            else:
+                return False
+    else:
+        return False
+
+
+def is_id_valid(id_code: str):
+    """Check if ID code is valid."""
+    gender_number = int(id_code[0])
+    year_number = int(id_code[1:3])
+    month_number = int(id_code[3:5])
+    day_number = int(id_code[5:7])
+    birth_number = int(id_code[7:10])
+    if is_valid_gender_number(gender_number) and is_valid_year_number(year_number) and is_valid_control_number(id_code):
+        if is_valid_month_number(month_number) and is_valid_birth_number(birth_number):
+            if is_valid_day_number(gender_number, year_number, month_number, day_number):
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+
+
+def get_data_from_id(id_code: str):
+    """Get data from ID code."""
+    gender_number = int(id_code[0])
+    year_number = int(id_code[1:3])
+    month_number = int(id_code[3:5])
+    day_number = int(id_code[5:7])
+    birth_number = int(id_code[7:10])
+    if is_id_valid(id_code):
+        return f"This is {get_gender(gender_number)} born on {day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+    else:
+        return "Given invalid ID code!"
