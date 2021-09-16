@@ -187,4 +187,4 @@ def get_data_from_id(id_code: str):
         elif month_number < 10 and day_number < 10:
             return f"This is a {get_gender(gender_number)} born on 0{day_number}.0{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
     if "None":
-        return False
+        return "Given invalid ID code!"
