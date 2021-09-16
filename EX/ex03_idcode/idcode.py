@@ -132,20 +132,16 @@ def is_valid_control_number(id_code: str):
 
 def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int):
     """Check for valid day number."""
-    if month_number in (1, 3, 5, 7, 8, 10, 12):
-        if 0 < day_number <= 31:
-            return True
-    elif month_number in (4, 6, 9, 11):
-        if 0 < day_number < 31:
-            return True
+    if month_number in (1, 3, 5, 7, 8, 10, 12) and 0 < day_number <= 31:
+        return True
+    elif month_number in (4, 6, 9, 11) and 0 < day_number < 31:
+        return True
     elif month_number == 2:
         year = get_full_year(gender_number, year_number)
-        if is_leap_year(year):
-            if 0 < day_number <= 29:
-                return True
-        else:
-            if 0 < day_number <= 28:
-                return True
+        if is_leap_year(year) and 0 < day_number <= 29:
+            return True
+        elif 0 < day_number <= 28:
+            return True
     if "None":
         return False
 
@@ -178,13 +174,6 @@ def get_data_from_id(id_code: str):
         month_number = int(id_code[3:5])
         day_number = int(id_code[5:7])
         birth_number = int(id_code[7:10])
-        if month_number > 9 and day_number > 9:
-            return f"This is a {get_gender(gender_number)} born on {day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
-        elif month_number < 10 and day_number > 9:
-            return f"This is a {get_gender(gender_number)} born on {day_number}.0{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
-        elif day_number < 10 and month_number > 9:
-            return f"This is a {get_gender(gender_number)} born on 0{day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
-        elif month_number < 10 and day_number < 10:
-            return f"This is a {get_gender(gender_number)} born on 0{day_number}.0{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
-    if "None":
+        return f"This is a {get_gender(gender_number)} born on {day_number:02}.{month_number:02}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+    else:
         return "Given invalid ID code!"
