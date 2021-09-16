@@ -107,21 +107,19 @@ def is_valid_control_number(id_code: str):
     """Check for control number."""
     u = 0
     control_number = 0
-    for i in range(1, 10):
+    list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
+    list2 = [3, 4, 5, 6, 7, 8, 9, 1, 2, 3]
+    for i in list1:
         control_number += int(id_code[u]) * i
         u += 1
-    control_number += int(id_code[9]) * 1
     if control_number % 11 < 10:
         control_number %= 11
     else:
         control_number = 0
         u = 0
-        for i in range(3, 10):
-            control_number += int(id_code[u]) * i
+        for num in list2:
+            control_number += int(id_code[u]) * num
             u += 1
-            for num in range(1, 4):
-                control_number += int(id_code[num]) * i
-                num += 1
         if control_number % 11 < 10:
             control_number %= 11
         else:
@@ -137,26 +135,18 @@ def is_valid_day_number(gender_number: int, year_number: int, month_number: int,
     if month_number in (1, 3, 5, 7, 8, 10, 12):
         if 0 < day_number <= 31:
             return True
-        else:
-            return False
     elif month_number in (4, 6, 9, 11):
         if 0 < day_number < 31:
             return True
-        else:
-            return False
     elif month_number == 2:
         year = get_full_year(gender_number, year_number)
         if is_leap_year(year):
             if 0 < day_number <= 29:
                 return True
-            else:
-                return False
         else:
             if 0 < day_number <= 28:
                 return True
-            else:
-                return False
-    else:
+    if "None":
         return False
 
 
@@ -173,13 +163,9 @@ def is_id_valid(id_code: str):
             if is_valid_month_number(month_number) and is_valid_birth_number(birth_number):
                 if is_valid_day_number(gender_number, year_number, month_number, day_number):
                     return True
-                else:
-                    return False
-            else:
-                return False
-        else:
-            return False
     else:
+        return False
+    if "None":
         return False
 
 
@@ -192,6 +178,13 @@ def get_data_from_id(id_code: str):
         month_number = int(id_code[3:5])
         day_number = int(id_code[5:7])
         birth_number = int(id_code[7:10])
-        return f"This is a {get_gender(gender_number)} born on {day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
-    else:
-        return "Given invalid ID code!"
+        if month_number > 9 and day_number > 9:
+            return f"This is a {get_gender(gender_number)} born on {day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+        elif month_number < 10 and day_number > 9:
+            return f"This is a {get_gender(gender_number)} born on {day_number}.0{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+        elif day_number < 10 and month_number > 9:
+            return f"This is a {get_gender(gender_number)} born on 0{day_number}.{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+        elif month_number < 10 and day_number < 10:
+            return f"This is a {get_gender(gender_number)} born on 0{day_number}.0{month_number}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+        else:
+            return "Given invalid ID code!"
