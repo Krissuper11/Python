@@ -180,6 +180,7 @@ def get_data_from_id(id_code: str):
 
 
 def generate_id_code(seven_numbers: str, control_number: str, check_number: int = 0):
+    """Generate ID code"""
     import random
     list1 = [1, 2, 3, 4, 5, 6, 7]
     list2 = [3, 4, 5, 6, 7, 8, 9]
