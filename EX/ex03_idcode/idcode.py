@@ -4,9 +4,9 @@
 def find_id_code(text: str) -> str:
     """Check for numbers and length."""
     id_code = ""
-    for i in range(len(text)):
-        if text[i].isdigit():
-            id_code += text[i]
+    for i in text:
+        if i.isdigit():
+            id_code += i
         else:
             id_code += ""
     if len(id_code) < 11:
@@ -177,3 +177,33 @@ def get_data_from_id(id_code: str):
         return f"This is a {get_gender(gender_number)} born on {day_number:02}.{month_number:02}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
     else:
         return "Given invalid ID code!"
+
+
+def generate_id_code(seven_numbers: str, control_number: str, check_number: int = 0):
+    import random
+    list1 = [1, 2, 3, 4, 5, 6, 7]
+    list2 = [3, 4, 5, 6, 7, 8, 9]
+    result = 0
+    u = 0
+    for i in list1:
+        result += int(seven_numbers[u]) * i
+        u += 1
+    while True:
+        x = random.randint(0, 9)
+        y = random.randint(0, 9)
+        z = random.randint(0, 9)
+        result += x*8 + y*9 + z
+        if check_number == 1:
+            if result % 11 == int(control_number) and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+                return seven_numbers + str(x) + str(y) + str(z) + control_number
+        elif result % 11 == 10 and (check_number == 2 or check_number == 3):
+            for num in list2:
+                result = 0
+                u = 0
+                result += int(seven_numbers[u]) * num
+                u += 1
+            result += x + y * 2 + z * 3
+            if result % 11 == 10 and int(control_number) == 0 and check_number == 3 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+                return seven_numbers + str(x) + str(y) + str(z) + control_number
+            elif result % 11 == int(control_number) and check_number == 2 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+                return seven_numbers + str(x) + str(y) + str(z) + control_number
