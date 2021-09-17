@@ -194,17 +194,17 @@ def generate_id_code(seven_numbers: str, control_number: str, check_number: int 
         y = random.randint(0, 9)
         z = random.randint(0, 9)
         result += x*8 + y*9 + z
-        if check_number == 1:
+        if check_number == 1 or check_number == 0:
             if result % 11 == int(control_number) and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
                 return seven_numbers + str(x) + str(y) + str(z) + control_number
-        elif result % 11 == 10 and (check_number == 2 or check_number == 3):
+        elif result % 11 == 10 and (check_number == 2 or check_number == 3 or check_number == 0):
             for num in list2:
                 result = 0
                 u = 0
                 result += int(seven_numbers[u]) * num
                 u += 1
             result += x + y * 2 + z * 3
-            if result % 11 == 10 and int(control_number) == 0 and check_number == 3 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+            if result % 11 == 10 and int(control_number) == 0 and (check_number == 3 or check_number == 0) and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
                 return seven_numbers + str(x) + str(y) + str(z) + control_number
-            elif result % 11 == int(control_number) and check_number == 2 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+            elif result % 11 == int(control_number) and (check_number == 2 or check_number == 0) and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
                 return seven_numbers + str(x) + str(y) + str(z) + control_number
