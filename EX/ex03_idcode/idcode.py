@@ -122,7 +122,7 @@ def is_valid_control_number(id_code: str):
             u += 1
         if control_number % 11 < 10:
             control_number %= 11
-        else:
+        elif control_number % 11 == 10:
             control_number = 0
     if control_number == int(id_code[10]):
         return True
