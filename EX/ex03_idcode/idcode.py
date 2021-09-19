@@ -193,21 +193,24 @@ def generate_id_code(seven_numbers: str, control_number: str, check_number: int 
         x = random.randint(0, 9)
         y = random.randint(0, 9)
         z = random.randint(0, 9)
-        result += x * 8 + y * 9 + z
+        result1 = (result + x * 8 + y * 9 + z) % 11
         if check_number == 0 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-            return seven_numbers + str(x) + str(y) + str(z) + control_number
-        elif check_number == 1 and result % 11 == int(control_number) and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-            return seven_numbers + str(x) + str(y) + str(z) + control_number
-        elif check_number == 2 or check_number == 3:
-            if result % 11 == 10:
-                result = 0
-                u = 0
-                for num in list2:
-                    result += int(seven_numbers[u]) * num
-                    u += 1
-                    result += x + y * 2 + z * 3
-                if result % 11 == 10 and check_number == 3 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-                    return seven_numbers + str(x) + str(y) + str(z) + control_number
-                elif result % 11 == int(control_number) and check_number == 2 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-                    return seven_numbers + str(x) + str(y) + str(z) + control_number
-print(generate_id_code("5020501", "2", 3))
+            id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+            break
+        elif check_number == 1 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+            id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+            break
+        if (check_number == 2 or check_number == 3) and result1 == 10:
+            result1 = 0
+            u = 0
+            for num in list2:
+                result1 += int(seven_numbers[u]) * num
+                u += 1
+            result1 += x + y * 2 + z * 3
+            if result1 % 11 == 10 and check_number == 3 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+                id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+                break
+            elif check_number == 2 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+                id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+                break
+    return id_code
