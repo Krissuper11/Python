@@ -1,4 +1,4 @@
-"""Personal code."""
+"""ID code: check and generation."""
 
 
 def find_id_code(text: str) -> str:
