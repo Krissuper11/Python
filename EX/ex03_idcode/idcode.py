@@ -194,7 +194,6 @@ def generate_id_code(seven_numbers: str, control_number: str, check_number: int 
         y = random.randint(0, 9)
         z = random.randint(0, 9)
         result1 = (result + x * 8 + y * 9 + z) % 11
-        print(result1)
         if check_number == 0 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
             id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
             break
@@ -211,7 +210,8 @@ def generate_id_code(seven_numbers: str, control_number: str, check_number: int 
             if result1 % 11 == 10 and check_number == 3 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
                 id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
                 break
-            elif check_number == 2 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+            elif check_number == 2 and result1 % 11 != 10 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
+                print(result1 % 11)
                 id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
                 break
     return id_code
