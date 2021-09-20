@@ -128,10 +128,13 @@ def is_id_valid(id_code: str):
         month_number = int(id_code[3:5])
         day_number = int(id_code[5:7])
         birth_number = int(id_code[7:10])
-        return is_valid_gender_number(gender_number) and is_valid_year_number(year_number) \
+        return find_id_code(id_code) != "Not enough numbers!" and find_id_code(id_code) != "Too many numbers!" \
+            and is_valid_gender_number(gender_number) and is_valid_year_number(year_number) \
             and is_valid_control_number(id_code) and is_valid_month_number(month_number) \
             and is_valid_birth_number(birth_number) \
             and is_valid_day_number(gender_number, year_number, month_number, day_number)
+    else:
+        return False
 
 
 def get_data_from_id(id_code: str):
