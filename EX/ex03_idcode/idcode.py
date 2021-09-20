@@ -88,21 +88,21 @@ def get_birth_place(birth_number: int):
 
 def is_valid_control_number(id_code: str):
     """Check for control number."""
-    u = 0
+    counter = 0
     control_number = 0
     list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
     list2 = [3, 4, 5, 6, 7, 8, 9, 1, 2, 3]
     for i in list1:
-        control_number += int(id_code[u]) * i
-        u += 1
+        control_number += int(id_code[counter]) * i
+        counter += 1
     if control_number % 11 < 10:
         control_number %= 11
     else:
         control_number = 0
-        u = 0
+        counter = 0
         for num in list2:
-            control_number += int(id_code[u]) * num
-            u += 1
+            control_number += int(id_code[counter]) * num
+            counter += 1
         if control_number % 11 < 10:
             control_number %= 11
         elif control_number % 11 == 10:
@@ -130,7 +130,8 @@ def is_id_valid(id_code: str):
         birth_number = int(id_code[7:10])
         return is_valid_gender_number(gender_number) and is_valid_year_number(year_number) \
             and is_valid_control_number(id_code) and is_valid_month_number(month_number) \
-            and is_valid_birth_number(birth_number) and is_valid_day_number(gender_number, year_number, month_number, day_number)
+            and is_valid_birth_number(birth_number) \
+            and is_valid_day_number(gender_number, year_number, month_number, day_number)
 
 
 def get_data_from_id(id_code: str):
@@ -142,44 +143,50 @@ def get_data_from_id(id_code: str):
         month_number = int(id_code[3:5])
         day_number = int(id_code[5:7])
         birth_number = int(id_code[7:10])
-        return f"This is a {get_gender(gender_number)} born on {day_number:02}.{month_number:02}.{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
+        return f"This is a {get_gender(gender_number)} born on {day_number:02}.{month_number:02}.", \
+            f"{get_full_year(gender_number, year_number)} in {get_birth_place(birth_number)}."
     else:
         return "Given invalid ID code!"
 
 
-def generate_id_code(seven_numbers: str, control_number: str, check_number: int = 0):
+def generate_id_code(seven_nums: str, check_num: str, step: int = 0):
     """Generate ID code."""
     import random
     list1 = [1, 2, 3, 4, 5, 6, 7]
     list2 = [3, 4, 5, 6, 7, 8, 9]
     result = 0
-    u = 0
-    for i in list1:
-        result += int(seven_numbers[u]) * i
-        u += 1
+    counter = 0
+    for element in list1:
+        result += int(seven_nums[counter]) * element
+        counter += 1
     while True:
-        x = random.randint(0, 9)
-        y = random.randint(0, 9)
-        z = random.randint(0, 9)
-        result1 = (result + x * 8 + y * 9 + z) % 11
-        if check_number == 0 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-            id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+        eighth_num = random.randint(0, 9)
+        ninth_num = random.randint(0, 9)
+        tenth_num = random.randint(0, 9)
+        result1 = (result + eighth_num * 8 + ninth_num * 9 + tenth_num) % 11
+        if step == 0 \
+                and is_valid_control_number(seven_nums + str(eighth_num) + str(ninth_num) + str(tenth_num) + check_num):
+            id_code = seven_nums + str(eighth_num) + str(ninth_num) + str(tenth_num) + check_num
             break
-        elif check_number == 1 and result1 % 11 != 10 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-            id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+        elif step == 1 and result1 % 11 != 10 \
+                and is_valid_control_number(seven_nums + str(eighth_num) + str(ninth_num) + str(tenth_num) + check_num):
+            id_code = seven_nums + str(eighth_num) + str(ninth_num) + str(tenth_num) + check_num
             break
-        if (check_number == 2 or check_number == 3) and result1 == 10:
+        if (step == 2 or step == 3) and result1 == 10:
             result1 = 0
-            u = 0
+            counter = 0
             for num in list2:
-                result1 += int(seven_numbers[u]) * num
-                u += 1
-            result1 += x + y * 2 + z * 3
-            if result1 % 11 == 10 and check_number == 3 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-                id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+                result1 += int(seven_nums[counter]) * num
+                counter += 1
+            result1 += eighth_num + ninth_num * 2 + tenth_num * 3
+            if result1 % 11 == 10 and step == 3 \
+                    and is_valid_control_number(seven_nums + str(eighth_num) + str(ninth_num)
+                                                + str(tenth_num) + check_num):
+                id_code = seven_nums + str(eighth_num) + str(ninth_num) + str(tenth_num) + check_num
                 break
-            elif check_number == 2 and result1 % 11 != 10 and is_valid_control_number(seven_numbers + str(x) + str(y) + str(z) + control_number):
-                print(result1 % 11)
-                id_code = seven_numbers + str(x) + str(y) + str(z) + control_number
+            elif step == 2 and result1 % 11 != 10 \
+                    and is_valid_control_number(seven_nums + str(eighth_num)
+                                                + str(ninth_num) + str(tenth_num) + check_num):
+                id_code = seven_nums + str(eighth_num) + str(ninth_num) + str(tenth_num) + check_num
                 break
     return id_code
