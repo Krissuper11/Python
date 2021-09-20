@@ -19,10 +19,7 @@ def find_id_code(text: str) -> str:
 
 def is_valid_gender_number(gender_number: int) -> bool:
     """Check for valid gender number."""
-    if gender_number == 0 or gender_number > 6:
-        return False
-    else:
-        return True
+    return gender_number != 0 and gender_number < 6
 
 
 def get_gender(gender_number: int):
@@ -37,36 +34,22 @@ def get_gender(gender_number: int):
 
 def is_valid_year_number(year_number: int):
     """Check for valid year number."""
-    if 0 <= year_number <= 99:
-        return True
-    else:
-        return False
+    return 0 <= year_number <= 99
 
 
 def is_valid_month_number(month_number: int):
     """Check for valid month number."""
-    if 0 < month_number <= 12:
-        return True
-    else:
-        return False
+    return 0 < month_number <= 12
 
 
 def is_valid_birth_number(birth_number: int):
     """Check for valid birth number."""
-    if 0 < birth_number <= 999:
-        return True
-    else:
-        return False
+    return 0 < birth_number <= 999
 
 
 def is_leap_year(year_number):
     """Check for leap year."""
-    if year_number % 4 == 0 and year_number % 100 != 0:
-        return True
-    elif year_number % 400 == 0:
-        return True
-    else:
-        return False
+    return (year_number % 4 == 0 and year_number % 100 != 0) or year_number % 400 == 0
 
 
 def get_full_year(gender_number: int, year_number: int):
@@ -124,26 +107,16 @@ def is_valid_control_number(id_code: str):
             control_number %= 11
         elif control_number % 11 == 10:
             control_number = 0
-    if control_number == int(id_code[10]):
-        return True
-    else:
-        return False
+    return control_number == int(id_code[10])
 
 
 def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int):
     """Check for valid day number."""
-    if month_number in (1, 3, 5, 7, 8, 10, 12) and 0 < day_number <= 31:
-        return True
-    elif month_number in (4, 6, 9, 11) and 0 < day_number < 31:
-        return True
-    elif month_number == 2:
-        year = get_full_year(gender_number, year_number)
-        if is_leap_year(year) and 0 < day_number <= 29:
-            return True
-        elif 0 < day_number <= 28:
-            return True
-    if "None":
-        return False
+    year = get_full_year(gender_number, year_number)
+    return (month_number in (1, 3, 5, 7, 8, 10, 12) and 0 < day_number <= 31) \
+        or (month_number in (4, 6, 9, 11) and 0 < day_number < 31) \
+        or (month_number == 2 and is_leap_year(year) and 0 < day_number <= 29) \
+        or (month_number == 2 and 0 < day_number <= 28)
 
 
 def is_id_valid(id_code: str):
@@ -155,14 +128,9 @@ def is_id_valid(id_code: str):
         month_number = int(id_code[3:5])
         day_number = int(id_code[5:7])
         birth_number = int(id_code[7:10])
-        if is_valid_gender_number(gender_number) and is_valid_year_number(year_number) and is_valid_control_number(id_code):
-            if is_valid_month_number(month_number) and is_valid_birth_number(birth_number):
-                if is_valid_day_number(gender_number, year_number, month_number, day_number):
-                    return True
-    else:
-        return False
-    if "None":
-        return False
+        return is_valid_gender_number(gender_number) and is_valid_year_number(year_number) \
+            and is_valid_control_number(id_code) and is_valid_month_number(month_number) \
+            and is_valid_birth_number(birth_number) and is_valid_day_number(gender_number, year_number, month_number, day_number)
 
 
 def get_data_from_id(id_code: str):
