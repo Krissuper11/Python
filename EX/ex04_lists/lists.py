@@ -10,10 +10,12 @@ def generate_list(amount: int, data_type: str):
     elif data_type == "string":
         data_type = "a"
     elif data_type == "float":
-        data_type = random.random()
+        data_type = 0.1
     elif data_type == "list":
         data_type = []
     elif data_type == "tuple":
+        data_type = ()
+    elif data_type == "dict":
         data_type = {}
     elif data_type == "set":
         data_type = set()
