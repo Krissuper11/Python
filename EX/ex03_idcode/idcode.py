@@ -19,7 +19,7 @@ def find_id_code(text: str) -> str:
 
 def is_valid_gender_number(gender_number: int) -> bool:
     """Check for valid gender number."""
-    return gender_number != 0 and gender_number < 6
+    return gender_number != 0 and gender_number <= 6
 
 
 def get_gender(gender_number: int):
@@ -134,6 +134,7 @@ def is_id_valid(id_code: str):
             and is_valid_day_number(gender_number, year_number, month_number, day_number)
     else:
         return False
+print(is_id_valid("60109200186"))
 
 
 def get_data_from_id(id_code: str):
