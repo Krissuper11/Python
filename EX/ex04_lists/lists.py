@@ -22,3 +22,10 @@ def generate_list(amount: int, data_type: str):
     for i in range(amount):
         some_list.append(data_type)
     return some_list
+
+
+def generate_combined_list(inputs: list):
+    some_list = []
+    for element in inputs:
+        some_list.append(generate_list(element[0], element[1]))
+    return some_list
