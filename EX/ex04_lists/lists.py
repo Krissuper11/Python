@@ -26,6 +26,10 @@ def generate_list(amount: int, data_type: str):
 
 def generate_combined_list(inputs: list):
     some_list = []
+    type_dict = {"string": "a", "int": 0, "float": 0.1, "list": [], "tuple": (), "dict": {}, "set": set()}
     for element in inputs:
-        some_list.append(generate_list(element[0], element[1]))
+        counter = 0
+        while counter < element[0]:
+            some_list.append(type_dict[f"{element[1]}"])
+            counter += 1
     return some_list
