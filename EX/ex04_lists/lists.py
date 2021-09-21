@@ -25,11 +25,43 @@ def generate_list(amount: int, data_type: str):
 
 
 def generate_combined_list(inputs: list):
+    """
+    A function that returns a list with the minimal possible length, that still satisfies the criteria below.
+
+    Every element of 'inputs' is a tuple (int amount, string data_type).
+    For each element of 'inputs', it must be true that the returned list contains at least 'amount' of elements of type
+    'data_type'.
+    """
     some_list = []
-    type_dict = {"string": "a", "int": 0, "float": 0.1, "list": [], "tuple": (), "dict": {}, "set": set()}
+    string_list = [(0, "")]
+    int_list = [(0, 0)]
+    float_list = [(0, 0.1)]
+    list_list = [(0, [])]
+    tuple_list = [(0, ())]
+    dict_list = [(0, {})]
+    set_list = [(0, {})]
+    type_dict = {"string": string_list, "int": int_list, "float": float_list, "list": list_list, "tuple": tuple_list, "dict": dict_list, "set": set_list}
     for element in inputs:
-        counter = 0
-        while counter < element[0]:
-            some_list.append(type_dict[f"{element[1]}"])
-            counter += 1
+        type_dict[element[1]].append(element)
+    string_list = max(string_list)
+    for i in range(string_list[0]):
+        some_list.append(string_list[1])
+    int_list = max(int_list)
+    for i in range(int_list[0]):
+        some_list.append(int_list[1])
+    float_list = max(float_list)
+    for i in range(float_list[0]):
+        some_list.append(float_list[1])
+    list_list = max(list_list)
+    for i in range(list_list[0]):
+        some_list.append(list_list[1])
+    tuple_list = max(tuple_list)
+    for i in range(tuple_list[0]):
+        some_list.append(tuple_list[1])
+    dict_list = max(dict_list)
+    for i in range(dict_list[0]):
+        some_list.append(dict_list[1])
+    set_list = max(set_list)
+    for i in range(set_list[0]):
+        some_list.append(set_list[1])
     return some_list
