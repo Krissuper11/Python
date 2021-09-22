@@ -44,7 +44,9 @@ def generate_combined_list(inputs: list):
     type_dict = {"string": string_list, "int": int_list, "float": float_list, "list": list_list, "tuple": tuple_list,
                  "dict": dict_list, "set": set_list}
     for element in inputs:
-        type_dict[element[1]].append(element)
+        element_dict = {"string": (element[0], ""), "int": (element[0], 0), "float": (element[0], 0.1),
+                        "list": (element[0], []), "tuple": (element[0], ()), "dict": {}, "set": (element[0], set())}
+        type_dict[element[1]].append(element_dict[element[1]])
     for new_list in type_list:
         max_list = max(new_list)
         for i in range(max_list[0]):
