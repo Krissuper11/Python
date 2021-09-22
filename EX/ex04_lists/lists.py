@@ -40,28 +40,13 @@ def generate_combined_list(inputs: list):
     tuple_list = [(0, ())]
     dict_list = [(0, {})]
     set_list = [(0, {})]
-    type_dict = {"string": string_list, "int": int_list, "float": float_list, "list": list_list, "tuple": tuple_list, "dict": dict_list, "set": set_list}
+    type_list = [string_list, int_list, float_list, list_list, tuple_list, dict_list, set_list]
+    type_dict = {"string": string_list, "int": int_list, "float": float_list, "list": list_list, "tuple": tuple_list,
+                 "dict": dict_list, "set": set_list}
     for element in inputs:
         type_dict[element[1]].append(element)
-    string_list = max(string_list)
-    for i in range(string_list[0]):
-        some_list.append(string_list[1])
-    int_list = max(int_list)
-    for i in range(int_list[0]):
-        some_list.append(int_list[1])
-    float_list = max(float_list)
-    for i in range(float_list[0]):
-        some_list.append(float_list[1])
-    list_list = max(list_list)
-    for i in range(list_list[0]):
-        some_list.append(list_list[1])
-    tuple_list = max(tuple_list)
-    for i in range(tuple_list[0]):
-        some_list.append(tuple_list[1])
-    dict_list = max(dict_list)
-    for i in range(dict_list[0]):
-        some_list.append(dict_list[1])
-    set_list = max(set_list)
-    for i in range(set_list[0]):
-        some_list.append(set_list[1])
+    for new_list in type_list:
+        max_list = max(new_list)
+        for i in range(max_list[0]):
+            some_list.append(max_list[1])
     return some_list
