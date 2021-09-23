@@ -33,22 +33,23 @@ def generate_combined_list(inputs: list):
     'data_type'.
     """
     some_list = []
-    string_list = [(0, "")]
-    int_list = [(0, 0)]
-    float_list = [(0, 0.1)]
-    list_list = [(0, [])]
-    tuple_list = [(0, ())]
-    dict_list = [(0, {})]
-    set_list = [(0, {})]
-    type_list = [string_list, int_list, float_list, list_list, tuple_list, dict_list, set_list]
+    string_list = []
+    int_list = []
+    float_list = []
+    list_list = []
+    tuple_list = []
+    dict_list = []
+    set_list = []
     type_dict = {"string": string_list, "int": int_list, "float": float_list, "list": list_list, "tuple": tuple_list,
                  "dict": dict_list, "set": set_list}
     for element in inputs:
-        element_dict = {"string": (element[0], ""), "int": (element[0], 0), "float": (element[0], 0.1),
-                        "list": (element[0], []), "tuple": (element[0], ()), "dict": (element[0], {}), "set": (element[0], set())}
-        type_dict[element[1]].append(element_dict[element[1]])
-    for new_list in type_list:
-        max_list = max(new_list)
-        for i in range(max_list[0]):
-            some_list.append(max_list[1])
+        amount = element[0]
+        data_type = element[1]
+        element_dict = {"string": "", "int": 0, "float": 0.1, "list": [], "tuple": (), "dict": {}, "set": set()}
+        if amount > len(type_dict[data_type]):
+            add_num = amount - len(type_dict[data_type])
+            for i in range(add_num):
+                type_dict[data_type].append(element_dict[data_type])
+                some_list.append(element_dict[data_type])
+
     return some_list
