@@ -23,11 +23,11 @@ def generate_combined_list(inputs: list):
     string_list = [(0, "string")]
     int_list = [(0, "int")]
     float_list = [(0, "float")]
-    list_list = [(0, "lists")]
+    list_list = [(0, "list")]
     tuple_list = [(0, "tuple")]
     dict_list = [(0, "dict")]
     set_list = [(0, "set")]
-    type_dict = {"string": string_list, "int": int_list, "float": float_list, "lists": list_list, "tuple": tuple_list,
+    type_dict = {"string": string_list, "int": int_list, "float": float_list, "list": list_list, "tuple": tuple_list,
                  "dict": dict_list, "set": set_list}
     type_list = [string_list, int_list, float_list, list_list, tuple_list, dict_list, set_list]
     for element in inputs:
@@ -49,7 +49,8 @@ def generate_combined_list_unique(inputs: list) -> list:
     Write a function that returns a list with the minimal possible length, that still satisfies the criteria below.
 
     Every element of 'inputs' is a tuple (int amount, string data_type).
-    For each element of 'inputs', it must be true that the returned list contains at least 'amount' of elements of type 'data_type'.
+    For each element of 'inputs', it must be true that the returned list contains at least 'amount' of elements of type
+    'data_type'.
     Data types used in this function are 'int', 'float' and 'str' (string).
     The returned list can contain only unique elements.
     """
@@ -74,7 +75,8 @@ def generate_combined_list_unique_advanced(inputs):
         Write a function that returns a list with the minimal possible length, that still satisfies the criteria below.
 
         Every element of 'inputs' is a tuple (int amount, string data_type).
-        For each element of 'inputs', it must be true that the returned list contains at least 'amount' of elements of type 'data_type'.
+        For each element of 'inputs', it must be true that the returned list contains at least 'amount' of elements of
+        type 'data_type'.
         All the data types from the first function are used here.
         The returned list can contain only unique elements.
         """
@@ -83,7 +85,7 @@ def generate_combined_list_unique_advanced(inputs):
     tuple_list = []
     dict_list = []
     set_list = []
-    type_dict = {"list": list_list, "tuple": tuple_list,"dict": dict_list, "set": set_list}
+    type_dict = {"list": list_list, "tuple": tuple_list, "dict": dict_list, "set": set_list}
     int_counter = 1
     float_counter = 0.11
     for element in inputs:
