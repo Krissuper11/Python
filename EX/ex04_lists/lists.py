@@ -80,29 +80,21 @@ def generate_combined_list_unique_advanced(inputs):
         All the data types from the first function are used here.
         The returned list can contain only unique elements.
         """
-    some_list = []
-    list_list = []
-    tuple_list = []
-    dict_list = []
-    set_list = []
-    type_dict = {"list": list_list, "tuple": tuple_list, "dict": dict_list, "set": set_list}
+    some_list = generate_combined_list_unique(inputs)
     int_counter = 1
-    float_counter = 0.11
-    for element in inputs:
-        input_list = [element]
-        amount = element[0]
-        data_type = element[1]
-        if data_type == "string" or data_type == "float" or data_type == "int":
-            some_list.append(generate_combined_list_unique(input_list))
-        else:
-            if amount > len(type_dict[data_type]):
-                add_num = amount - len(type_dict[data_type])
-                for i in range(add_num):
-                    element_dict = {"list": [int_counter], "tuple": (int_counter,), "dict": {int_counter: chr(int_counter)}, "set": set([float_counter])}
-                    type_dict[data_type].append(element_dict[data_type])
-                    some_list.append(element_dict[data_type])
-                    if data_type == "list" or data_type == "tuple" or data_type == "dict":
-                        int_counter += 1
-                    elif data_type == "set":
-                        float_counter += 0.1
+    float_counter = 0.25
+    for i in range(len(some_list)):
+        if some_list[i] == []:
+            some_list[i] = [int_counter]
+            int_counter += 1
+        elif some_list[i] == ():
+            some_list[i] = (int_counter, )
+            int_counter += 1
+        elif some_list[i] == {}:
+            some_list[i] = {float_counter: chr(int_counter)}
+            int_counter += 1
+            float_counter += 0.1
+        elif some_list[i] == set():
+            some_list[i] = {float_counter}
+            float_counter += 0.1
     return some_list
