@@ -53,3 +53,36 @@ def generate_combined_list(inputs: list):
                 some_list.append(element_dict[data_type])
 
     return some_list
+
+
+def generate_combined_list_unique(inputs: list) -> list:
+    """
+    Write a function that returns a list with the minimal possible length, that still satisfies the criteria below.
+
+    Every element of 'inputs' is a tuple (int amount, string data_type).
+    For each element of 'inputs', it must be true that the returned list contains at least 'amount' of elements of type
+    'data_type'.
+    Data types used in this function are 'int', 'float' and 'str' (string).
+    The returned list can contain only unique elements.
+    """
+    some_list = []
+    string_list = []
+    int_list = []
+    float_list = []
+    type_dict = {"string": string_list, "int": int_list, "float": float_list}
+    int_counter = 1
+    float_counter = 0.1
+    for element in inputs:
+        amount = element[0]
+        data_type = element[1]
+        if amount > len(type_dict[data_type]):
+            add_num = amount - len(type_dict[data_type])
+            for i in range(add_num):
+                element_dict = {"string": chr(int_counter), "int": int_counter, "float": float_counter}
+                type_dict[data_type].append(element_dict[data_type])
+                some_list.append(element_dict[data_type])
+                if data_type == "int" or "string":
+                    int_counter += 1
+                elif data_type == "float":
+                    float_counter += 0.1
+    return some_list
