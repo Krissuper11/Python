@@ -74,7 +74,7 @@ def last_indices_elements_sum(nums):
         first_element = 0
     else:
         first_element = nums[first_index]
-    if second_index > len(nums) - 2:
+    if second_index > len(nums) - 2 or second_index == first_index:
         second_element = 0
     else:
         second_element = nums[second_index]
@@ -85,7 +85,8 @@ def divisions(numbers: list) -> int:
     """
     You are given a list of unique integers.
 
-    Find how many pairs of numbers there are in that list, such that for each pair, one of it's members is divisible by the other.
+    Find how many pairs of numbers there are in that list, such that for each pair, one of it's members is divisible
+    by the other.
 
     Note that "n and m" is considered the same pair as "m and n".
 
