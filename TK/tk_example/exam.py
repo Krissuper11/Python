@@ -74,7 +74,7 @@ def last_indices_elements_sum(nums):
         first_element = 0
     else:
         first_element = nums[first_index]
-    if second_index > len(nums) - 2 or second_index == first_index:
+    if second_index > len(nums) - 1:
         second_element = 0
     else:
         second_element = nums[second_index]
