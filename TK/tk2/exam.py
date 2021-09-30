@@ -5,7 +5,9 @@ def count_clumps(nums: list):
     """."""
     counter = 0
     for i in range(len(nums)):
-        if i == 0:
+        if len(nums) == 1:
+            return 0
+        elif i == 0:
             if nums[i] == nums[i + 1]:
                 counter += 1
             else:
