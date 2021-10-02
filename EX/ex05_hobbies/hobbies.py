@@ -151,13 +151,15 @@ def sort_names_and_hobbies(data: str) -> tuple:
          ...
     )
 
-    For each person, there is a tuple, where the first element is the name (string)
-    and the second element is an ordered tuple of hobbies (ordered alphabetically).
+    For each person, there is a tuple, where the first name is the name (string)
+    and the second name is an ordered tuple of hobbies (ordered alphabetically).
     All those person-tuples are ordered by the name of the person and are inside a tuple.
     """
     hobby_dict = sort_dictionary(create_dictionary(data))
     hobby_dict_names = sorted(hobby_dict)
-    hobby_tuple = ()
-    for element in hobby_dict_names:
-        hobby_tuple += (element, tuple(hobby_dict[element]))
-    return hobby_tuple
+    hobby_list = []
+    for name in hobby_dict_names:
+        hobby_tuple = (name, tuple(hobby_dict[name]))
+        hobby_list.append(hobby_tuple)
+    person_tuple = tuple(hobby_list)
+    return person_tuple
