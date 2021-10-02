@@ -56,7 +56,7 @@ def create_dictionary_with_hobbies(data: str) -> dict:
 
 def find_max(hobby_dict: dict) -> list:
     """
-    Find most popular name or hobby.
+    Create list with most popular name or hobby.
 
     :param hobby_dict:
     :return: list with most popular hobbies or names, sort alphabetically
@@ -75,7 +75,7 @@ def find_max(hobby_dict: dict) -> list:
 
 def find_min(hobby_dict) -> list:
     """
-    Find least popular name or hobby.
+    Create list with least popular name or hobby.
 
     :param hobby_dict:
     :return: list with least popular hobbies or names, sort alphabetically
@@ -135,7 +135,13 @@ def find_least_popular_hobbies(data: str) -> list:
     :param data: given string from database
     :return: list of people with least hobbies. Sorted alphabetically.
     """
+    hobby_dict = create_dictionary_with_hobbies(data)
+    hobby_list = find_min(hobby_dict)
+    return hobby_list
 
 
-print(find_people_with_least_hobbies(
+
+
+
+print(find_least_popular_hobbies(
     """Jack:crafting\nPeter:hiking\nWendy:gaming\nMonica:tennis\nChris:origami\nSophie:sport\nMonica:design\nCarmen:sport\nChris:sport\nMonica:skateboarding\nCarmen:cooking\nWendy:photography\nMonica:tennis\nCooper:yoga\nWendy:sport\nCooper:movies\nMonica:theatre\nCooper:yoga\nChris:gaming\nMolly:fishing\nJack:skateboarding\nWendy:fishing\nJack:drawing\nMonica:baking\nSophie:baking\nAlfred:driving\nAlfred:shopping\nAlfred:crafting\nJack:drawing\nCarmen:shopping\nCarmen:driving\nPeter:drawing\nCarmen:shopping\nWendy:fitness\nAlfred:travel\nJack:origami\nSophie:design\nJack:pets\nCarmen:dance\nAlfred:baking\nSophie:sport\nPeter:gaming\nJack:skateboarding\nCooper:football\nAlfred:sport\nCooper:fitness\nChris:yoga\nWendy:football\nMolly:design\nJack:hiking\nMonica:pets\nCarmen:photography\nJack:baking\nPeter:driving\nChris:driving\nCarmen:driving\nPeter:theatre\nMolly:hiking\nWendy:puzzles\nJack:crafting\nPeter:photography\nCarmen:theatre\nSophie:crafting\nCarmen:cooking\nAlfred:gaming\nPeter:theatre\nCooper:hiking\nChris:football\nChris:pets\nJack:football\nMonica:skateboarding\nChris:driving\nCarmen:pets\nCooper:gaming\nChris:hiking\nJack:cooking\nPeter:fishing\nJack:gaming\nPeter:origami\nCarmen:movies\nSophie:driving\nJack:sport\nCarmen:theatre\nWendy:shopping\nCarmen:pets\nWendy:gaming\nSophie:football\nWendy:theatre\nCarmen:football\nMolly:theatre\nPeter:theatre\nMonica:flowers\nMolly:skateboarding\nPeter:driving\nSophie:travel\nMonica:photography\nCooper:cooking\nJack:fitness\nPeter:cooking\nChris:gaming"""))
