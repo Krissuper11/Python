@@ -156,7 +156,8 @@ def sort_names_and_hobbies(data: str) -> tuple:
     All those person-tuples are ordered by the name of the person and are inside a tuple.
     """
     hobby_dict = sort_dictionary(create_dictionary(data))
+    hobby_dict_names = sorted(hobby_dict)
     hobby_tuple = ()
-    for key, value in hobby_dict.items():
-        hobby_tuple += (key, tuple(value))
+    for element in hobby_dict_names:
+        hobby_tuple += (element, tuple(hobby_dict[element]))
     return hobby_tuple
