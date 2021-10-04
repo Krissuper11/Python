@@ -1,4 +1,4 @@
-"""Regex, yay!"""
+"""Regex, yay."""
 import re
 
 
@@ -47,7 +47,7 @@ def find_sentences(text: str) -> list:
     :param text: given string to find sentences from
     :return: list of sentences found in given string
     """
-    return re.findall("[A-ZÕÜÖÄ][a-zõüöä\-\,\: ]*[\.\!\?]*", text)
+    return re.findall("[A-ZÕÜÖÄ][a-zõüöä,: ]*[.!?]*", text)
 
 
 def find_words_from_sentence(sentence: str) -> list:
@@ -64,7 +64,7 @@ def find_words_from_sentence(sentence: str) -> list:
     :param sentence: given sentence to find words from
     :return: list of words found in given sentence
     """
-    word_list = re.findall("^[A-ZÕÜÖÄ][\w]*| [\wõüöä]*", sentence)
+    word_list = re.findall("^[A-ZÕÜÖÄ]\w*|[\wõüöä]+", sentence)
     for i in range(len(word_list)):
         if word_list[i][0] == " ":
             word_list[i] = word_list[i][1:]
@@ -121,3 +121,13 @@ def find_phone_numbers(text: str) -> dict:
     :return: dict containing the numbers
     """
     pass
+
+
+if __name__ == '__main__':
+    print(find_words('KanaMunaPelmeen!!ApelsinÕunMandariinKakaoHernesAhven'))  # ['Kana', 'Muna', 'Pelmeen', 'Apelsin', 'Õun', 'Mandariin', 'Kakao', 'Hernes', 'Ahven']
+    print(find_words_with_vowels('KanaMunaPelmeenApelsinÕunMandariinKakaoHernesAhven'))  # ['Apelsin', 'Õun', 'Ahven']
+    print(find_sentences('See on esimene - lause. See on ä teine lause! see ei ole lause. Aga kas see on? jah, oli.'))  # ['See on esimene - lause.', 'See on ä teine lause!', 'Aga kas see on?']
+    print(find_words_from_sentence("Super lause ää, sorry."))  # ['Super', 'lause', 'ää', 'sorry']
+    print(find_words_from_sentences_only('See on esimene - ä lause. See, on teine: lause! see ei ole lause. Aga kas see on? jah, oli.'))  # ['See', 'on', 'esimene', 'ä', 'lause', 'See', 'on', 'teine', 'lause', 'Aga', 'kas', 'see', 'on']
+    print(find_years("1998sef672387fh3f87fh83777f777f7777f73wfj893w8938434343"))  # [1998, 7777]
+    print(find_phone_numbers("+372 56887364  +37256887364  +33359835647  56887364"))  # {'+372': ['56887364', '56887364'], '+333': ['59835647'], '': ['56887364']}
