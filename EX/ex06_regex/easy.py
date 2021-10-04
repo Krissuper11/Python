@@ -47,7 +47,7 @@ def find_sentences(text: str) -> list:
     :param text: given string to find sentences from
     :return: list of sentences found in given string
     """
-    return re.findall(r"[A-ZÕÜÖÄ][\wõüöä,: -]*[.!?]*", text)
+    return re.findall(r"[A-ZÕÜÖÄ][\wõüöä,: -]*[.!?]+", text)
 
 
 def find_words_from_sentence(sentence: str) -> list:
@@ -64,11 +64,8 @@ def find_words_from_sentence(sentence: str) -> list:
     :param sentence: given sentence to find words from
     :return: list of words found in given sentence
     """
-    word_list = re.findall(r"^[A-ZÕÜÖÄ]\w*|[\wõüöä]+", sentence)
-    for i in range(len(word_list)):
-        if word_list[i][0] == " ":
-            word_list[i] = word_list[i][1:]
-    return word_list
+    return re.findall(r"^[A-ZÕÜÖÄ]\w*|[\wõüöä]+", sentence)
+
 
 
 def find_words_from_sentences_only(text: str) -> list:
