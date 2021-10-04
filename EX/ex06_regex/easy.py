@@ -15,7 +15,7 @@ def find_words(text: str) -> list:
     :param text: given string to find words from
     :return: list of words found in given string
     """
-    return re.findall("[A-Z][a-z]+", text)
+    return re.findall(r"[A-ZÕÜÖÄ][a-zõüöä]+", text)
 
 
 def find_words_with_vowels(text: str) -> list:
@@ -31,7 +31,7 @@ def find_words_with_vowels(text: str) -> list:
     :param text: given string to find words from
     :return: list of words that start with a vowel found in given string
     """
-    return re.findall("[AEIOUÕÄÖÜ][a-z]+", text)
+    return re.findall(r"[AEIOUÕÄÖÜ][a-z]+", text)
 
 
 def find_sentences(text: str) -> list:
@@ -47,7 +47,7 @@ def find_sentences(text: str) -> list:
     :param text: given string to find sentences from
     :return: list of sentences found in given string
     """
-    return re.findall("[A-ZÕÜÖÄ][a-zõüöä,: ]*[.!?]*", text)
+    return re.findall(r"[A-ZÕÜÖÄ][\wõüöä,: -]*[.!?]*", text)
 
 
 def find_words_from_sentence(sentence: str) -> list:
@@ -64,7 +64,7 @@ def find_words_from_sentence(sentence: str) -> list:
     :param sentence: given sentence to find words from
     :return: list of words found in given sentence
     """
-    word_list = re.findall("^[A-ZÕÜÖÄ]\w*|[\wõüöä]+", sentence)
+    word_list = re.findall(r"^[A-ZÕÜÖÄ]\w*|[\wõüöä]+", sentence)
     for i in range(len(word_list)):
         if word_list[i][0] == " ":
             word_list[i] = word_list[i][1:]
