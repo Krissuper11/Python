@@ -95,7 +95,7 @@ def find_years(text: str) -> list:
     :param text: given string to find years from
     :return: list of years (integers) found in given string
     """
-    years = re.findall(r"^[0-9][0-9][0-9][0-9](?=[A-Za-z])|(?<=[a-zA-Z])[0-9][0-9][0-9][0-9](?=[a-zA-Z])", text)
+    years = re.findall(r"^[0-9]{4}(?=[A-Za-z])|(?<=[a-zA-Z])[0-9]{4}(?=[a-zA-Z])|(?<=[a-zA-Z])[0-9]{4}$", text)
     for i in range(len(years)):
         years[i] = int(years[i])
     return years
@@ -146,5 +146,5 @@ if __name__ == '__main__':
     print(find_sentences('See on esimene - lause. See on ä teine lause! see ei ole lause. Aga kas see on? jah, oli.'))  # ['See on esimene - lause.', 'See on ä teine lause!', 'Aga kas see on?']
     print(find_words_from_sentence("Super lause ää, sorry."))  # ['Super', 'lause', 'ää', 'sorry']
     print(find_words_from_sentences_only('See on esimene - ä lause. See, on teine: lause! see ei ole lause. Aga kas see on? jah, oli.'))  # ['See', 'on', 'esimene', 'ä', 'lause', 'See', 'on', 'teine', 'lause', 'Aga', 'kas', 'see', 'on']
-    print(find_years("1998sef672387fh3f87fh83777f777f7777f73wfj893w8938434343"))  # [1998, 7777]
+    print(find_years("1998sef672387fh3f87f1010h83777f777F7777fohiuhi1998j1998k73wfj893w8938434343o8547"))  # [1998, 7777]
     print(find_phone_numbers("+372 56887364 58965478 4589654  +37256887364  +33359835647  56887364"))  # {'+372': ['56887364', '56887364'], '+333': ['59835647'], '': ['56887364']}
