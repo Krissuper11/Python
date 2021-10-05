@@ -95,7 +95,7 @@ def find_years(text: str) -> list:
     :param text: given string to find years from
     :return: list of years (integers) found in given string
     """
-    years = re.findall(r"^[0-9]{4}(?=[A-Za-z])|(?<=[a-zA-Z])[0-9]{4}(?=[a-zA-Z])|(?<=[a-zA-Z])[0-9]{4}$", text)
+    years = re.findall(r"^[0-9]{4}(?=\D)|(?<=\D)[0-9]{4}(?=\D)|(?<=\D)[0-9]{4}$", text)
     for i in range(len(years)):
         years[i] = int(years[i])
     return years
