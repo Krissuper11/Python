@@ -67,7 +67,6 @@ def find_words_from_sentence(sentence: str) -> list:
     return re.findall(r"^[A-ZÕÜÖÄ]\w*|[\wõüöä]+", sentence)
 
 
-
 def find_words_from_sentences_only(text: str) -> list:
     """
     Given string text, return all words in that string that are a part of a sentence in that string.
@@ -78,7 +77,7 @@ def find_words_from_sentences_only(text: str) -> list:
     :param text: given string to find words from
     :return: list of words found in sentences from given string
     """
-    pass
+    return find_words_from_sentence(str(find_sentences(text)))
 
 
 def find_years(text: str) -> list:
@@ -96,7 +95,7 @@ def find_years(text: str) -> list:
     :param text: given string to find years from
     :return: list of years (integers) found in given string
     """
-    pass
+    return re.findall(r"^[0-9][0-9][0-9][0-9](?=[a-z])|(?<=[a-z])[0-9][0-9][0-9][0-9](?=[a-z])", text)
 
 
 def find_phone_numbers(text: str) -> dict:
@@ -117,7 +116,27 @@ def find_phone_numbers(text: str) -> dict:
     :param text: given string to find phone numbers from
     :return: dict containing the numbers
     """
-    pass
+    num_dict = {}
+    phone_numbers = re.findall(r"\+[0-9]{3} ?[0-9]{7,8}|[0-9]{7,8}", text)
+    for number in phone_numbers:
+        if " " in number:
+            if number[0:4] not in num_dict:
+                num_dict[number[0:4]] = [number[5:]]
+            else:
+                num_dict[number[0:4]].append(number[5:])
+        elif " " not in number and "+" in number:
+            if number[0:4] not in num_dict:
+                num_dict[number[0:4]] = [number[4:]]
+            else:
+                num_dict[number[0:4]].append(number[4:])
+        else:
+            if number not in num_dict:
+                num_dict[""] = [number]
+            else:
+                num_dict[""].append(number)
+    return num_dict
+
+
 
 
 if __name__ == '__main__':
