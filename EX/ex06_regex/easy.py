@@ -119,7 +119,7 @@ def find_phone_numbers(text: str) -> dict:
     :param text: given string to find phone numbers from
     :return: dict containing the numbers
     """
-    num_dict = {"":[]}
+    num_dict = {}
     phone_numbers = re.findall(r"\+[0-9]{3} ?[0-9]{7,8}|[0-9]{7,8}", text)
     for number in phone_numbers:
         if " " in number:
@@ -133,7 +133,10 @@ def find_phone_numbers(text: str) -> dict:
             else:
                 num_dict[number[0:4]].append(number[4:])
         else:
-            num_dict[""].append(number)
+            if "" not in num_dict:
+                num_dict[""] = [number]
+            else:
+                num_dict[""].append(number)
     return num_dict
 
 
