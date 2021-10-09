@@ -12,7 +12,7 @@ def create_schedule_string(input_string: str) -> str:
     counter = 0
     regex_dict = {}
     schedule_dict = {}
-    string_regex = re.finditer(r"((?<= )[0-2]?\d|^[0-2]?\d?)[\D]([0-5]?[0-9]) ([A-Za-zõüöäÕÜÖÄ]+)", input_string)
+    string_regex = re.finditer(r"((?<= )[0-2]?\d|^[0-2]?\d?)[\D]([0-5]?[0-9]) +([A-Za-zõüöäÕÜÖÄ]+)", input_string)
     for match in string_regex:
         hour = match.group(1)
         minute = match.group(2)
@@ -85,8 +85,8 @@ def create_table(schedule_dict: dict):
     else:
         width = len("No items found")
         table = f"{'-' * (width + 4)}\n"
-        table += f"|  time | items  |\n"
+        table += "|  time | items  |\n"
         table += f"{'-' * (width + 4)}\n"
-        table += f"| No items found |\n"
+        table += "| No items found |\n"
         table += f"{'-' * (width + 4)}\n"
     return table
