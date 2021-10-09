@@ -20,8 +20,8 @@ def create_schedule_string(input_string: str) -> str:
         time = f"{int(hour):02}:{int(minute):02}"
         if time not in regex_dict:
             regex_dict[time] = task
-        elif time in regex_dict:
-            regex_dict[time] = f"{regex_dict[time]}, task"
+        elif time in regex_dict and task not in regex_dict[time]:
+            regex_dict[time] = f"{regex_dict[time]}, {task}"
     regex_dict = dict(sorted(regex_dict.items(), key=lambda x: x[0]))
     formatted_time = get_formatted_time(regex_dict)
     for value in regex_dict.values():
@@ -58,7 +58,7 @@ def get_table_sizes(schedule_dict: dict):
         if len(key) > key_len:
             key_len = len(key)
     for value in schedule_dict.values():
-        if len(value) > key_len:
+        if len(value) > value_len:
             value_len = len(value)
     return key_len, value_len
 
@@ -67,13 +67,21 @@ def create_table(schedule_dict: dict):
     """Create table."""
     if len(schedule_dict) > 0:
         sizes = get_table_sizes(schedule_dict)
-        width = sizes[0] + sizes[1]
-        table = f"{'-' * (width + 7)}\n"
-        table += f"| {'time':>{sizes[0]}} | {'items':{sizes[1]}} |\n"
-        table += f"{'-' * (width + 7)}\n"
-        for key in schedule_dict.keys():
-            table += f"| {key:>{sizes[0]}} | {schedule_dict[key]:{sizes[1]}} |\n"
-        table += f"{'-' * (width + 7)}\n"
+        if sizes[1] >= 5:
+            width = sizes[0] + sizes[1]
+            table = f"{'-' * (width + 7)}\n"
+            table += f"| {'time':>{sizes[0]}} | {'items':{sizes[1]}} |\n"
+            table += f"{'-' * (width + 7)}\n"
+            for key in schedule_dict.keys():
+                table += f"| {key:>{sizes[0]}} | {schedule_dict[key]:{sizes[1]}} |\n"
+            table += f"{'-' * (width + 7)}\n"
+        else:
+            table = f"{'-' * (sizes[0] + 12)}\n"
+            table += f"| {'time':>{sizes[0]}} | items |\n"
+            table += f"{'-' * (sizes[0] + 12)}\n"
+            for key in schedule_dict.keys():
+                table += f"| {key:>{sizes[0]}} | {schedule_dict[key]:{5}} |\n"
+            table += f"{'-' * (sizes[0] + 12)}\n"
     else:
         width = len("No items found")
         table = f"{'-' * (width + 4)}\n"
