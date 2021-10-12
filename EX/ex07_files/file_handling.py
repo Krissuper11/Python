@@ -1,3 +1,7 @@
+"""File handling."""
+import csv
+
+
 def read_file_contents(filename: str) -> str:
     """
     Read file contents into string.
@@ -56,7 +60,7 @@ def read_csv_file(filename: str) -> list:
     """
     import csv
     row_list = []
-    with open (filename) as csv_file:
+    with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
             row_list.append(row)
@@ -118,7 +122,10 @@ def write_csv_file(filename: str, data: list) -> None:
     :param data: List of lists to write to the file.
     :return: None
     """
-    pass
+    with open(filename, "w", newline="") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=",")
+        for row in data:
+            csv_writer.writerow(row)
 
 
 def merge_dates_and_towns_into_csv(dates_file: str, towns_file: str, csv_output: str) -> None:
@@ -165,4 +172,16 @@ def merge_dates_and_towns_into_csv(dates_file: str, towns_file: str, csv_output:
     :param csv_output: Output CSV-file with names, towns and dates.
     :return: None
     """
-    pass
+    person_dict = {}
+    person_list = []
+    with open(dates_file) as file:
+        for line in file:
+            index = line.find(":")
+            person_dict[line[:index]] = [line[index + 1:]]
+    with open(towns_file) as file:
+        for line in file:
+            index = line.find(":")
+            person_dict[line[:index]].append(line[index + 1:])
+    for key, value in person_dict.items():
+        person_list.append([key, value[0], value[1]])
+        write_csv_file(csv_output, person_list)
