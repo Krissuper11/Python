@@ -5,6 +5,7 @@ import csv
 def read_file_contents(filename: str) -> str:
     """
     Read file contents into string.
+
     In this exercise, we can assume the file exists.
 
     :param filename: File to read.
@@ -22,7 +23,7 @@ def read_file_contents_to_list(filename: str) -> list:
     In this exercise, we can assume the file exists.
     Each line from the file should be a separate element.
 
-    List elements should not contain new line (\n).
+    List elements should not contain new line.
 
     :param filename: File to read.
     :return: List of lines.
@@ -84,6 +85,7 @@ def write_contents_to_file(filename: str, contents: str) -> None:
 def write_lines_to_file(filename: str, lines: list) -> None:
     """
     Write lines to file.
+
     Lines is a list of strings, each represents a separate line in the file.
 
     There should be no new line in the end of the file.
@@ -184,4 +186,8 @@ def merge_dates_and_towns_into_csv(dates_file: str, towns_file: str, csv_output:
             person_dict[line[:index]].append(line[index + 1:])
     for key, value in person_dict.items():
         person_list.append([key, value[0], value[1]])
-        write_csv_file(csv_output, person_list)
+    with open(csv_output, "w", newline="") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=",")
+        csv_writer.writerow(["name", "town", "date"])
+        for row in person_list:
+            csv_writer.writerow(row)
