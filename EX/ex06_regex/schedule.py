@@ -90,3 +90,4 @@ def create_table(schedule_dict: dict):
         table += "| No items found |\n"
         table += f"{'-' * (width + 4)}\n"
     return table
+print(create_table({}))
