@@ -25,8 +25,11 @@ def read_file_contents_to_list(filename: str) -> list:
     """
     with open(filename) as file:
         data_list = file.readlines()
+    for i in range(len(data_list)):
+        if i < len(data_list) - 1:
+            data_list[i] = data_list[i][:-1]
     return data_list
-
+print(read_file_contents_to_list("C:/Users/krist/Downloads/test.txt"))
 
 def read_csv_file(filename: str) -> list:
     """
@@ -55,8 +58,8 @@ def read_csv_file(filename: str) -> list:
     row_list = []
     with open (filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
-    for row in csv_reader:
-        row_list.append(row)
+        for row in csv_reader:
+            row_list.append(row)
     return row_list
 
 
@@ -70,14 +73,14 @@ def write_contents_to_file(filename: str, contents: str) -> None:
     :param contents: Content to write to.
     :return: None
     """
-    with open(filename) as file:
+    with open(filename, "w") as file:
         file.write(contents)
 
 
 def write_lines_to_file(filename: str, lines: list) -> None:
     """
     Write lines to file.
-
+"C:/Users/krist/Downloads/test.txt"
     Lines is a list of strings, each represents a separate line in the file.
 
     There should be no new line in the end of the file.
@@ -87,7 +90,12 @@ def write_lines_to_file(filename: str, lines: list) -> None:
     :param lines: List of string to write to the file.
     :return: None
     """
-    pass
+    with open(filename, "w") as file:
+        for line in lines:
+            if line == lines[len(lines) - 1]:
+                file.write(line)
+            else:
+                file.write(f"{line}\n")
 
 
 def write_csv_file(filename: str, data: list) -> None:
