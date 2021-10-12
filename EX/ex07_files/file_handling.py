@@ -176,14 +176,14 @@ def merge_dates_and_towns_into_csv(dates_file: str, towns_file: str, csv_output:
     """
     person_dict = {}
     person_list = []
-    with open(dates_file) as file:
-        for line in file:
-            index = line.find(":")
-            person_dict[line[:index]] = [line[index + 1:]]
-    with open(towns_file) as file:
-        for line in file:
-            index = line.find(":")
-            person_dict[line[:index]].append(line[index + 1:])
+    dates_list = read_file_contents_to_list(dates_file)
+    towns_list = read_file_contents_to_list(towns_file)
+    for line in towns_list:
+        index = line.find(":")
+        person_dict[line[:index]] = [(line[index + 1:])]
+    for line in dates_list:
+        index = line.find(":")
+        person_dict[line[:index]].append(line[index + 1:])
     for key, value in person_dict.items():
         person_list.append([key, value[0], value[1]])
     with open(csv_output, "w", newline="") as csv_file:
