@@ -29,7 +29,7 @@ def read_file_contents_to_list(filename: str) -> list:
         if i < len(data_list) - 1:
             data_list[i] = data_list[i][:-1]
     return data_list
-print(read_file_contents_to_list("C:/Users/krist/Downloads/test.txt"))
+
 
 def read_csv_file(filename: str) -> list:
     """
@@ -80,7 +80,6 @@ def write_contents_to_file(filename: str, contents: str) -> None:
 def write_lines_to_file(filename: str, lines: list) -> None:
     """
     Write lines to file.
-"C:/Users/krist/Downloads/test.txt"
     Lines is a list of strings, each represents a separate line in the file.
 
     There should be no new line in the end of the file.
