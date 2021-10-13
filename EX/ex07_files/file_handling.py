@@ -276,28 +276,31 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
     :return: None
     """
     print_list = []
-    key_list = []
-    values_list = []
-    for element in data:
-        for key in element.keys():
-            if key not in key_list:
-                key_list.append(key)
-    for element in data:
-        if len(element.values()) == 0:
-            write_csv_file(filename, print_list)
-            return None
-        counter = 0
-        value_list = []
-        for key_from_list in key_list:
-            if counter < len(element):
-                if key_from_list == list(element)[counter]:
-                    value_list.append(element[list(element)[counter]])
-                    counter += 1
+    if len(data) == 0:
+        write_csv_file(filename, print_list)
+    else:
+        key_list = []
+        values_list = []
+        for element in data:
+            for key in element.keys():
+                if key not in key_list:
+                    key_list.append(key)
+        for element in data:
+            if len(element.values()) == 0:
+                write_csv_file(filename, print_list)
+                return None
+            counter = 0
+            value_list = []
+            for key_from_list in key_list:
+                if counter < len(element):
+                    if key_from_list == list(element)[counter]:
+                        value_list.append(element[list(element)[counter]])
+                        counter += 1
+                    else:
+                        value_list.append("")
                 else:
                     value_list.append("")
-            else:
-                value_list.append("")
-        values_list.append(value_list)
-    print_list.append(key_list)
-    print_list += values_list
-    write_csv_file(filename, print_list)
+            values_list.append(value_list)
+        print_list.append(key_list)
+        print_list += values_list
+        write_csv_file(filename, print_list)
