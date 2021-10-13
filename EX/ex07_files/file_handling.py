@@ -202,3 +202,99 @@ def merge_dates_and_towns_into_csv(dates_file: str, towns_file: str, csv_output:
         csv_writer.writerow(["name", "town", "date"])
         for row in person_list:
             csv_writer.writerow(row)
+
+
+def read_csv_file_into_list_of_dicts(filename: str) -> list:
+    """
+    Read csv file into list of dictionaries.
+    Header line will be used for dict keys.
+
+    Each line after header line will result in a dict inside the result list.
+    Every line contains the same number of fields.
+
+    Example:
+
+    name,age,sex
+    John,12,M
+    Mary,13,F
+
+    Header line will be used as keys for each content line.
+    The result:
+    [
+      {"name": "John", "age": "12", "sex": "M"},
+      {"name": "Mary", "age": "13", "sex": "F"},
+    ]
+
+    If there are only header or no rows in the CSV-file,
+    the result is an empty list.
+
+    :param filename: CSV-file to read.
+    :return: List of dictionaries where keys are taken from the header.
+    """
+    csv_list = read_csv_file(filename)
+    list_of_dicts = []
+    for i in range(1, len(csv_list)):
+        csv_dict = {csv_list[0][0]: csv_list[i][0], csv_list[0][1]: csv_list[i][1], csv_list[0][2]: csv_list[i][2]}
+        list_of_dicts.append(csv_dict)
+    return list_of_dicts
+
+
+def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
+    """
+    Write list of dicts into csv file.
+
+    Data contains a list of dictionaries.
+    Dictionary key represents the field.
+
+    Example data:
+    [
+      {"name": "john", "age": "23"}
+      {"name": "mary", "age": "44"}
+    ]
+    Will become:
+    name,age
+    john,23
+    mary,44
+
+    The order of fields/headers is not important.
+    The order of lines is important (the same as in the list).
+
+    Example:
+    [
+      {"name": "john", "age": "12"},
+      {"name": "mary", "town": "London"}
+    ]
+    Will become:
+    name,age,town
+    john,12,
+    mary,,London
+
+    Fields which are not present in one line will be empty.
+
+    :param filename: File to write to.
+    :param data: List of dictionaries to write to the file.
+    :return: None
+    """
+    print_list = []
+    key_list = []
+    values_list = []
+    for element in data:
+        for key in element.keys():
+            if key not in key_list:
+                key_list.append(key)
+    for element in data:
+        counter = 0
+        value_list = []
+        for key_from_list in key_list:
+            if counter < len(element):
+                if key_from_list == list(element)[counter]:
+                    value_list.append(element[list(element)[counter]])
+                    counter += 1
+                else:
+                    value_list.append("")
+            else:
+                value_list.append("")
+        values_list.append(value_list)
+    print_list.append(key_list)
+    print_list += values_list
+    write_csv_file(filename, print_list)
