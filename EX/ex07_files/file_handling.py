@@ -31,7 +31,7 @@ def read_file_contents_to_list(filename: str) -> list:
     with open(filename) as file:
         data_list = file.readlines()
     for i in range(len(data_list)):
-        if i < len(data_list) - 1:
+        if "\n" in data_list[i]:
             data_list[i] = data_list[i][:-1]
     return data_list
 
