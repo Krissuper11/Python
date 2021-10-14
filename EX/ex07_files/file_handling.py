@@ -247,21 +247,17 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
         csv_dict = {}
         counter = 0
         for element in key_list:
-            if counter > len(csv_list[i]) - 1 or csv_list[i][counter] == "None":
-                csv_dict[element] = None
+            if not csv_list[i][counter][0].isalnum() or counter > len(csv_list[i]) - 1:
+                csv_dict[element] = "None"
+                counter += 1
             else:
                 csv_dict[element] = csv_list[i][counter]
                 counter += 1
         for key, value in csv_dict.items():
-            if value is None:
-                continue
             if value.isdigit():
                 isdigit_list.append(key)
             else:
                 removed_list_dates.append(key)
-            if key in isdigit_list:
-                if not csv_dict[key].isdigit():
-                    isalpha_test = "False"
             try:
                 date_object = datetime.strptime(value, "%d.%m.%Y")
                 is_date_list.append(key)
@@ -276,6 +272,8 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
                 dictionary[key] = int(value)
             if key in is_date_list and key not in removed_list:
                 dictionary[key] = date_object.date()
+            if key == "None":
+                dictionary[key] = "None"
     return list_of_dicts
 
 
