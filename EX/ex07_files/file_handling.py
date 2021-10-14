@@ -234,10 +234,10 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     """
     from datetime import datetime
     csv_list = read_csv_file(filename)
-    assert False, csv_list
     list_of_dicts = []
     isalpha_test = ""
     is_date_list = []
+    removed_list = []
     date_object = ""
     isdigit_list = []
     if len(csv_list) > 0:
@@ -257,7 +257,7 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
             if value.isdigit():
                 isdigit_list.append(key)
             if key in isdigit_list:
-                if csv_dict[key].isalpha():
+                if not csv_dict[key].isdigit():
                     isalpha_test = "False"
             try:
                 date_object = datetime.strptime(value, "%d.%m.%Y")
@@ -265,12 +265,13 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
             except:
                 if key in is_date_list:
                     is_date_list.remove(key)
+                    removed_list.append(key)
         list_of_dicts.append(csv_dict)
     for dictionary in list_of_dicts:
         for key, value in dictionary.items():
             if key in isdigit_list and isalpha_test == "":
                 dictionary[key] = int(value)
-            if key in is_date_list:
+            if key in is_date_list and key not in removed_list:
                 dictionary[key] = date_object.date()
     return list_of_dicts
 
