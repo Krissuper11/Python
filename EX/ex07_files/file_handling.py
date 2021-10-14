@@ -235,12 +235,9 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     from datetime import datetime
     csv_list = read_csv_file(filename)
     list_of_dicts = []
-    isalpha_test = ""
-    is_date_list = []
     removed_list = []
     removed_list_dates = []
     date_object = ""
-    isdigit_list = []
     if len(csv_list) > 0:
         key_list = csv_list[0]
     for i in range(1, len(csv_list)):
@@ -254,18 +251,19 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
                 csv_dict[element] = csv_list[i][counter]
                 counter += 1
         for key, value in csv_dict.items():
-            if not value.isdigit():
+            if not value.isdigit() and value != "None":
                 removed_list_dates.append(key)
-            try:
-                date_object = datetime.strptime(value, "%d.%m.%Y")
-            except:
-                removed_list.append(key)
+            if value != "None":
+                try:
+                    date_object = datetime.strptime(value, "%d.%m.%Y")
+                except:
+                    removed_list.append(key)
         list_of_dicts.append(csv_dict)
     for dictionary in list_of_dicts:
         for key, value in dictionary.items():
-            if key not in removed_list_dates:
+            if key not in removed_list_dates and value != "None":
                 dictionary[key] = int(value)
-            if key not in removed_list:
+            if key not in removed_list and value != "None":
                 dictionary[key] = date_object.date()
             if value == "None":
                 dictionary[key] = None
@@ -339,6 +337,7 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     """
     Read data from file and cast values into different datatypes.
+
     If a field contains only numbers, turn this into int.
     If a field contains only dates (in format dd.mm.yyyy), turn this into date.
     Otherwise the datatype is string (default by csv reader).
