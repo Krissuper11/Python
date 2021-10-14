@@ -236,9 +236,9 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     csv_list = read_csv_file(filename)
     list_of_dicts = []
     isalpha_test = ""
-    is_date_key = ""
+    is_date_list = []
     date_object = ""
-    isdigit_key = None
+    isdigit_list = []
     if len(csv_list) > 0:
         key_list = csv_list[0]
     for i in range(1, len(csv_list)):
@@ -252,22 +252,23 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
                 counter += 1
         for key, value in csv_dict.items():
             if value.isdigit():
-                isdigit_key = key
-            if isdigit_key is not None:
-                if csv_dict[isdigit_key].isalpha():
+                isdigit_list.append(key)
+            if key in isdigit_list:
+                if csv_dict[key].isalpha():
                     isalpha_test = "False"
-            if key == is_date_key or is_date_key == "":
-                try:
-                    date_object = datetime.strptime(value, "%d.%m.%Y")
-                    is_date_key = key
-                except:
-                    date_object = "False"
+            try:
+                date_object = datetime.strptime(value, "%d.%m.%Y")
+                is_date_list.append(key)
+            except:
+                date_object = "False"
+                if key in is_date_list:
+                    is_date_list.remove(key)
         list_of_dicts.append(csv_dict)
     for dictionary in list_of_dicts:
         for key, value in dictionary.items():
-            if key == isdigit_key and isalpha_test == "":
+            if key in isdigit_list and isalpha_test == "":
                 dictionary[key] = int(value)
-            if key == is_date_key and date_object != "False":
+            if key in is_date_list and date_object != "False":
                 dictionary[key] = date_object.date()
     return list_of_dicts
 
@@ -398,3 +399,4 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     https://docs.python.org/3/library/datetime.html#examples-of-usage-date
     """
     return read_csv_file_into_list_of_dicts(filename)
+print(read_csv_file_into_list_of_dicts_using_datatypes("C:/Users/krist/Downloads/test.txt"))
