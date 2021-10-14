@@ -246,7 +246,8 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
         csv_dict = {}
         counter = 0
         for element in key_list:
-            if counter > len(csv_list[i]) - 1 or csv_list[i][counter] == "None":
+            t = csv_list[i][counter]
+            if counter > len(csv_list[i]) - 1 or not csv_list[i][counter].isalnum():
                 csv_dict[element] = None
             else:
                 csv_dict[element] = csv_list[i][counter]
