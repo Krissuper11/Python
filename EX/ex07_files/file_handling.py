@@ -273,7 +273,7 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
             if key in is_date_list and key not in removed_list:
                 dictionary[key] = date_object.date()
             if key == "None":
-                dictionary[key] = "None"
+                dictionary[key] = None
     return list_of_dicts
 
 
