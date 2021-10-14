@@ -272,7 +272,7 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
                 dictionary[key] = int(value)
             if key in is_date_list and key not in removed_list:
                 dictionary[key] = date_object.date()
-            if key == "None":
+            if value == "None":
                 dictionary[key] = None
     return list_of_dicts
 
@@ -403,3 +403,4 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     https://docs.python.org/3/library/datetime.html#examples-of-usage-date
     """
     return read_csv_file_into_list_of_dicts(filename)
+print(read_csv_file_into_list_of_dicts_using_datatypes("C:/Users/krist/Downloads/test.txt"))
