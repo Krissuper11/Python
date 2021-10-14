@@ -232,11 +232,35 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     :param filename: CSV-file to read.
     :return: List of dictionaries where keys are taken from the header.
     """
+    from datetime import datetime
     csv_list = read_csv_file(filename)
     list_of_dicts = []
+    isalpha_test = ""
+    key_list = csv_list[0]
     for i in range(1, len(csv_list)):
-        csv_dict = {csv_list[0][0]: csv_list[i][0], csv_list[0][1]: csv_list[i][1], csv_list[0][2]: csv_list[i][2]}
+        csv_dict = {}
+        counter = 0
+        for element in key_list:
+            if counter > len(csv_list[i]) - 1 or csv_list[i][counter] == "None":
+                csv_dict[element] = None
+            else:
+                csv_dict[element] = csv_list[i][counter]
+                counter += 1
+        for key, value in csv_dict.items():
+            if key == "age" and value.isalpha():
+                isalpha_test = "False"
+            if key == "date":
+                try:
+                    date_object = datetime.strptime(value, "%d.%m.%Y")
+                except:
+                    date_object = "False"
         list_of_dicts.append(csv_dict)
+    for dictionary in list_of_dicts:
+        for key, value in dictionary.items():
+            if key == "age" and isalpha_test == "":
+                dictionary[key] = int(value)
+            if key == "date" and date_object != "False":
+                dictionary[key] = date_object.date()
     return list_of_dicts
 
 
@@ -302,3 +326,67 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
         print_list.append(key_list)
         print_list += values_list
         write_csv_file(filename, print_list)
+
+
+def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
+    """
+    Read data from file and cast values into different datatypes.
+    If a field contains only numbers, turn this into int.
+    If a field contains only dates (in format dd.mm.yyyy), turn this into date.
+    Otherwise the datatype is string (default by csv reader).
+
+    Example:
+    name,age
+    john,11
+    mary,14
+
+    Becomes ('age' is int):
+    [
+      {'name': 'john', 'age': 11},
+      {'name': 'mary', 'age': 14}
+    ]
+
+    But if all the fields cannot be cast to int, the field is left to string.
+    Example:
+    name,age
+    john,11
+    mary,14
+    ago,unknown
+
+    Becomes ('age' cannot be cast to int because of "ago"):
+    [
+      {'name': 'john', 'age': '11'},
+      {'name': 'mary', 'age': '14'},
+      {'name': 'ago', 'age': 'unknown'}
+    ]
+
+    Example:
+    name,date
+    john,01.01.2020
+    mary,07.09.2021
+
+    Becomes:
+    [
+      {'name': 'john', 'date': datetime.date(2020, 1, 1)},
+      {'name': 'mary', 'date': datetime.date(2021, 9, 7)},
+    ]
+
+    Value "-" indicates missing value and should be None in the result
+    Example:
+    name,date
+    john,-
+    mary,01.01.2020
+
+    Becomes:
+    [
+      {'name': 'john', 'date': None},
+      {'name': 'mary', 'date': datetime.date(2021, 9, 7)},
+    ]
+
+    None value also doesn't affect the data type
+    (the column will have the type based on the existing values).
+
+    For date, strptime can be used:
+    https://docs.python.org/3/library/datetime.html#examples-of-usage-date
+    """
+    return read_csv_file_into_list_of_dicts(filename)
