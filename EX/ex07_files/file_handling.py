@@ -389,6 +389,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
                     date_object = datetime.strptime(value, "%d.%m.%Y")
                 except:
                     removed_list.append(key)
+    for dictionary in list_of_dicts:
         for key, value in dictionary.items():
             if key not in removed_list_dates and value != "None":
                 dictionary[key] = int(value)
