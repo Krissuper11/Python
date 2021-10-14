@@ -234,6 +234,7 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     """
     from datetime import datetime
     csv_list = read_csv_file(filename)
+    assert False, csv_list
     list_of_dicts = []
     isalpha_test = ""
     is_date_list = []
@@ -400,3 +401,4 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     https://docs.python.org/3/library/datetime.html#examples-of-usage-date
     """
     return read_csv_file_into_list_of_dicts(filename)
+print(read_csv_file_into_list_of_dicts_using_datatypes("C:/Users/krist/Downloads/test.txt"))
