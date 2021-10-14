@@ -254,23 +254,18 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
                 csv_dict[element] = csv_list[i][counter]
                 counter += 1
         for key, value in csv_dict.items():
-            if value.isdigit():
-                isdigit_list.append(key)
-            else:
+            if not value.isdigit():
                 removed_list_dates.append(key)
             try:
                 date_object = datetime.strptime(value, "%d.%m.%Y")
-                is_date_list.append(key)
             except:
-                if key in is_date_list:
-                    is_date_list.remove(key)
-                    removed_list.append(key)
+                removed_list.append(key)
         list_of_dicts.append(csv_dict)
     for dictionary in list_of_dicts:
         for key, value in dictionary.items():
-            if key in isdigit_list and isalpha_test == "" and key not in removed_list_dates:
+            if key not in removed_list_dates:
                 dictionary[key] = int(value)
-            if key in is_date_list and key not in removed_list:
+            if key not in removed_list:
                 dictionary[key] = date_object.date()
             if value == "None":
                 dictionary[key] = None
