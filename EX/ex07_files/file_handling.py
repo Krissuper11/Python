@@ -232,12 +232,8 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     :param filename: CSV-file to read.
     :return: List of dictionaries where keys are taken from the header.
     """
-    from datetime import datetime
     csv_list = read_csv_file(filename)
     list_of_dicts = []
-    removed_list = []
-    removed_list_dates = []
-    date_object = ""
     if len(csv_list) > 0:
         key_list = csv_list[0]
     for i in range(1, len(csv_list)):
@@ -250,23 +246,7 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
             else:
                 csv_dict[element] = csv_list[i][counter]
                 counter += 1
-        for key, value in csv_dict.items():
-            if not value.isdigit() and value != "None":
-                removed_list_dates.append(key)
-            if value != "None":
-                try:
-                    date_object = datetime.strptime(value, "%d.%m.%Y")
-                except:
-                    removed_list.append(key)
         list_of_dicts.append(csv_dict)
-    for dictionary in list_of_dicts:
-        for key, value in dictionary.items():
-            if key not in removed_list_dates and value != "None":
-                dictionary[key] = int(value)
-            if key not in removed_list and value != "None":
-                dictionary[key] = date_object.date()
-            if value == "None":
-                dictionary[key] = None
     return list_of_dicts
 
 
@@ -396,4 +376,24 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     For date, strptime can be used:
     https://docs.python.org/3/library/datetime.html#examples-of-usage-date
     """
-    return read_csv_file_into_list_of_dicts(filename)
+    from datetime import datetime
+    list_of_dicts = read_csv_file_into_list_of_dicts(filename)
+    removed_list = []
+    removed_list_dates = []
+    for dictionary in list_of_dicts:
+        for key, value in dictionary.items():
+            if not value.isdigit() and value != "None":
+                removed_list_dates.append(key)
+            if value != "None":
+                try:
+                    date_object = datetime.strptime(value, "%d.%m.%Y")
+                except:
+                    removed_list.append(key)
+        for key, value in dictionary.items():
+            if key not in removed_list_dates and value != "None":
+                dictionary[key] = int(value)
+            if key not in removed_list and value != "None":
+                dictionary[key] = date_object.date()
+            if value == "None":
+                dictionary[key] = None
+    return list_of_dicts
