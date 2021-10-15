@@ -380,13 +380,14 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     list_of_dicts = read_csv_file_into_list_of_dicts(filename)
     removed_list = []
     removed_list_dates = []
+    date_object_list = []
     for dictionary in list_of_dicts:
         for key, value in dictionary.items():
             if not value.isdigit() and value != "None":
                 removed_list_dates.append(key)
             if value != "None":
                 try:
-                    date_object = datetime.strptime(value, "%d.%m.%Y")
+                    datetime.strptime(value, "%d.%m.%Y")
                 except:
                     removed_list.append(key)
     for dictionary in list_of_dicts:
@@ -394,7 +395,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
             if key not in removed_list_dates and value != "None":
                 dictionary[key] = int(value)
             if key not in removed_list and value != "None":
-                dictionary[key] = date_object.date()
+                dictionary[key] = datetime.strptime(value, "%d.%m.%Y").date()
             if value == "None":
                 dictionary[key] = None
     return list_of_dicts
