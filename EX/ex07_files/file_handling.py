@@ -378,18 +378,9 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     """
     from datetime import datetime
     list_of_dicts = read_csv_file_into_list_of_dicts(filename)
-    removed_list_dates = []
-    removed_list_digits = []
-
-    for dictionary in list_of_dicts:
-        for key, value in dictionary.items():
-            if not value.isdigit() and value != "None":
-                removed_list_digits.append(key)
-            if value != "None":
-                try:
-                    datetime.strptime(value, "%d.%m.%Y")
-                except ValueError:
-                    removed_list_dates.append(key)
+    removed_lists = removed_elements(list_of_dicts)
+    removed_list_digits = removed_lists[0]
+    removed_list_dates = removed_lists[1]
 
     for dictionary in list_of_dicts:
         for key, value in dictionary.items():
@@ -401,3 +392,20 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
                 dictionary[key] = None
 
     return list_of_dicts
+
+
+def removed_elements(list_of_dicts: list):
+    """Check keys that are not date and int."""
+    from datetime import datetime
+    removed_list_dates = []
+    removed_list_digits = []
+    for dictionary in list_of_dicts:
+        for key, value in dictionary.items():
+            if not value.isdigit() and value != "None":
+                removed_list_digits.append(key)
+            if value != "None":
+                try:
+                    datetime.strptime(value, "%d.%m.%Y")
+                except ValueError:
+                    removed_list_dates.append(key)
+    return removed_list_digits, removed_list_dates
