@@ -414,6 +414,7 @@ def removed_elements(list_of_dicts: list):
 def read_people_data(directory: str) -> dict:
     """
     Read people data from files.
+
     Files are inside directory. Read all *.csv files.
 
     Each file has an int field "id" which should be used to merge information.
@@ -529,4 +530,44 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :param report_filename: Output file.
     :return: None
     """
-    pass
+    from datetime import date
+    people_data = read_people_data(person_data_directory)
+    people_data_list = []
+    today = date.today()
+    for key in people_data.keys():
+        age = 0
+        new_dict = {"id": key}
+        for element, value in people_data[key].items():
+            if value is None:
+                people_data[key][element] = "-"
+            new_dict[element] = value
+            if element == "birth" and value is None:
+                age = -1
+            if element == "death" and value is None:
+                new_dict["status"] = "alive"
+                if age != -1:
+                    age = today.year - people_data[key]["birth"].year - \
+                          ((today.month, today.day) < (people_data[key]["birth"].month, people_data[key]["birth"].day))
+            elif element == "death" and value is not None:
+                new_dict["status"] = "dead"
+                if age != -1:
+                    age = people_data[key]["death"].year - people_data[key]["birth"].year - \
+                          ((people_data[key]["death"].month, people_data[key]["death"].day)
+                           < (people_data[key]["birth"].month, people_data[key]["birth"].day))
+        new_dict.update(people_data[key])
+        new_dict["age"] = age
+        if len(people_data_list) == 0:
+            people_data_list.append(new_dict)
+            continue
+        for i, dictionary in enumerate(people_data_list):
+            if 0 <= age < dictionary["age"] and new_dict not in people_data_list:
+                people_data_list.insert(i, new_dict)
+            elif age == dictionary["age"] and new_dict not in people_data_list and (new_dict["birth"].month, new_dict["birth"].day) > (dictionary["birth"].month, dictionary["birth"].day):
+                people_data_list.insert(i, new_dict)
+            elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and new_dict["name"] < dictionary["name"]:
+                people_data_list.insert(i, new_dict)
+            elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < dictionary["id"]:
+                people_data_list.insert(i, new_dict)
+            elif new_dict not in people_data_list:
+                people_data_list.append(new_dict)
+    write_list_of_dicts_to_csv_file(report_filename, people_data_list)
