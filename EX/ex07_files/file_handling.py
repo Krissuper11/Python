@@ -451,6 +451,7 @@ def read_people_data(directory: str) -> dict:
     :param directory: Directory where the csv files are.
     :return: Dictionary with id as keys and data dictionaries as values.
     """
+    assert False, directory
     import re
     file_names = re.findall(r"[\S]+.csv", directory)
     list_with_dicts = []
