@@ -240,7 +240,10 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
         csv_dict = {}
         counter = 0
         for element in key_list:
-            if not csv_list[i][counter][0].isalnum() or counter > len(csv_list[i]) - 1:
+            if counter > len(csv_list[i]) - 1:
+                csv_dict[element] = "None"
+                counter += 1
+            elif not csv_list[i][counter][0].isalnum():
                 csv_dict[element] = "None"
                 counter += 1
             else:
