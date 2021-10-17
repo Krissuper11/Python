@@ -451,7 +451,6 @@ def read_people_data(directory: str) -> dict:
     :param directory: Directory where the csv files are.
     :return: Dictionary with id as keys and data dictionaries as values.
     """
-    assert False, directory
     import re
     file_names = re.findall(r"[\S]+.csv", directory)
     list_with_dicts = []
@@ -467,6 +466,11 @@ def read_people_data(directory: str) -> dict:
             if key != "id":
                 collected_data[id_num].append({key: value})
     for key, value in collected_data.items():
+        try:
+            if "name" not in value[0]:
+                value.insert(0, {"name": None})
+        except IndexError:
+            value.insert(0, {"name": None})
         try:
             if "birth" not in value[1]:
                 value.insert(1, {"birth": None})
@@ -484,6 +488,23 @@ def read_people_data(directory: str) -> dict:
             if key not in people_data:
                 people_data[key] = value[i]
     return people_data
+
+
+print(read_people_data("""File: C:/Users/krist/Downloads/test.csv
+id,name
+1,john
+2,mary
+3,john
+
+File: C:/Users/krist/Downloads/dates.csv
+id,birth
+1,01.01.2001
+2,05.06.1990
+
+File: C:/Users/krist/Downloads/towns.csv
+id,death
+2,01.02.2020
+1,-"""))
 
 
 def generate_people_report(person_data_directory: str, report_filename: str) -> None:
