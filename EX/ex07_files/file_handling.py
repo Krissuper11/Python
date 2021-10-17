@@ -485,23 +485,6 @@ def read_people_data(directory: str) -> dict:
     return people_data
 
 
-print(read_people_data("""File: C:/Users/krist/Downloads/test.csv
-id,name
-1,john
-2,mary
-3,john
-
-File: C:/Users/krist/Downloads/dates.csv
-id,birth
-1,01.01.2001
-2,05.06.1990
-
-File: C:/Users/krist/Downloads/towns.csv
-id,death
-2,01.02.2020
-1,-"""))
-
-
 def generate_people_report(person_data_directory: str, report_filename: str) -> None:
     """
     Generate report about people data.
