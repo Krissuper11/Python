@@ -1,5 +1,6 @@
 """File handling."""
 import csv
+import glob
 
 
 def read_file_contents(filename: str) -> str:
@@ -455,12 +456,10 @@ def read_people_data(directory: str) -> dict:
     :param directory: Directory where the csv files are.
     :return: Dictionary with id as keys and data dictionaries as values.
     """
-    import re
-    file_names = re.findall(r"[\S]+\.csv", directory)
     list_with_dicts = []
     collected_data = {}
     people_data = {}
-    for file in file_names:
+    for file in glob.glob(directory + "/*.csv"):
         list_with_dicts += (read_csv_file_into_list_of_dicts_using_datatypes(file))
     for i, dictionary in enumerate(list_with_dicts):
         id_num = dictionary["id"]
