@@ -594,4 +594,3 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 new_dict["death"] = new_dict["death"].strftime("%d.%m.%Y")
             people_data_list.append(new_dict)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
-print(generate_people_report("C:/Users/krist/Downloads/csv_files","C:/Users/krist/Downloads/csv_files/towns.csv"))
