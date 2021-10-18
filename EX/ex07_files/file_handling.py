@@ -625,8 +625,9 @@ def sort_list(people_data_list, age, new_dict):
                 dictionary["name"]:
             people_data_list.insert(i, new_dict)
         elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < \
-                dictionary["id"]:
+                dictionary["id"] and new_dict["birth"] == dictionary["birth"]:
             people_data_list.insert(i, new_dict)
     if new_dict not in people_data_list:
         people_data_list.append(new_dict)
     return people_data_list
+print(generate_people_report("C:/Users/krist/Downloads/csv_files", "C:/Users/krist/Downloads/csv_files/towns.csv"))
