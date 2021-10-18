@@ -590,19 +590,19 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 new_dict["status"] = "alive"
                 if age != -1:
                     age = today.year - \
-                          people_data[key]["birth"].year - \
-                          ((today.month, today.day)
-                           < (people_data[key]["birth"].month,
-                              people_data[key]["birth"].day))
+                          people_data[key]["birth"].year \
+                          - ((today.month, today.day)
+                             < (people_data[key]["birth"].month,
+                                people_data[key]["birth"].day))
             elif element == "death" and value is not None:
                 new_dict["status"] = "dead"
                 if age != -1:
-                    age = people_data[key]["death"].year\
-                          - people_data[key]["birth"].year - \
-                          ((people_data[key]["death"].month,
-                            people_data[key]["death"].day)
-                           < (people_data[key]["birth"].month,
-                              people_data[key]["birth"].day))
+                    age = people_data[key]["death"].year \
+                          - people_data[key]["birth"].year \
+                          - ((people_data[key]["death"].month,
+                              people_data[key]["death"].day)
+                             < (people_data[key]["birth"].month,
+                                people_data[key]["birth"].day))
         new_dict.update(people_data[key])
         new_dict["age"] = age
         if len(people_data_list) == 0:
@@ -611,11 +611,15 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         for i, dictionary in enumerate(people_data_list):
             if 0 <= age < dictionary["age"] and new_dict not in people_data_list:
                 people_data_list.insert(i, new_dict)
-            elif age == dictionary["age"] and new_dict not in people_data_list and (new_dict["birth"].month, new_dict["birth"].day) > (dictionary["birth"].month, dictionary["birth"].day):
+            elif age == dictionary["age"] and new_dict not in people_data_list and (
+                    new_dict["birth"].month, new_dict["birth"].day) > (
+            dictionary["birth"].month, dictionary["birth"].day):
                 people_data_list.insert(i, new_dict)
-            elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and new_dict["name"] < dictionary["name"]:
+            elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and new_dict["name"] < \
+                    dictionary["name"]:
                 people_data_list.insert(i, new_dict)
-            elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < dictionary["id"]:
+            elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < \
+                    dictionary["id"]:
                 people_data_list.insert(i, new_dict)
         if new_dict not in people_data_list:
             people_data_list.append(new_dict)
