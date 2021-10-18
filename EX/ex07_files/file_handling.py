@@ -498,22 +498,40 @@ def read_people_data(directory: str) -> dict:
 def check_for_none(collected_data):
     """Change from string to None if value is None."""
     for key, value in collected_data.items():
-        try:
-            if "name" not in value[1]:
-                value.insert(1, {"name": None})
-        except IndexError:
-            value.insert(1, {"name": None})
-        try:
-            if "birth" not in value[2]:
-                value.insert(2, {"birth": None})
-        except IndexError:
-            value.insert(2, {"birth": None})
-        try:
-            if "death" not in value[3]:
-                value.insert(3, {"death": None})
-        except IndexError:
-            value.insert(3, {"death": None})
+        check_name(value)
+        check_birth(value)
+        check_birth(value)
     return collected_data
+
+
+def check_name(value):
+    """Change from string to None if name not given."""
+    try:
+        if "name" not in value[1]:
+            value.insert(1, {"name": None})
+    except IndexError:
+        value.insert(1, {"name": None})
+    return value
+
+
+def check_birth(value):
+    """Change from string to None if birth not given."""
+    try:
+        if "name" not in value[1]:
+            value.insert(1, {"name": None})
+    except IndexError:
+        value.insert(1, {"name": None})
+    return value
+
+
+def check_death(value):
+    """Change from string to None if death not given."""
+    try:
+        if "death" not in value[3]:
+            value.insert(3, {"death": None})
+    except IndexError:
+        value.insert(3, {"death": None})
+    return value
 
 
 def generate_people_report(person_data_directory: str, report_filename: str) -> None:
@@ -571,16 +589,20 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             if element == "death" and value is None:
                 new_dict["status"] = "alive"
                 if age != -1:
-                    age = today.year - people_data[key]["birth"].year - \
+                    age = today.year - \
+                          people_data[key]["birth"].year - \
                           ((today.month, today.day)
                            < (people_data[key]["birth"].month,
                               people_data[key]["birth"].day))
             elif element == "death" and value is not None:
                 new_dict["status"] = "dead"
                 if age != -1:
-                    age = people_data[key]["death"].year - people_data[key]["birth"].year - \
-                          ((people_data[key]["death"].month, people_data[key]["death"].day)
-                           < (people_data[key]["birth"].month, people_data[key]["birth"].day))
+                    age = people_data[key]["death"].year\
+                          - people_data[key]["birth"].year - \
+                          ((people_data[key]["death"].month,
+                            people_data[key]["death"].day)
+                           < (people_data[key]["birth"].month,
+                              people_data[key]["birth"].day))
         new_dict.update(people_data[key])
         new_dict["age"] = age
         if len(people_data_list) == 0:
