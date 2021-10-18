@@ -608,19 +608,25 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         if len(people_data_list) == 0:
             people_data_list.append(new_dict)
             continue
-        for i, dictionary in enumerate(people_data_list):
-            if 0 <= age < dictionary["age"] and new_dict not in people_data_list:
-                people_data_list.insert(i, new_dict)
-            elif age == dictionary["age"] and new_dict not in people_data_list and (
-                    new_dict["birth"].month, new_dict["birth"].day) > (
-                    dictionary["birth"].month, dictionary["birth"].day):
-                people_data_list.insert(i, new_dict)
-            elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and new_dict["name"] < \
-                    dictionary["name"]:
-                people_data_list.insert(i, new_dict)
-            elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < \
-                    dictionary["id"]:
-                people_data_list.insert(i, new_dict)
-        if new_dict not in people_data_list:
-            people_data_list.append(new_dict)
+        sort_list(people_data_list, age, new_dict)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
+
+
+def sort_list(people_data_list, age, new_dict):
+    """Sort people data list."""
+    for i, dictionary in enumerate(people_data_list):
+        if 0 <= age < dictionary["age"] and new_dict not in people_data_list:
+            people_data_list.insert(i, new_dict)
+        elif age == dictionary["age"] and new_dict not in people_data_list and (
+                new_dict["birth"].month, new_dict["birth"].day) > (
+                dictionary["birth"].month, dictionary["birth"].day):
+            people_data_list.insert(i, new_dict)
+        elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and new_dict["name"] < \
+                dictionary["name"]:
+            people_data_list.insert(i, new_dict)
+        elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < \
+                dictionary["id"]:
+            people_data_list.insert(i, new_dict)
+    if new_dict not in people_data_list:
+        people_data_list.append(new_dict)
+    return people_data_list
