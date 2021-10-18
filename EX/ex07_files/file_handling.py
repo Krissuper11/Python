@@ -571,7 +571,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 people_data_list.insert(i, new_dict)
             elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < dictionary["id"]:
                 people_data_list.insert(i, new_dict)
-            elif new_dict not in people_data_list:
-                people_data_list.append(new_dict)
+        if new_dict not in people_data_list:
+            people_data_list.append(new_dict)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
-print(read_people_data("C:/Users/krist/Downloads/csv_files"))
+print(generate_people_report("C:/Users/krist/Downloads/csv_files","C:/Users/krist/Downloads/csv_files/towns.csv"))
