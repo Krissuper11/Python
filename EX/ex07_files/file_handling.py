@@ -615,14 +615,14 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 def sort_list(people_data_list, age, new_dict):
     """Sort people data list."""
     for i, dictionary in enumerate(people_data_list):
-        if 0 <= age < dictionary["age"] and new_dict not in people_data_list:
+        if (0 <= age < dictionary["age"] or age != -1 and dictionary["age"] == -1) and new_dict not in people_data_list :
             people_data_list.insert(i, new_dict)
-        elif age == dictionary["age"] and new_dict not in people_data_list and (
+        elif age == dictionary["age"] and age != -1 and new_dict not in people_data_list and (
                 new_dict["birth"].month, new_dict["birth"].day) > (
                 dictionary["birth"].month, dictionary["birth"].day):
             people_data_list.insert(i, new_dict)
-        elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and new_dict["name"] < \
-                dictionary["name"]:
+        elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and (new_dict["name"] < \
+                dictionary["name"] or new_dict["name"] != "-" and dictionary["name"] == "-"):
             people_data_list.insert(i, new_dict)
         elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < \
                 dictionary["id"] and new_dict["birth"] == dictionary["birth"]:
@@ -630,3 +630,4 @@ def sort_list(people_data_list, age, new_dict):
     if new_dict not in people_data_list:
         people_data_list.append(new_dict)
     return people_data_list
+print(generate_people_report("C:/Users/krist/Downloads/csv_files", "C:/Users/krist/Downloads/towns.csv"))
