@@ -466,26 +466,27 @@ def read_people_data(directory: str) -> dict:
         for key, value in dictionary.items():
             if key == "id" and id_num not in collected_data:
                 collected_data[id_num] = []
+                collected_data[id_num].append({"id": id_num})
             if key != "id":
                 collected_data[id_num].append({key: value})
     for key, value in collected_data.items():
         try:
-            if "name" not in value[0]:
-                value.insert(0, {"name": None})
+            if "name" not in value[1]:
+                value.insert(1, {"name": None})
         except IndexError:
-            value.insert(0, {"name": None})
+            value.insert(1, {"name": None})
         try:
-            if "birth" not in value[1]:
-                value.insert(1, {"birth": None})
+            if "birth" not in value[2]:
+                value.insert(2, {"birth": None})
         except IndexError:
-            value.insert(1, {"birth": None})
+            value.insert(2, {"birth": None})
         try:
-            if "death" not in value[2]:
-                value.insert(2, {"death": None})
+            if "death" not in value[3]:
+                value.insert(3, {"death": None})
         except IndexError:
-            value.insert(2, {"death": None})
+            value.insert(3, {"death": None})
     for key, value in collected_data.items():
-        for i in range(0, 3):
+        for i in range(0, 4):
             if key in people_data:
                 people_data[key].update(value[i])
             if key not in people_data:
@@ -573,3 +574,4 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             elif new_dict not in people_data_list:
                 people_data_list.append(new_dict)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
+print(read_people_data("C:/Users/krist/Downloads/csv_files"))
