@@ -306,8 +306,17 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
             for key_from_list in key_list:
                 if counter < len(element):
                     if key_from_list == list(element)[counter]:
-                        value_list.append(element[list(element)[counter]])
-                        counter += 1
+                        if key_from_list == "birth" and element["birth"] != "-":
+                            element["birth"] = element["birth"].strftime("%d.%m.%Y")
+                            value_list.append(element["birth"])
+                            counter += 1
+                        elif key_from_list == "death" and element["death"] != "-":
+                            element["death"] = element["death"].strftime("%d.%m.%Y")
+                            value_list.append(element["death"])
+                            counter += 1
+                        else:
+                            value_list.append(element[list(element)[counter]])
+                            counter += 1
                     else:
                         value_list.append("")
                 else:
@@ -564,33 +573,13 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             continue
         for i, dictionary in enumerate(people_data_list):
             if 0 <= age < dictionary["age"] and new_dict not in people_data_list:
-                if new_dict["birth"] != "-":
-                    new_dict["birth"] = new_dict["birth"].strftime("%d.%m.%Y")
-                if new_dict["death"] != "-":
-                    new_dict["death"] = new_dict["death"].strftime("%d.%m.%Y")
                 people_data_list.insert(i, new_dict)
             elif age == dictionary["age"] and new_dict not in people_data_list and (new_dict["birth"].month, new_dict["birth"].day) > (dictionary["birth"].month, dictionary["birth"].day):
-                if new_dict["birth"] != "-":
-                    new_dict["birth"] = new_dict["birth"].strftime("%d.%m.%Y")
-                if new_dict["death"] != "-":
-                    new_dict["death"] = new_dict["death"].strftime("%d.%m.%Y")
                 people_data_list.insert(i, new_dict)
             elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and new_dict["name"] < dictionary["name"]:
-                if new_dict["birth"] != "-":
-                    new_dict["birth"] = new_dict["birth"].strftime("%d.%m.%Y")
-                if new_dict["death"] != "-":
-                    new_dict["death"] = new_dict["death"].strftime("%d.%m.%Y")
                 people_data_list.insert(i, new_dict)
             elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < dictionary["id"]:
-                if new_dict["birth"] != "-":
-                    new_dict["birth"] = new_dict["birth"].strftime("%d.%m.%Y")
-                if new_dict["death"] != "-":
-                    new_dict["death"] = new_dict["death"].strftime("%d.%m.%Y")
                 people_data_list.insert(i, new_dict)
         if new_dict not in people_data_list:
-            if new_dict["birth"] != "-":
-                new_dict["birth"] = new_dict["birth"].strftime("%d.%m.%Y")
-            if new_dict["death"] != "-":
-                new_dict["death"] = new_dict["death"].strftime("%d.%m.%Y")
             people_data_list.append(new_dict)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
