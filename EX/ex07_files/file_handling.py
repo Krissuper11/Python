@@ -630,4 +630,3 @@ def sort_list(people_data_list, age, new_dict):
     if new_dict not in people_data_list:
         people_data_list.append(new_dict)
     return people_data_list
-print(generate_people_report("C:/Users/krist/Downloads/csv_files", "C:/Users/krist/Downloads/towns.csv"))
