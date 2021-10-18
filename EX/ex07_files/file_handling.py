@@ -300,31 +300,38 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
             for key in element.keys():
                 if key not in key_list:
                     key_list.append(key)
-        for element in data:
-            counter = 0
-            value_list = []
-            for key_from_list in key_list:
-                if counter < len(element):
-                    if key_from_list == list(element)[counter]:
-                        if key_from_list == "birth" and element["birth"] != "-":
-                            element["birth"] = element["birth"].strftime("%d.%m.%Y")
-                            value_list.append(element["birth"])
-                            counter += 1
-                        elif key_from_list == "death" and element["death"] != "-":
-                            element["death"] = element["death"].strftime("%d.%m.%Y")
-                            value_list.append(element["death"])
-                            counter += 1
-                        else:
-                            value_list.append(element[list(element)[counter]])
-                            counter += 1
-                    else:
-                        value_list.append("")
-                else:
-                    value_list.append("")
-            values_list.append(value_list)
+        values_list = create_value_list(data, key_list)
         print_list.append(key_list)
         print_list += values_list
         write_csv_file(filename, print_list)
+
+
+def create_value_list(data, key_list):
+    """Create list with values from dictionary."""
+    values_list = []
+    for element in data:
+        counter = 0
+        value_list = []
+        for key_from_list in key_list:
+            if counter < len(element):
+                if key_from_list == list(element)[counter]:
+                    if key_from_list == "birth" and element["birth"] != "-":
+                        element["birth"] = element["birth"].strftime("%d.%m.%Y")
+                        value_list.append(element["birth"])
+                        counter += 1
+                    elif key_from_list == "death" and element["death"] != "-":
+                        element["death"] = element["death"].strftime("%d.%m.%Y")
+                        value_list.append(element["death"])
+                        counter += 1
+                    else:
+                        value_list.append(element[list(element)[counter]])
+                        counter += 1
+                else:
+                    value_list.append("")
+            else:
+                value_list.append("")
+        values_list.append(value_list)
+    return values_list
 
 
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
@@ -559,7 +566,8 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 new_dict["status"] = "alive"
                 if age != -1:
                     age = today.year - people_data[key]["birth"].year - \
-                          ((today.month, today.day) < (people_data[key]["birth"].month, people_data[key]["birth"].day))
+                          ((today.month, today.day) < (people_data[key]["birth"].month,
+                                                       people_data[key]["birth"].day))
             elif element == "death" and value is not None:
                 new_dict["status"] = "dead"
                 if age != -1:
@@ -583,3 +591,4 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         if new_dict not in people_data_list:
             people_data_list.append(new_dict)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
+print(generate_people_report("C:/Users/krist/Downloads/csv_files","C:/Users/krist/Downloads/csv_files/towns.csv"))
