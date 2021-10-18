@@ -485,6 +485,18 @@ def read_people_data(directory: str) -> dict:
                 collected_data[id_num].append({"id": id_num})
             if key != "id":
                 collected_data[id_num].append({key: value})
+    check_for_none(collected_data)
+    for key, value in collected_data.items():
+        for i in range(0, 4):
+            if key in people_data:
+                people_data[key].update(value[i])
+            if key not in people_data:
+                people_data[key] = value[i]
+    return people_data
+
+
+def check_for_none(collected_data):
+    """Change from string to None if value is None."""
     for key, value in collected_data.items():
         try:
             if "name" not in value[1]:
@@ -501,13 +513,7 @@ def read_people_data(directory: str) -> dict:
                 value.insert(3, {"death": None})
         except IndexError:
             value.insert(3, {"death": None})
-    for key, value in collected_data.items():
-        for i in range(0, 4):
-            if key in people_data:
-                people_data[key].update(value[i])
-            if key not in people_data:
-                people_data[key] = value[i]
-    return people_data
+    return collected_data
 
 
 def generate_people_report(person_data_directory: str, report_filename: str) -> None:
@@ -566,8 +572,9 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 new_dict["status"] = "alive"
                 if age != -1:
                     age = today.year - people_data[key]["birth"].year - \
-                          ((today.month, today.day) < (people_data[key]["birth"].month,
-                                                       people_data[key]["birth"].day))
+                          ((today.month, today.day)
+                           < (people_data[key]["birth"].month,
+                              people_data[key]["birth"].day))
             elif element == "death" and value is not None:
                 new_dict["status"] = "dead"
                 if age != -1:
