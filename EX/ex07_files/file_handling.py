@@ -483,7 +483,7 @@ def read_people_data(directory: str) -> dict:
             if key == "id" and id_num not in collected_data:
                 collected_data[id_num] = []
                 collected_data[id_num].append({"id": id_num})
-            if key != "id":
+            if key != "id" and key in ("id", "name", "birth", "death"):
                 collected_data[id_num].append({key: value})
     check_for_none(collected_data)
     for key, value in collected_data.items():
@@ -582,10 +582,12 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         new_dict = {"id": key}
         for element, value in people_data[key].items():
             if element == "name" and value is None:
-                people_data[key][element] = ""
+                new_dict[element] = ""
             elif value is None:
-                people_data[key][element] = "-"
-            new_dict[element] = value
+                new_dict[element] = "-"
+            elif element in ("id", "name", "birth", "death"):
+                new_dict[element] = value
+
             if element == "birth" and value is None:
                 age = -1
             if element == "death" and value is None:
@@ -605,7 +607,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                               people_data[key]["death"].day)
                              < (people_data[key]["birth"].month,
                                 people_data[key]["birth"].day))
-        new_dict.update(people_data[key])
+
         new_dict["age"] = age
         if len(people_data_list) == 0:
             people_data_list.append(new_dict)
