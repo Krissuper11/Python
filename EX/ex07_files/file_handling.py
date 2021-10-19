@@ -506,7 +506,6 @@ def check_for_none(collected_data, name_in_key, birth_in_key):
     for key, value in collected_data.items():
         check_name(value, name_in_key)
         check_birth(value, birth_in_key)
-        #check_death(value)
     return collected_data
 
 
@@ -529,16 +528,6 @@ def check_birth(value, birth_in_key):
                 value.insert(2, {"birth": None})
         except IndexError:
             value.insert(2, {"birth": None})
-    return value
-
-
-def check_death(value):
-    """Change from string to None if death not given."""
-    try:
-        if "death" not in value[3]:
-            value.insert(3, {"death": None})
-    except IndexError:
-        value.insert(3, {"death": None})
     return value
 
 
@@ -629,7 +618,10 @@ def sort_list(people_data_list):
             birth_in_dictionary = False
         elif "birth" in dictionary:
             birth_in_dictionary = True
-    people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"] if x["age"] != -1 else 1000000, int(x["birth"].strftime("%m"))*-1 if birth_in_dictionary and x["birth"] != "-" else 0,
-                                                                       int(x["birth"].strftime("%d")) * -1 if birth_in_dictionary and x["birth"] != "-" else 0, x["name"] if "name" in x else "",
-                                                                       x["id"]))
+    people_data_list_new = sorted(people_data_list, key=lambda x: (
+        x["age"] if x["age"] != -1 else 1000000,
+        int(x["birth"].strftime("%m")) * -1 if birth_in_dictionary and x["birth"] != "-" else 0,
+        int(x["birth"].strftime("%d")) * -1 if birth_in_dictionary and x["birth"] != "-" else 0,
+        x["name"] if "name" in x else "",
+        x["id"]))
     return people_data_list_new
