@@ -617,10 +617,8 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 
 def sort_list(people_data_list):
     """Sort people data list."""
-    try:
-        people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"], int(x["birth"].strftime("%m"))*-1,
-                                                                       int(x["birth"].strftime("%d"))*-1, x["name"],
+
+    people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"] if x["age"] != -1 else 1000000, int(x["birth"].strftime("%m"))*-1 if x["birth"] != "-" else 0,
+                                                                       int(x["birth"].strftime("%d")) * -1 if x["birth"] != "-" else 0, x["name"],
                                                                        x["id"]))
-    except AttributeError:
-        people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"]*-10000, x["name"], x["id"]))
     return people_data_list_new
