@@ -590,16 +590,16 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             if element == "death" and value is None or "death" not in people_data[key]:
                 new_dict["status"] = "alive"
                 if age != -1:
-                    age = today.year - \
-                        people_data[key]["birth"].year \
-                        - ((today.month, today.day)
-                            < (people_data[key]["birth"].month,
+                    age = today.year -\
+                          people_data[key]["birth"].year\
+                          - ((today.month, today.day)
+                             < (people_data[key]["birth"].month,
                                 people_data[key]["birth"].day))
             elif element == "death" and value is not None:
                 new_dict["status"] = "dead"
                 if age != -1:
-                    age = people_data[key]["death"].year \
-                        - people_data[key]["birth"].year \
+                    age = people_data[key]["death"].year\
+                        - people_data[key]["birth"].year\
                         - ((people_data[key]["death"].month,
                             people_data[key]["death"].day)
                             < (people_data[key]["birth"].month,
