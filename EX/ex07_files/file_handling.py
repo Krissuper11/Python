@@ -581,7 +581,9 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         age = 0
         new_dict = {"id": key}
         for element, value in people_data[key].items():
-            if value is None:
+            if element == "name" and value is None:
+                people_data[key][element] = ""
+            elif value is None:
                 people_data[key][element] = "-"
             new_dict[element] = value
             if element == "birth" and value is None:
@@ -590,46 +592,35 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 new_dict["status"] = "alive"
                 if age != -1:
                     age = today.year - \
-                        people_data[key]["birth"].year \
-                        - ((today.month, today.day)
-                            < (people_data[key]["birth"].month,
+                          people_data[key]["birth"].year \
+                          - ((today.month, today.day)
+                             < (people_data[key]["birth"].month,
                                 people_data[key]["birth"].day))
             elif element == "death" and value is not None:
                 new_dict["status"] = "dead"
                 if age != -1:
                     age = people_data[key]["death"].year \
-                        - people_data[key]["birth"].year \
-                        - ((people_data[key]["death"].month,
-                            people_data[key]["death"].day)
-                            < (people_data[key]["birth"].month,
+                          - people_data[key]["birth"].year \
+                          - ((people_data[key]["death"].month,
+                              people_data[key]["death"].day)
+                             < (people_data[key]["birth"].month,
                                 people_data[key]["birth"].day))
         new_dict.update(people_data[key])
         new_dict["age"] = age
         if len(people_data_list) == 0:
             people_data_list.append(new_dict)
             continue
-        sort_list(people_data_list, age, new_dict)
+        people_data_list.append(new_dict)
+    people_data_list = sort_list(people_data_list)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
 
 
-def sort_list(people_data_list, age, new_dict):
+def sort_list(people_data_list):
     """Sort people data list."""
-    for i, dictionary in enumerate(people_data_list):
-        if (0 <= age < dictionary["age"] or age != -1 and dictionary["age"] == -1)\
-                and new_dict not in people_data_list and new_dict["name"] != "-":
-            people_data_list.insert(i, new_dict)
-        elif age == dictionary["age"] and age != -1 and new_dict not in people_data_list and (
-                new_dict["birth"].month, new_dict["birth"].day) > (
-                dictionary["birth"].month, dictionary["birth"].day):
-            people_data_list.insert(i, new_dict)
-        elif new_dict["birth"] == dictionary["birth"] and new_dict not in people_data_list and (new_dict["name"] < dictionary["name"] or new_dict["name"] != "-" and dictionary["name"] == "-"):
-            people_data_list.insert(i, new_dict)
-        elif new_dict["name"] == "-" and dictionary["name"] == "-" and new_dict["id"] < dictionary["id"] and\
-                new_dict not in people_data_list:
-            people_data_list.insert(i, new_dict)
-        elif new_dict["name"] == dictionary["name"] and new_dict not in people_data_list and new_dict["id"] < \
-                dictionary["id"] and new_dict["birth"] == dictionary["birth"]:
-            people_data_list.insert(i, new_dict)
-    if new_dict not in people_data_list:
-        people_data_list.append(new_dict)
-    return people_data_list
+    try:
+        people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"], int(x["birth"].strftime("%m"))*-1,
+                                                                       int(x["birth"].strftime("%d"))*-1, x["name"],
+                                                                       x["id"]))
+    except AttributeError:
+        people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"]*-10000, x["name"], x["id"]))
+    return people_data_list_new
