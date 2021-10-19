@@ -474,7 +474,6 @@ def read_people_data(directory: str) -> dict:
     """
     list_with_dicts = []
     collected_data = {}
-    people_data = {}
     name_in_key = False
     birth_in_key = False
     for file in glob.glob(directory + "/*.csv"):
@@ -492,6 +491,12 @@ def read_people_data(directory: str) -> dict:
             if key != "id":
                 collected_data[id_num].append({key: value})
     check_for_none(collected_data, name_in_key, birth_in_key)
+    return create_dict(collected_data)
+
+
+def create_dict(collected_data):
+    """Create people_data dictionary."""
+    people_data = {}
     for key, value in collected_data.items():
         for i in range(len(value)):
             if key in people_data:
@@ -590,8 +595,8 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             if element == "death" and value is None or "death" not in people_data[key]:
                 new_dict["status"] = "alive"
                 if age != -1:
-                    age = today.year -\
-                          people_data[key]["birth"].year\
+                    age = today.year\
+                          - people_data[key]["birth"].year\
                           - ((today.month, today.day)
                              < (people_data[key]["birth"].month,
                                 people_data[key]["birth"].day))
