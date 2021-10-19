@@ -483,11 +483,11 @@ def read_people_data(directory: str) -> dict:
             if key == "id" and id_num not in collected_data:
                 collected_data[id_num] = []
                 collected_data[id_num].append({"id": id_num})
-            if key != "id" and key in ("id", "name", "birth", "death"):
+            if key != "id":
                 collected_data[id_num].append({key: value})
     check_for_none(collected_data)
     for key, value in collected_data.items():
-        for i in range(0, 4):
+        for i in range(len(value)):
             if key in people_data:
                 people_data[key].update(value[i])
             if key not in people_data:
@@ -517,10 +517,10 @@ def check_name(value):
 def check_birth(value):
     """Change from string to None if birth not given."""
     try:
-        if "name" not in value[1]:
-            value.insert(1, {"name": None})
+        if "birth" not in value[2]:
+            value.insert(2, {"birth": None})
     except IndexError:
-        value.insert(1, {"name": None})
+        value.insert(2, {"birth": None})
     return value
 
 
@@ -585,7 +585,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 new_dict[element] = ""
             elif value is None:
                 new_dict[element] = "-"
-            elif element in ("id", "name", "birth", "death"):
+            else:
                 new_dict[element] = value
 
             if element == "birth" and value is None:
@@ -609,9 +609,6 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                                 people_data[key]["birth"].day))
 
         new_dict["age"] = age
-        if len(people_data_list) == 0:
-            people_data_list.append(new_dict)
-            continue
         people_data_list.append(new_dict)
     people_data_list = sort_list(people_data_list)
     write_list_of_dicts_to_csv_file(report_filename, people_data_list)
@@ -624,3 +621,4 @@ def sort_list(people_data_list):
                                                                        int(x["birth"].strftime("%d")) * -1 if x["birth"] != "-" else 0, x["name"],
                                                                        x["id"]))
     return people_data_list_new
+
