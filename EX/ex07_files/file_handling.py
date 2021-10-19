@@ -475,17 +475,23 @@ def read_people_data(directory: str) -> dict:
     list_with_dicts = []
     collected_data = {}
     people_data = {}
+    name_in_key = False
+    birth_in_key = False
     for file in glob.glob(directory + "/*.csv"):
         list_with_dicts += (read_csv_file_into_list_of_dicts_using_datatypes(file))
     for i, dictionary in enumerate(list_with_dicts):
         id_num = dictionary["id"]
         for key, value in dictionary.items():
+            if key == "name":
+                name_in_key = True
+            if key == "birth":
+                birth_in_key = True
             if key == "id" and id_num not in collected_data:
                 collected_data[id_num] = []
                 collected_data[id_num].append({"id": id_num})
             if key != "id":
                 collected_data[id_num].append({key: value})
-    check_for_none(collected_data)
+    check_for_none(collected_data, name_in_key, birth_in_key)
     for key, value in collected_data.items():
         for i in range(len(value)):
             if key in people_data:
@@ -495,32 +501,34 @@ def read_people_data(directory: str) -> dict:
     return people_data
 
 
-def check_for_none(collected_data):
+def check_for_none(collected_data, name_in_key, birth_in_key):
     """Change from string to None if value is None."""
     for key, value in collected_data.items():
-        check_name(value)
-        check_birth(value)
-        check_birth(value)
+        check_name(value, name_in_key)
+        check_birth(value, birth_in_key)
+        #check_death(value)
     return collected_data
 
 
-def check_name(value):
+def check_name(value, name_in_key):
     """Change from string to None if name not given."""
-    try:
-        if "name" not in value[1]:
+    if name_in_key:
+        try:
+            if "name" not in value[1]:
+                value.insert(1, {"name": None})
+        except IndexError:
             value.insert(1, {"name": None})
-    except IndexError:
-        value.insert(1, {"name": None})
     return value
 
 
-def check_birth(value):
+def check_birth(value, birth_in_key):
     """Change from string to None if birth not given."""
-    try:
-        if "birth" not in value[2]:
+    if birth_in_key:
+        try:
+            if "birth" not in value[2]:
+                value.insert(2, {"birth": None})
+        except IndexError:
             value.insert(2, {"birth": None})
-    except IndexError:
-        value.insert(2, {"birth": None})
     return value
 
 
@@ -588,9 +596,9 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             else:
                 new_dict[element] = value
 
-            if element == "birth" and value is None:
+            if "birth" not in people_data[key] or people_data[key]["birth"] is None:
                 age = -1
-            if element == "death" and value is None:
+            if element == "death" and value is None or "death" not in people_data[key]:
                 new_dict["status"] = "alive"
                 if age != -1:
                     age = today.year - \
@@ -616,9 +624,12 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 
 def sort_list(people_data_list):
     """Sort people data list."""
-
-    people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"] if x["age"] != -1 else 1000000, int(x["birth"].strftime("%m"))*-1 if x["birth"] != "-" else 0,
-                                                                       int(x["birth"].strftime("%d")) * -1 if x["birth"] != "-" else 0, x["name"],
+    for dictionary in people_data_list:
+        if "birth" not in dictionary:
+            birth_in_dictionary = False
+        elif "birth" in dictionary:
+            birth_in_dictionary = True
+    people_data_list_new = sorted(people_data_list, key=lambda x: (x["age"] if x["age"] != -1 else 1000000, int(x["birth"].strftime("%m"))*-1 if birth_in_dictionary and x["birth"] != "-" else 0,
+                                                                       int(x["birth"].strftime("%d")) * -1 if birth_in_dictionary and x["birth"] != "-" else 0, x["name"] if "name" in x else "",
                                                                        x["id"]))
     return people_data_list_new
-
