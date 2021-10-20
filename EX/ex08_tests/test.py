@@ -1,3 +1,4 @@
+"""Test ex04."""
 import solution
 
 
@@ -58,6 +59,14 @@ def test_part2_correct_data_type_single():
             assert isinstance(element, data_type)
 
 
+def test_part2_big_number():
+    """Test for too large number in test 2."""
+    input_amount = 1000
+    res = solution.generate_combined_list([(input_amount, "string")])
+    expected_len = 1000
+    assert len(res) == expected_len
+
+
 def test_part3_correct_len():
     """Test correct length in part 3."""
     element_list = ["string", "int", "float"]
@@ -86,3 +95,11 @@ def test_part3_unique_single():
         output_list = solution.generate_combined_list_unique([(4, data_type)])
         for i in range(1, len(output_list)):
             assert output_list[i] != output_list[i - 1]
+
+
+def test_part3_big_number():
+    """Test for too large number in test 3."""
+    input_amount = 1000
+    res = solution.generate_combined_list_unique([(input_amount, "string")])
+    expected_len = 1000
+    assert len(res) == expected_len
