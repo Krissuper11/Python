@@ -4,11 +4,11 @@ import solution
 
 def test_part1_int_correct_len():
     element_list = ["string", "int", "float", "list", "tuple", "dict", "set"]
+    counter = 1
     for element in element_list:
-        input_amount = 5
-        res = solution.generate_list(input_amount, element)
-        expected_len = 5
-    assert len(res) == expected_len
+        res = solution.generate_list(counter, element)
+        assert len(res) == counter
+        counter += 1
 
 
 def test_part1_zero():
