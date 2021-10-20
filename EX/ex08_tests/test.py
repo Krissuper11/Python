@@ -3,9 +3,11 @@ import solution
 
 
 def test_part1_int_correct_len():
-    input_amount = 5
-    res = solution.generate_list(input_amount, "string")
-    expected_len = 5
+    element_list = ["string", "int", "float", "list", "tuple", "dict", "set"]
+    for element in element_list:
+        input_amount = 5
+        res = solution.generate_list(input_amount, element)
+        expected_len = 5
     assert len(res) == expected_len
 
 
@@ -19,10 +21,10 @@ def test_part1_zero():
 def test_part1_correct_data_type():
     element_list = ["string", "int", "float", "list", "tuple", "dict", "set"]
     datatype_list = [str, int, float, list, tuple, dict, set]
-    for i, element in enumerate(datatype_list):
+    for i, data_type in enumerate(datatype_list):
         output_list = solution.generate_list(4, element_list[i])
-        for datatype in output_list:
-            assert isinstance(datatype, element)
+        for element in output_list:
+            assert isinstance(element, data_type)
 
 
 def test_part2_correct_len():
@@ -40,7 +42,7 @@ def test_part2_correct_len():
 def test_part2_correct_data_type_single():
     element_list = ["string", "int", "float", "list", "tuple", "dict", "set"]
     datatype_list = [str, int, float, list, tuple, dict, set]
-    for i, element in enumerate(datatype_list):
+    for i, data_type in enumerate(datatype_list):
         output_list = solution.generate_combined_list([(4, element_list[i])])
-        for datatype in output_list:
-            assert isinstance(datatype, element)
+        for element in output_list:
+            assert isinstance(element, data_type)
