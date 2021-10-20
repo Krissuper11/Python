@@ -29,12 +29,12 @@ def test_part1_correct_data_type():
 
 def test_part2_correct_len():
     element_list = ["string", "int", "float", "list", "tuple", "dict", "set"]
-    input_min = 0
-    input_max = 0
+    input_min = 1
+    input_max = 2
     for element in element_list:
         assert len(solution.generate_combined_list([(input_min, element), (input_max, element)])) == input_max
         input_min += 1
-        input_max += 2
+        input_max += 1
 
 
 def test_part2_correct_data_type_single():
