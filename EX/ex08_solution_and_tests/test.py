@@ -3,22 +3,22 @@ import pytest
 import solution
 
 
-# def test_student_study_evening():
-#     """Test evening times in student study."""
-#     time_list = [18, 20, 24]
-#     for time in time_list:
-#         assert solution.students_study(time, True) is True
-#     for time in time_list:
-#         assert solution.students_study(time, False) is True
-#
-#
-def test_student_study_night():
-    """Test night times in student study."""
-    time_list = [1, 3, 4]
+def test_student_study_evening():
+    """Test evening times in student study."""
+    time_list = [18, 20, 24]
     for time in time_list:
-        assert solution.students_study(time, True) is False
+        assert solution.students_study(time, True) is True
     for time in time_list:
         assert solution.students_study(time, False) is True
+
+
+# def test_student_study_night():
+#     """Test night times in student study."""
+#     time_list = [1, 3, 4]
+#     for time in time_list:
+#         assert solution.students_study(time, True) is False
+#     for time in time_list:
+#         assert solution.students_study(time, False) is True
 
 
 def test_student_study_day():
