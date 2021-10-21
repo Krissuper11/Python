@@ -37,7 +37,7 @@ def lottery(a: int, b: int, c: int) -> int:
         return 1
     elif a == b or a == c:
         return 0
-print(lottery(5,5,5))
+
 
 def fruit_order(small_baskets: int, big_baskets: int, ordered_amount: int) -> int:
     """
