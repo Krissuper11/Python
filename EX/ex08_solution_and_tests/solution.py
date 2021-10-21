@@ -13,7 +13,7 @@ def students_study(time: int, coffee_needed: bool) -> bool:
     elif 5 <= time <= 17:
         return coffee_needed is True
     elif 1 <= time <= 4:
-        return coffee_needed is False
+        return False
     else:
         return False
 
@@ -43,4 +43,3 @@ def fruit_order(small_baskets: int, big_baskets: int, ordered_amount: int) -> in
     (4, 1, 9) -> 4
     (3, 1, 10) -> -1
     """
-    pass
