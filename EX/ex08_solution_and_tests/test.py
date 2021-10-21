@@ -67,9 +67,12 @@ def test_lottery_no_win():
     assert solution.lottery(1, 2, 1) == 0
 
 
-def test_fruit_order_zero():
+def test_fruit_order_zero_amount():
     """Test zero input in fruit order."""
     assert solution.fruit_order(0, 0, 0) == 0
+    assert solution.fruit_order(0, 2, 0) == 0
+    assert solution.fruit_order(2, 0, 0) == 0
+    assert solution.fruit_order(1, 2, 0) == 0
 
 
 def test_fruit_order_exact_amount():
@@ -111,6 +114,7 @@ def test_fruit_order_fail_many_big_boxes_no_small():
     """Test too many big boxes and no small boxes."""
     assert solution.fruit_order(0, 5, 4) == -1
     assert solution.fruit_order(0, 6, 9) == -1
+    assert solution.fruit_order(0, 2, 25) == -1
 
 
 # def test_fruit_order_negative():
