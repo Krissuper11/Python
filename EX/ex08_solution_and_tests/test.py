@@ -1,5 +1,4 @@
 """Test ex08 part 2."""
-import pytest
 import solution
 
 
@@ -66,3 +65,38 @@ def test_lottery_no_win():
     """Test now in condition in lottery."""
     assert solution.lottery(2, 2, 1) == 0
     assert solution.lottery(1, 2, 1) == 0
+
+
+def test_fruit_order_zero():
+    """Test zero input in fruit order."""
+    assert solution.fruit_order(0, 0, 0) == 0
+
+
+def test_fruit_order_exact_amount():
+    """Test ideal amount of boxes for orders."""
+    assert solution.fruit_order(4, 1, 9) == 4
+    assert solution.fruit_order(5, 5, 30) == 5
+
+
+def test_fruit_order_many_big_boxes():
+    """Test too many big boxes."""
+    assert solution.fruit_order(1, 8, 6)
+    assert solution.fruit_order(4, 17, 19)
+
+
+def test_fruit_order_many_small_boxes():
+    """Test too many small boxes."""
+    assert solution.fruit_order(15, 2, 16) == 6
+    assert solution.fruit_order(27, 1, 31) == 26
+
+
+def test_fruit_order_many_boxes():
+    """Test too many small and big boxes."""
+    assert solution.fruit_order(15, 25, 9) == 4
+    assert solution.fruit_order(4, 5, 2) == 2
+
+
+def test_fruit_order_fail():
+    """Test wrong situation with result -1."""
+    assert solution.fruit_order(1, 5, 18) == -1
+    assert solution.fruit_order(1, 1, 7) == -1
