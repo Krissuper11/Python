@@ -79,8 +79,8 @@ def test_fruit_order_exact_amount():
     """Test ideal amount of boxes for orders."""
     assert solution.fruit_order(4, 1, 9) == 4
     assert solution.fruit_order(5, 5, 30) == 5
-    assert solution.fruit_order(1004, 20, 1104) == 1004
-    assert solution.fruit_order(6, 0, 6)
+    assert solution.fruit_order(2004, 1000, 7004) == 2004
+    assert solution.fruit_order(12, 0, 12) == 12
 
 
 def test_fruit_order_many_big_boxes():
@@ -95,7 +95,7 @@ def test_fruit_order_many_small_boxes():
     assert solution.fruit_order(15, 2, 16) == 6
     assert solution.fruit_order(27, 1, 31) == 26
     assert solution.fruit_order(5, 0, 5) == 5
-    assert solution.fruit_order(7, 0, 4)
+    assert solution.fruit_order(7, 0, 6) == 6
 
 
 def test_fruit_order_many_boxes():
@@ -107,9 +107,9 @@ def test_fruit_order_many_boxes():
 def test_fruit_order_fail_not_enough_boxes():
     """Test wrong situation with result -1."""
     assert solution.fruit_order(1, 5, 18) == -1
-    assert solution.fruit_order(1, 1, 7) == -1
     assert solution.fruit_order(0, 1, 6) == -1
     assert solution.fruit_order(10, 0, 11) == -1
+    assert solution.fruit_order(1, 1000, 5003) == -1
 
 
 def test_fruit_order_fail_many_big_boxes_no_small():
@@ -117,12 +117,3 @@ def test_fruit_order_fail_many_big_boxes_no_small():
     assert solution.fruit_order(0, 5, 4) == -1
     assert solution.fruit_order(0, 6, 9) == -1
     assert solution.fruit_order(0, 2, 25) == -1
-    assert solution.fruit_order(1, 25, 10500)
-
-
-# def test_fruit_order_negative():
-#     """Test with negative numbers."""
-#     assert solution.fruit_order(-1, 0, 5) == -1
-#     assert solution.fruit_order(0, 0, -15) == 0
-#     assert solution.fruit_order(1, -15, 1) == 1
-
