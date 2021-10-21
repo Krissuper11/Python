@@ -42,10 +42,3 @@ def test_student_study_zero_input():
     assert res is False
     res = solution.students_study(0, True)
     assert res is False
-
-
-def test_student_study_wrong_input():
-    res = solution.students_study("", True)
-    assert res is False
-    res = solution.students_study(5, "")
-    assert res is False
