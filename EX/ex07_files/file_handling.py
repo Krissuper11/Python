@@ -619,7 +619,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 def sort_list(people_data_list):
     """Sort people data list."""
     for dictionary in people_data_list:
-        max_age = 0
+        max_age = -2
         if "birth" not in dictionary:
             birth_in_dictionary = False
         elif "birth" in dictionary:
