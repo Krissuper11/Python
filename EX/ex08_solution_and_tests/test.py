@@ -12,15 +12,15 @@ import solution
 #         assert solution.students_study(time, False) is True
 #
 #
-# def test_student_study_night():
-#     """Test night times in student study."""
-#     time_list = [1, 3, 4]
-#     for time in time_list:
-#         assert solution.students_study(time, True) is False
-#     for time in time_list:
-#         assert solution.students_study(time, False) is True
-#
-#
+def test_student_study_night():
+    """Test night times in student study."""
+    time_list = [1, 3, 4]
+    for time in time_list:
+        assert solution.students_study(time, True) is False
+    for time in time_list:
+        assert solution.students_study(time, False) is True
+
+
 def test_student_study_day():
     """Test day times in student study."""
     time_list = [5, 13, 17]
