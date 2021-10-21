@@ -619,12 +619,15 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 def sort_list(people_data_list):
     """Sort people data list."""
     for dictionary in people_data_list:
+        max_age = 0
         if "birth" not in dictionary:
             birth_in_dictionary = False
         elif "birth" in dictionary:
             birth_in_dictionary = True
+        if dictionary["age"] > max_age:
+            max_age = dictionary["age"]
     people_data_list_new = sorted(people_data_list, key=lambda x: (
-        x["age"] if x["age"] != -1 else 1000000,
+        x["age"] if x["age"] != -1 else max_age + 1,
         int(x["birth"].strftime("%m")) * -1 if birth_in_dictionary and x["birth"] != "-" else 0,
         int(x["birth"].strftime("%d")) * -1 if birth_in_dictionary and x["birth"] != "-" else 0,
         x["name"] if "name" in x else "",
