@@ -107,9 +107,9 @@ def test_fruit_order_many_boxes():
 def test_fruit_order_fail_not_enough_boxes():
     """Test wrong situation with result -1."""
     assert solution.fruit_order(7, 5, 40) == -1
-    assert solution.fruit_order(4, 5, 9) == -1
+    assert solution.fruit_order(3, 5, 9) == -1
     assert solution.fruit_order(10, 0, 11) == -1
-    assert solution.fruit_order(4, 1000, 4999) == -1
+    assert solution.fruit_order(3, 1000, 4999) == -1
 
 
 def test_fruit_order_fail_many_big_boxes_no_small():
