@@ -21,19 +21,19 @@ import solution
 #         assert solution.students_study(time, False) is True
 #
 #
-# def test_student_study_day():
-#     """Test day times in student study."""
-#     time_list = [5, 13, 17]
-#     for time in time_list:
-#         assert solution.students_study(time, True) is True
-#     for time in time_list:
-#         assert solution.students_study(time, False) is False
-#
-#
-# def test_student_study_zero_input():
-#     """Test time zero in student study."""
-#     assert solution.students_study(0, False) is False
-#     assert solution.students_study(0, True) is False
+def test_student_study_day():
+    """Test day times in student study."""
+    time_list = [5, 13, 17]
+    for time in time_list:
+        assert solution.students_study(time, True) is True
+    for time in time_list:
+        assert solution.students_study(time, False) is False
+
+
+def test_student_study_zero_input():
+    """Test time zero in student study."""
+    assert solution.students_study(0, False) is False
+    assert solution.students_study(0, True) is False
 
 
 def test_lottery_big_win():

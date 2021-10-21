@@ -8,15 +8,12 @@ def students_study(time: int, coffee_needed: bool) -> bool:
     (19, False) -> True
     (1, True) -> False.
     """
-    if isinstance(time, int):
-        if 18 <= time <= 24:
-            return True
-        elif 5 <= time <= 17:
-            return coffee_needed is True
-        elif 1 <= time <= 4:
-            return coffee_needed is False
-        else:
-            return False
+    if 18 <= time <= 24:
+        return True
+    elif 5 <= time <= 17:
+        return coffee_needed is True
+    elif 1 <= time <= 4:
+        return coffee_needed is False
     else:
         return False
 
