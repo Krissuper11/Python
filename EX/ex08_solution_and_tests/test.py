@@ -17,6 +17,8 @@ def test_student_study_night():
     time_list = [1, 3, 4]
     for time in time_list:
         assert solution.students_study(time, True) is False
+    for time in time_list:
+        assert solution.students_study(time, False) is False
 
 
 def test_student_study_day():
