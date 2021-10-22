@@ -6,11 +6,11 @@ class Factory:
 
     def __init__(self):
         """init."""
-        self.large_cakes = self
-        self.medium_cakes = self
-        self.small_cake = self
-        self.number_of_cakes = self
-        self.cake_list = self
+        self.large_cakes = 0
+        self.medium_cakes = 0
+        self.small_cake = 0
+        self.number_of_cakes = 0
+        self.cake_list = []
         self.number_of_cakes_total = 0
 
     def bake_cake(self, toppings: int, base: int) -> int:
@@ -46,7 +46,6 @@ class Factory:
 
     def get_cakes_baked(self) -> list:
         """Get list with baked cakes."""
-        self.cake_list = []
         for i in range(self.large_cakes):
             new_cake = Cake(5, 5)
             self.cake_list.append(new_cake)
