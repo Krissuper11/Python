@@ -3,6 +3,7 @@
 
 class Factory:
     """Factory."""
+
     def __init__(self):
         """init."""
         self.large_cakes = self
@@ -102,4 +103,5 @@ class Cake:
 
 class WrongIngredientsAmountException(Exception):
     """Exception."""
+
     pass
