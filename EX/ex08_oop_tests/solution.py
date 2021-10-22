@@ -1,4 +1,8 @@
+"""Ex08 (3)."""
+
+
 class Factory:
+    """Factory."""
     def __init__(self):
         """init."""
         self.large_cakes = self
@@ -62,6 +66,7 @@ class Factory:
 
 
 class Cake:
+    """Cake."""
 
     def __init__(self, base_amount, toppings_amount):
         """init, check for error."""
@@ -96,4 +101,5 @@ class Cake:
 
 
 class WrongIngredientsAmountException(Exception):
+    """Exception."""
     pass
