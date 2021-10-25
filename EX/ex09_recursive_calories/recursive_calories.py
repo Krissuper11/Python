@@ -1,4 +1,4 @@
-"""Let's count calories!"""
+"""Let's count calories."""
 
 
 def recursive_reverse(s: str) -> str:
@@ -89,7 +89,7 @@ def x_sum_recursion(nums, x) -> int:
             return 0
         other_num = nums[:x]
     return add_num + x_sum_recursion(other_num, x)
-print(x_sum_recursion([5], 0))
+
 
 def lets_count_calories(salad: float, chocolate_pieces: int, fridge_visits: int) -> int:
     """
