@@ -114,11 +114,27 @@ def lets_count_calories(salad: float, chocolate_pieces: int, fridge_visits: int)
     print(lets_count_calories(1.2, 5, 10))  # 1200 + 5*34 = 1370
     print(lets_count_calories(0.3, 8, 6))  # 360 + 3*34 + 2*34 + 2*34 + 34 = 632
 
+    :param fridge_visits: how many times visit the fridge.
     :param salad: salad in the fridge, given in kilograms (1.2kg == 1200g).
     :param chocolate_pieces: pieces of chocolate in the fridge.
     :return: calories eaten while visiting fridge.
     """
-    pass
+    if fridge_visits == 0:
+        return 0
+    if salad < 0.1 and chocolate_pieces < 1:
+        return 0
+    if salad > 0 and chocolate_pieces > 0:
+        calories = 154
+        return calories + lets_count_calories(float(salad) - 0.1, chocolate_pieces - 1, fridge_visits - 1)
+    elif salad < 0.1 and chocolate_pieces >= 2:
+        calories = 34 * 2
+        return calories + lets_count_calories(salad, chocolate_pieces - 1, fridge_visits - 1)
+    elif salad < 0.1 and chocolate_pieces == 1:
+        calories = 34
+        return calories + lets_count_calories(salad, chocolate_pieces - 1, fridge_visits - 1)
+    elif salad > 0 and chocolate_pieces == 0:
+        calories = 120
+        return calories + lets_count_calories(salad - 0.1, chocolate_pieces, fridge_visits - 1)
 
 
 def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str:
