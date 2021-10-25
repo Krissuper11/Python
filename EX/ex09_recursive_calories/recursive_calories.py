@@ -72,7 +72,7 @@ def x_sum_recursion(nums, x) -> int:
     :param x: number indicating every which num to add to sum
     :return: sum of every x'th number in the list
     """
-    if len(nums) == 0:
+    if len(nums) == 0 or x == 0:
         return 0
     if x >= 0:
         try:
@@ -87,7 +87,7 @@ def x_sum_recursion(nums, x) -> int:
             return 0
         other_num = nums[:x]
     return add_num + x_sum_recursion(other_num, x)
-
+print(x_sum_recursion([5], 0))
 
 def lets_count_calories(salad: float, chocolate_pieces: int, fridge_visits: int) -> int:
     """
