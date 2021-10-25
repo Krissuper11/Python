@@ -132,7 +132,7 @@ def lets_count_calories(salad: float, chocolate_pieces: int, fridge_visits: int)
     elif salad < 0.1 and chocolate_pieces == 1:
         calories = 34
         return calories + lets_count_calories(salad, chocolate_pieces - 1, fridge_visits - 1)
-    elif salad > 0 and chocolate_pieces == 0:
+    elif salad > 0.09 and chocolate_pieces == 0:
         calories = 120
         return calories + lets_count_calories(salad - 0.1, chocolate_pieces, fridge_visits - 1)
 
