@@ -40,6 +40,8 @@ def x_sum_loop(nums, x) -> int:
     :return: sum of every x'th number in the list
     """
     sum_of_elements = 0
+    if x == 0:
+        return 0
     if x >= 0:
         for i in range(x, len(nums) + 1, x):
             sum_of_elements += nums[i - 1]
