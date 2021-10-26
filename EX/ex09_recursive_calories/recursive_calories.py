@@ -196,32 +196,24 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
     :param result: figure out how to use it
     :return: dict of given symbols and their count
     """
-    if pos is None:
+    if pos is None and result is None:
         pos = 0
-    if result is None:
         result = {}
     if len(data) == 0:
         return result
     if isinstance(data[pos], list):
         if len(data[pos]) != 0:
-            pos = 0
-            data1 = data[pos]
-            result.update(count_strings(data1, pos, result))
+            data.extend(data[0])
             del data[0]
+            return count_strings(data, pos, result)
         else:
             del data[0]
             return count_strings(data, pos, result)
-    if len(data) == 0:
-        return result
     element = data[0]
-    try:
-        if element not in result and element:
-            result[element] = 1
-        elif element in result:
-            result[element] += 1
-        del data[0]
-        pos = 0
-        return count_strings(data, pos, result)
-    except TypeError:
-        pos = 0
-        return count_strings(data, pos, result)
+    if element not in result and element:
+        result[element] = 1
+    elif element in result:
+        result[element] += 1
+    del data[0]
+    pos = 0
+    return count_strings(data, pos, result)
