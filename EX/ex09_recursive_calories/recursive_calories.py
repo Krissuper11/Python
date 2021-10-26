@@ -196,13 +196,12 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
     :param result: figure out how to use it
     :return: dict of given symbols and their count
     """
-    if pos is None and result is None:
-        pos = 0
+    if result is None:
         result = {}
     if len(data) == 0:
         return result
-    if isinstance(data[pos], list):
-        if len(data[pos]) != 0:
+    if isinstance(data[0], list):
+        if len(data[0]) != 0:
             data.extend(data[0])
             del data[0]
             return count_strings(data, pos, result)
