@@ -163,7 +163,18 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
     :param index: index to know which cyclist's turn it is to be first
     :return: string indicating the last cyclist to carry the others
     """
-    pass
+    if distance < 0 or len(cyclists) == 0:
+        return "Everyone fails."
+    if distance < cyclists[0][1]:
+        time += cyclists[0][2]
+        hours = time // 60
+        minutes = time - 60 * hours
+        return f"{cyclists[0][0]} is the last leader. Total time: {hours}h {minutes}min."
+    km_left = distance - cyclists[0][1]
+    time += cyclists[0][2]
+    first = cyclists.pop(0)
+    cyclists.append(first)
+    return cycle(cyclists, km_left, time, index + 1)
 
 
 def count_strings(data: list, pos=None, result: dict = None) -> dict:
