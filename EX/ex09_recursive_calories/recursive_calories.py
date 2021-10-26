@@ -202,23 +202,26 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
         result = {}
     if len(data) == 0:
         return result
-    else:
-        try:
-            if isinstance(data[pos], list):
-                pos = 0
-                data1 = data[pos]
-                return count_strings(data1, pos, result)
-        except IndexError:
+    if isinstance(data[pos], list):
+        if len(data[pos]) != 0:
+            pos = 0
+            data1 = data[pos]
+            result.update(count_strings(data1, pos, result))
+            del data[0]
+        else:
             del data[0]
             return count_strings(data, pos, result)
-        element = data[0][pos]
-        if element not in result:
+    if len(data) == 0:
+        return result
+    element = data[0]
+    try:
+        if element not in result and element:
             result[element] = 1
         elif element in result:
             result[element] += 1
-        if len(data[0]) - 1 == pos and len(data) != 0:
-            del data[0]
-            pos = 0
-            return count_strings(data, pos, result)
-        elif len(data) != 0:
-            return count_strings(data, pos + 1, result)
+        del data[0]
+        pos = 0
+        return count_strings(data, pos, result)
+    except TypeError:
+        pos = 0
+        return count_strings(data, pos, result)
