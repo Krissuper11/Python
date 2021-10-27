@@ -201,7 +201,9 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
     if len(data) == 0:
         return result
     if isinstance(data[0], list):
-        data.extend(data[0])
+        for element in data[0]:
+            if isinstance(element, str):
+                data.append(element)
         del data[0]
         return count_strings(data, pos, result)
     else:
