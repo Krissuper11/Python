@@ -202,16 +202,7 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
         return result
     if isinstance(data[0], list):
         if len(data[0]) != 0:
-            list_with_list = [data[0]]
-            try:
-                while isinstance(list_with_list[0], list):
-                    list_with_list.extend(list_with_list[0])
-                    del list_with_list[0]
-            except IndexError:
-                pass
-            del data[0]
-            for element in list_with_list:
-                data.append(element)
+            if_list_in_list(data)
             return count_strings(data, pos, result)
         else:
             del data[0]
@@ -224,3 +215,18 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
             result[element] += 1
         del data[0]
         return count_strings(data, pos, result)
+
+
+def if_list_in_list(data: list) -> list:
+    """Take list out of list."""
+    list_with_list = [data[0]]
+    try:
+        while isinstance(list_with_list[0], list):
+            list_with_list.extend(list_with_list[0])
+            del list_with_list[0]
+    except IndexError:
+        pass
+    del data[0]
+    for element in list_with_list:
+        data.append(element)
+    return data
