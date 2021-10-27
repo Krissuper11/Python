@@ -208,9 +208,9 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
         else:
             del data[0]
             return count_strings(data, pos, result)
-    else:
+    elif isinstance(data[0], str):
         element = data[0]
-        if element not in result and element:
+        if element not in result:
             result[element] = 1
         elif element in result:
             result[element] += 1
