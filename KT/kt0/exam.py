@@ -70,7 +70,7 @@ def nr_into_num_list(nr: int, num_list: list) -> list:
         num_list.append(nr)
     else:
         for i in range(1, len(num_list)):
-            if num_list[i - 1] < nr < num_list[i] or nr == num_list[i] and nr != num_list[i - 1]:
+            if num_list[i - 1] < nr < num_list[i] or nr == num_list[i - 1] and nr != num_list[i]:
                 num_list.insert(i, nr)
     return num_list
 
