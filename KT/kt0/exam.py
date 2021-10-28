@@ -62,7 +62,17 @@ def nr_into_num_list(nr: int, num_list: list) -> list:
     nr_into_num_list(0, [1,2,3,4,5]) -> [0,1,2,3,4,5,]
 
     """
-    pass
+    if len(num_list) == 0:
+        return [nr]
+    elif nr < num_list[0]:
+        num_list.insert(0, nr)
+    elif nr > num_list[len(num_list) - 1]:
+        num_list.append(nr)
+    else:
+        for i in range(1, len(num_list)):
+            if num_list[i - 1] < nr < num_list[i] or nr == num_list[i] and nr != num_list[i - 1]:
+                num_list.insert(i, nr)
+    return num_list
 
 
 def symbol_average_position_in_words(words):
@@ -106,4 +116,17 @@ def symbol_average_position_in_words(words):
     :param words: list of words
     :return: dictionary with symbol average positions
     """
-    pass
+    result_dict = {}
+    for element in words:
+        for i, letter in enumerate(element):
+            if letter not in result_dict:
+                result_dict[letter] = [i]
+            else:
+                result_dict[letter].append(i)
+    for key, value in result_dict.items():
+        pos_sum = 0
+        for pos in value:
+            pos_sum += pos
+        pos_average = round(pos_sum / len(value), 2)
+        result_dict[key] = pos_average
+    return result_dict
