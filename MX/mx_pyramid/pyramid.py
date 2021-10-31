@@ -26,7 +26,7 @@ def make_pyramid(base: int, char: str) -> list:
         counter = base // 2
     else:
         counter = base // 2 + 1
-    return [build_line(i, base, char) for i in range(counter)]
+    return [build_line(i, base, char) for i in range(counter - 1, -1, -1)]
 
 
 def build_line(line_num: int, base: int, char: str) -> list:
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     ]
     """
 
-    pyramid_b = make_pyramid(9, 'a')
+    pyramid_b = make_pyramid(6, 'a')
     print(pyramid_b)  # ->
     """
     [
