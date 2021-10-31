@@ -33,13 +33,14 @@ class Client:
     def __repr__(self):
         """
         Client representation.
+
         :return: clients name
         """
         return self.name
 
     def earnings_per_day(self):
         """
-        Clients earnings per day since the start.
+        Client earnings per day since the start.
 
         You can either calculate the value or
         save it into a new attribute and return the value.
@@ -59,9 +60,12 @@ def read_from_file_into_list(filename: str) -> list:
     with open(filename) as file:
         data = file.read()
     data_list = data.split("\n")
-    for element in data_list:
-        info_list = element.split(",")
-        person_list.append(Client(info_list[0], info_list[1], int(info_list[2]), int(info_list[3]), int(info_list[4])))
+    try:
+        for element in data_list:
+            info_list = element.split(",")
+            person_list.append(Client(info_list[0], info_list[1], int(info_list[2]), int(info_list[3]), int(info_list[4])))
+    except IndexError:
+        return []
     return person_list
 
 
@@ -92,10 +96,13 @@ def largest_earnings_per_day(filename: str) -> Optional[Client]:
     """
     person_list = read_from_file_into_list(filename)
     person_list_sorted = sorted(person_list, key=lambda x: (x.earnings_per_day() * -1, x.account_age))
-    if person_list_sorted[0].current_amount <= person_list_sorted[0].starting_amount:
+    try:
+        if person_list_sorted[0].current_amount <= person_list_sorted[0].starting_amount:
+            return None
+        else:
+            return person_list_sorted[0]
+    except IndexError:
         return None
-    else:
-        return person_list_sorted[0]
 
 
 def largest_loss_per_day(filename: str) -> Optional[Client]:
@@ -109,10 +116,13 @@ def largest_loss_per_day(filename: str) -> Optional[Client]:
     """
     person_list = read_from_file_into_list(filename)
     person_list_sorted = sorted(person_list, key=lambda x: (x.earnings_per_day(), x.account_age))
-    if person_list_sorted[0].current_amount >= person_list_sorted[0].starting_amount:
+    try:
+        if person_list_sorted[0].current_amount >= person_list_sorted[0].starting_amount:
+            return None
+        else:
+            return person_list_sorted[0]
+    except IndexError:
         return None
-    else:
-        return person_list_sorted[0]
 
 
 if __name__ == '__main__':
