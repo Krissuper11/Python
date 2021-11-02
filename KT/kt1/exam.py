@@ -112,4 +112,18 @@ def parse_call_log(call_log: str) -> dict:
     :param call_log: the whole log as string
     :return: dictionary with call information
     """
-    pass
+    call_log_dict = {}
+    call_log_list = call_log.split(",")
+    for chain in call_log_list:
+        name_list = chain.split(":")
+        for i in range(1, len(name_list)):
+            call_name = name_list[i - 1]
+            answer_name = name_list[i]
+            if call_name not in call_log_dict:
+                call_log_dict[call_name] = [answer_name]
+            else:
+                if answer_name in call_log_dict[call_name]:
+                    pass
+                elif answer_name not in call_log_dict[call_name]:
+                    call_log_dict[call_name].append(answer_name)
+    return call_log_dict
