@@ -55,7 +55,28 @@ def list_move(initial_list: list, amount: int, factor: int) -> list:
     list_move([1, 2, 3], 4, 1) => [[1, 2, 3], [3, 1, 2], [2, 3, 1], [1, 2, 3]]
     list_move([], 3, 4) => [[], [], [], []]
     """
-    pass
+    final_list = []
+    if len(initial_list) == 0:
+        for i in range(amount):
+            final_list.append([])
+        return final_list
+    for i in range(amount):
+        factor %= len(initial_list)
+        factor1 = factor * -1
+        shift_list = []
+        if i == 0:
+            for element in initial_list:
+                shift_list.append(element)
+        else:
+            for u in range(len(final_list[i - 1])):
+                try:
+                    shift_list.append(final_list[i - 1][factor1])
+                except IndexError:
+                    factor -= len(initial_list)
+                    shift_list.append(final_list[i - 1][factor1])
+                factor1 += 1
+        final_list.append(shift_list)
+    return final_list
 
 
 def parse_call_log(call_log: str) -> dict:
