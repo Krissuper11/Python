@@ -26,14 +26,15 @@ def function_e(e):
     return e * 23
 
 
-def function_f(c):
+def function_f(f):
     pass
 
 
-def function_g(c):
+def function_g(g):
     """Return negative num."""
-    return c * -1
+    return g * -1
 
 
-def function_h(c):
+def function_h(h):
     pass
+print(function_f(17577))
