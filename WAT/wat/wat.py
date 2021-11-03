@@ -1,2 +1,2 @@
-def function_a():
+def function_a(a):
     pass
