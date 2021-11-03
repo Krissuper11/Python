@@ -53,7 +53,25 @@ def join_pyramids(pyramid_a: list, pyramid_b: list) -> list:
     :param pyramid_b: list
     :return: list
     """
-    pass
+    counter = 0
+    base_a = len(pyramid_a[len(pyramid_a) - 1])
+    base_b = len(pyramid_b[len(pyramid_b) - 1])
+    if base_a > base_b:
+        for i in range(len(pyramid_a)):
+            if len(pyramid_a) - len(pyramid_b) > i:
+                pyramid_a[i] += [' ' for i in range(base_a)]
+            else:
+                pyramid_a[i] += pyramid_b[counter]
+                counter += 1
+        return pyramid_a
+    else:
+        for i in range(len(pyramid_b)):
+            if len(pyramid_b) - len(pyramid_a) > i:
+                pyramid_b[i] = [' ' for i in range(base_b)] + pyramid_b[i]
+            else:
+                pyramid_b[i] = pyramid_a[counter] + pyramid_b[i]
+                counter += 1
+        return pyramid_b
 
 
 def to_string(pyramid: list) -> str:
@@ -83,7 +101,7 @@ if __name__ == '__main__':
     ]
     """
 
-    pyramid_b = make_pyramid(6, 'a')
+    pyramid_b = make_pyramid(1, 'a')
     print(pyramid_b)  # ->
     """
     [
