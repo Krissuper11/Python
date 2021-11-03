@@ -12,11 +12,12 @@ def function_b(b):
 
 
 def function_c(c):
-    """Return c * c**2."""
-    return c * (c ** 2)
+    """Return c**3."""
+    return c ** 3
 
 
 def function_d(c):
+    """?."""
     pass
 
 
