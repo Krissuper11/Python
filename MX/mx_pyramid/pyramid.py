@@ -88,11 +88,16 @@ def to_string(pyramid: list) -> str:
     :param pyramid: list
     :return: str
     """
-    pass
+    result = ""
+    for line in pyramid:
+        for element in line:
+            result += element
+        result += "\n"
+    return result
 
 
 if __name__ == '__main__':
-    pyramid_a = make_pyramid(4, "A")
+    pyramid_a = make_pyramid(5, "A")
     print(pyramid_a)  # ->
     """
     [
@@ -101,7 +106,7 @@ if __name__ == '__main__':
     ]
     """
 
-    pyramid_b = make_pyramid(2, 'a')
+    pyramid_b = make_pyramid(8, 'a')
     print(pyramid_b)  # ->
     """
     [
