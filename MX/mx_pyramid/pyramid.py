@@ -128,9 +128,4 @@ if __name__ == '__main__':
     """
 
     pyramid_string = to_string(joined)
-    print(pyramid_string)  # ->
-    """
-         aa  
-     A  aaaa 
-    AAAaaaaaa
-    """
+    print(pyramid_string)
