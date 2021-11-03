@@ -21,8 +21,9 @@ def function_d(c):
     pass
 
 
-def function_e(c):
-    pass
+def function_e(e):
+    """Return e * 23."""
+    return e * 23
 
 
 def function_f(c):
