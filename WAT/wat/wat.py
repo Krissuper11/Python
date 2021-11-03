@@ -16,9 +16,9 @@ def function_c(c):
     return c ** 3
 
 
-def function_d(c):
-    """?."""
-    pass
+def function_d(d):
+    """Return d * d * 29."""
+    return d * d * 29
 
 
 def function_e(e):
