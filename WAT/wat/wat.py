@@ -1,5 +1,5 @@
 def function_a(a):
-    pass
+    return 5
 
 
 def function_b(b):
