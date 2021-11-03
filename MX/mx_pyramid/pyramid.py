@@ -89,10 +89,11 @@ def to_string(pyramid: list) -> str:
     :return: str
     """
     result = ""
-    for line in pyramid:
-        for element in line:
+    for i in range(len(pyramid)):
+        for element in pyramid[i]:
             result += element
-        result += "\n"
+        if i != len(pyramid) - 1:
+            result += "\n"
     return result
 
 
