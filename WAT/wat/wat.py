@@ -12,7 +12,8 @@ def function_b(b):
 
 
 def function_c(c):
-    pass
+    """Return c * c**2."""
+    return c * (c ** 2)
 
 
 def function_d(c):
@@ -28,7 +29,8 @@ def function_f(c):
 
 
 def function_g(c):
-    pass
+    """Return negative num."""
+    return c * -1
 
 
 def function_h(c):
