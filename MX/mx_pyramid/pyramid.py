@@ -67,7 +67,7 @@ def join_pyramids(pyramid_a: list, pyramid_b: list) -> list:
     else:
         for i in range(len(pyramid_b)):
             if len(pyramid_b) - len(pyramid_a) > i:
-                pyramid_b[i] = [' ' for i in range(base_b)] + pyramid_b[i]
+                pyramid_b[i] = [' ' for i in range(base_a)] + pyramid_b[i]
             else:
                 pyramid_b[i] = pyramid_a[counter] + pyramid_b[i]
                 counter += 1
