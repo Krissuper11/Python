@@ -59,7 +59,7 @@ def join_pyramids(pyramid_a: list, pyramid_b: list) -> list:
     if base_a > base_b:
         for i in range(len(pyramid_a)):
             if len(pyramid_a) - len(pyramid_b) > i:
-                pyramid_a[i] += [' ' for i in range(base_a)]
+                pyramid_a[i] += [' ' for i in range(base_b)]
             else:
                 pyramid_a[i] += pyramid_b[counter]
                 counter += 1
@@ -92,7 +92,7 @@ def to_string(pyramid: list) -> str:
 
 
 if __name__ == '__main__':
-    pyramid_a = make_pyramid(3, "A")
+    pyramid_a = make_pyramid(4, "A")
     print(pyramid_a)  # ->
     """
     [
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     ]
     """
 
-    pyramid_b = make_pyramid(1, 'a')
+    pyramid_b = make_pyramid(2, 'a')
     print(pyramid_b)  # ->
     """
     [
