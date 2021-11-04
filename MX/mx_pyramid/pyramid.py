@@ -49,29 +49,27 @@ def join_pyramids(pyramid_a: list, pyramid_b: list) -> list:
         ['A', 'A', 'A', 'a', 'a', 'a', 'a', 'a', 'a']
     ]
 
-    :param pyramid_a: list
-    :param pyramid_b: list
-    :return: list
+    :param pyramid_a: pyramid
+    :param pyramid_b: pyramid
+    :return: pyramid
     """
     counter = 0
     base_a = len(pyramid_a[len(pyramid_a) - 1])
     base_b = len(pyramid_b[len(pyramid_b) - 1])
     if base_a > base_b:
-        for i in range(len(pyramid_a)):
-            if len(pyramid_a) - len(pyramid_b) > i:
-                pyramid_a[i] += [' ' for i in range(base_b)]
-            else:
-                pyramid_a[i] += pyramid_b[counter]
-                counter += 1
-        return pyramid_a
+        counter = len(pyramid_a) - len(pyramid_b)
+        pyramid = [[element for element in pyramid_a[i]] + [' ' for u in range(base_b)] for i in range(counter)]
+        counter = len(pyramid_a) - counter
+        pyramid += [[element for element in pyramid_a[-len(pyramid_b) + i]] + [element1 for element1 in pyramid_b[i]] for i in range(counter)]
+        return pyramid
     else:
-        for i in range(len(pyramid_b)):
-            if len(pyramid_b) - len(pyramid_a) > i:
-                pyramid_b[i] = [' ' for i in range(base_a)] + pyramid_b[i]
-            else:
-                pyramid_b[i] = pyramid_a[counter] + pyramid_b[i]
-                counter += 1
-        return pyramid_b
+        counter = len(pyramid_b) - len(pyramid_a)
+        pyramid = [[' ' for u in range(base_a)] + [element for element in pyramid_b[i]] for i in range(counter)]
+        counter = len(pyramid_b) - counter
+        pyramid += [[element1 for element1 in pyramid_a[i]] + [element for element in pyramid_b[-len(pyramid_a) + i]]
+                    for i in range(counter)]
+        return pyramid
+
 
 
 def to_string(pyramid: list) -> str:
@@ -98,34 +96,7 @@ def to_string(pyramid: list) -> str:
 
 
 if __name__ == '__main__':
-    pyramid_a = make_pyramid(5, "A")
-    print(pyramid_a)  # ->
-    """
-    [
-        [' ', 'A', ' '],
-        ['A', 'A', 'A']
-    ]
-    """
+    pyramid_a = make_pyramid(15, "A")
+    pyramid_b = make_pyramid(10, "B")
+    print(join_pyramids(pyramid_a, pyramid_b))
 
-    pyramid_b = make_pyramid(8, 'a')
-    print(pyramid_b)  # ->
-    """
-    [
-        [' ', ' ', 'a', 'a', ' ', ' '],
-        [' ', 'a', 'a', 'a', 'a', ' '],
-        ['a', 'a', 'a', 'a', 'a', 'a']
-    ]
-    """
-
-    joined = join_pyramids(pyramid_a, pyramid_b)
-    print(joined)  # ->
-    """
-    [
-        [' ', ' ', ' ', ' ', ' ', 'a', 'a', ' ', ' '],
-        [' ', 'A', ' ', ' ', 'a', 'a', 'a', 'a', ' '],
-        ['A', 'A', 'A', 'a', 'a', 'a', 'a', 'a', 'a']
-    ]
-    """
-
-    pyramid_string = to_string(joined)
-    print(pyramid_string)
