@@ -2,7 +2,7 @@
 
 
 def function_a(a):
-    """Return a"""
+    """Return a."""
     return 5
 
 
@@ -37,4 +37,3 @@ def function_g(g):
 
 def function_h(h):
     pass
-print(function_f(17577))
