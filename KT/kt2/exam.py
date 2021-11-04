@@ -14,7 +14,7 @@ def switch_lasts_and_firsts(s: str) -> str:
     :param s:
     :return: modified string
     """
-    if len(s) > 4:
+    if len(s) >= 4:
         last = s[-2:]
         first = s[:2]
         middle = s[2:-2]
@@ -72,7 +72,7 @@ def min_diff(nums):
     smallest_diff = -1
     for i, num in enumerate(nums):
         for u, other_num in enumerate(nums):
-            if num - other_num > 0 and smallest_diff == -1 and i != u:
+            if num - other_num >= 0 and smallest_diff == -1 and i != u:
                 smallest_diff = num - other_num
             elif 0 <= num - other_num < smallest_diff and i != u:
                 smallest_diff = num - other_num
