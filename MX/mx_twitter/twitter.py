@@ -48,7 +48,7 @@ def sort_by_popularity(tweets: list) -> list:
     :param tweets: Input list of tweets.
     :return: List of tweets by popularity
     """
-    return sorted(tweets, key=lambda x: x.retweets * -1)
+    return sorted(tweets, key=lambda x: (x.retweets * -1, x.time))
 
 
 def filter_by_hashtag(tweets: list, hashtag: str) -> list:
@@ -86,8 +86,8 @@ def sort_hashtags_by_popularity(tweets: list) -> list:
             hashtag_dict[hashtag] = tweet.retweets
         else:
             hashtag_dict[hashtag] += tweet.retweets
-    dict1 = dict(sorted(hashtag_dict.items(), key=lambda x: x[1] * -1))
-    return [key for key in dict1.keys()]
+    hashtag_dict = dict(sorted(hashtag_dict.items(), key=lambda x: (x[1] * -1, x[0][0])))
+    return [key for key in hashtag_dict.keys()]
 
 
 if __name__ == '__main__':
