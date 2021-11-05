@@ -89,18 +89,5 @@ def sort_hashtags_by_popularity(tweets: list) -> list:
             hashtag_dict[hashtag] = tweet.retweets
         else:
             hashtag_dict[hashtag] += tweet.retweets
-    hashtag_dict = dict(sorted(hashtag_dict.items(), key=lambda x: (x[1] * -1, x[0][0])))
+    hashtag_dict = dict(sorted(hashtag_dict.items(), key=lambda x: (x[1] * -1, x[0][1])))
     return [key for key in hashtag_dict.keys()]
-
-
-if __name__ == '__main__':
-    tweet1 = Tweet("@realDonaldTrump", "Despite the negative press covfefe ", 1249, 54303)
-    tweet2 = Tweet("@elonmusk", "Technically, alcohol is a solution ", 366.4, 166500)
-    tweet3 = Tweet("@CIA", "We can neither confirm nor deny that this is our first tweet. #heart", 2192, 284200)
-    tweets = [tweet1, tweet2, tweet3]
-
-
-
-
-    sorted_hashtags = sort_hashtags_by_popularity(tweets)
-    print(sorted_hashtags[0])  # -> "#heart"
