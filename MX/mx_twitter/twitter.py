@@ -80,6 +80,8 @@ def sort_hashtags_by_popularity(tweets: list) -> list:
     """
     import re
     hashtag_dict = {}
+    if len(tweets) == 0:
+        return []
     for tweet in tweets:
         hashtag = re.search(r"#\w+", tweet.content).group()
         if hashtag not in hashtag_dict:
