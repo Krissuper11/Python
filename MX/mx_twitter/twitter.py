@@ -82,7 +82,7 @@ def sort_hashtags_by_popularity(tweets: list) -> list:
     hashtag_dict = {}
     for tweet in tweets:
         try:
-            hashtag = re.search(r"#\w+", tweet.content).group()
+            hashtag = re.search(r"#\S+", tweet.content).group()
         except AttributeError:
             continue
         if hashtag not in hashtag_dict:
