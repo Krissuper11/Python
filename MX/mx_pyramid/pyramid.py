@@ -71,7 +71,6 @@ def join_pyramids(pyramid_a: list, pyramid_b: list) -> list:
         return pyramid
 
 
-
 def to_string(pyramid: list) -> str:
     """
     Return pyramid list as a single string.
@@ -93,10 +92,3 @@ def to_string(pyramid: list) -> str:
         if i != len(pyramid) - 1:
             result += "\n"
     return result
-
-
-if __name__ == '__main__':
-    pyramid_a = make_pyramid(15, "A")
-    pyramid_b = make_pyramid(10, "B")
-    print(join_pyramids(pyramid_a, pyramid_b))
-
