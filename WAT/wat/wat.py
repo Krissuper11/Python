@@ -27,8 +27,8 @@ def function_e(e):
 
 
 def function_f(f):
-    """?."""
-    pass
+    """Return f // 150 * 69"""
+    return f // 150 * 69
 
 
 def function_g(g):
