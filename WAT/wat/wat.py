@@ -27,7 +27,7 @@ def function_e(e):
 
 
 def function_f(f):
-    """Return f // 150 * 69"""
+    """Return f // 150 * 69."""
     return f // 150 * 69
 
 
