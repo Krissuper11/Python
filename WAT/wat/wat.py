@@ -27,6 +27,7 @@ def function_e(e):
 
 
 def function_f(f):
+    """?."""
     pass
 
 
@@ -36,4 +37,5 @@ def function_g(g):
 
 
 def function_h(h):
+    """?."""
     pass
