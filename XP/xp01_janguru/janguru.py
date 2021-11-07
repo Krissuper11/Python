@@ -16,15 +16,15 @@ def meet_me(pos1, jump_distance1, sleep1, pos2, jump_distance2, sleep2) -> int:
     """
     time_move = math.gcd(sleep1, sleep2)
     same_sleep_time = math.lcm(sleep1, sleep2)
-    time = 1
-    while time <= same_sleep_time:
-        if time == sleep1:
+    time = 0
+    while time < same_sleep_time:
+        time += time_move
+        if time % sleep1 == 0:
             pos1 += jump_distance1
-        if time == sleep2:
+        if time % sleep2 == 0:
             pos2 += jump_distance2
         if pos1 == pos2:
             return pos1
-        time += time_move
     try:
         return meet_me(pos1, jump_distance1, sleep1, pos2, jump_distance2, sleep2)
     except RecursionError:
