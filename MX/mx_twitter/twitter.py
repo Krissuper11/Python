@@ -82,11 +82,30 @@ def sort_hashtags_by_popularity(tweets: list) -> list:
     hashtag_dict = {}
     for tweet in tweets:
         try:
-            hashtag = re.search(r"#\S+", tweet.content).group()
+            hashtag_list = re.findall(r"#\w+", tweet.content)
         except AttributeError:
             continue
-        if hashtag not in hashtag_dict:
-            hashtag_dict[hashtag] = tweet.retweets
-        else:
-            hashtag_dict[hashtag] += tweet.retweets
+        for hashtag in hashtag_list:
+            if hashtag not in hashtag_dict:
+                hashtag_dict[hashtag] = tweet.retweets
+            else:
+                hashtag_dict[hashtag] += tweet.retweets
     return sorted(hashtag_dict, key=lambda x: (hashtag_dict[x] * -1, x))
+
+
+if __name__ == '__main__':
+    tweet1 = Tweet("@realDonaldTrump", "Despite the negative press covfefe #zeart", 1249, 284200)
+    tweet2 = Tweet("@elonmusk", "Technically, alcohol is a solution #bigsmart", 366.4, 166500)
+    tweet3 = Tweet("@CIA", "We can neither confirm nor deny that this is our first tweet. #Aeart", 2192, 284200)
+    tweet4 = Tweet("@CIA", "We can neither confirm nor deny that this is our first tweet. #keart", 2192, 1)
+    tweets = [tweet1, tweet2, tweet3, tweet4]
+
+    print(find_fastest_growing(tweets).user)  # -> "@elonmusk"
+
+    filtered_by_popularity = sort_by_popularity(tweets)
+    print(filtered_by_popularity[0].user)  # -> "@CIA"
+    print(filtered_by_popularity[1].user)  # -> "@elonmusk"
+    print(filtered_by_popularity[2].user)  # -> "@realDonaldTrump"
+
+    sorted_hashtags = sort_hashtags_by_popularity(tweets)
+    print(sorted_hashtags)  # -> "#heart"
