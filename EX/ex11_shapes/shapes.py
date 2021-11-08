@@ -94,17 +94,17 @@ class Square(Shape):
 class Rectangle(Shape):
     """Rectangle is a subclass of Shape."""
 
-    def __init__(self, color: str, side1: float, side2: float):
+    def __init__(self, color: str, length: float, width: float):
         """
         Constructor of the rectangle.
 
         The color is stored using superclass constructor:
         super().__init__(color)
 
-        The side value is stored here.
+        The length, width value is stored here.
         """
-        self.side1 = side1
-        self.side2 = side2
+        self.length = length
+        self.width = width
         super().__init__(color)
 
     def __repr__(self) -> str:
@@ -114,15 +114,15 @@ class Rectangle(Shape):
         For this exercise, this should return a string:
         Square (a: {side}, color: {color})
         """
-        return f"Square (a: {self.side1}, b: {self.side2}, color: {self.color})"
+        return f"Square (l: {self.length}, w: {self.width}, color: {self.color})"
 
     def get_area(self) -> float:
         """
         Calculate the area of the rectangle.
 
-        Area of the square is side1 * side2.
+        Area of the square is length * width.
         """
-        return self.side1 * self.side2
+        return self.length * self.width
 
 
 class Paint:
@@ -157,7 +157,7 @@ class Paint:
 
     def get_rectangles(self) -> list:
         """Return only rectangles."""
-        pass
+        return list(filter(lambda x: isinstance(x, Rectangle), self.shape_list))
 
 
 if __name__ == '__main__':
