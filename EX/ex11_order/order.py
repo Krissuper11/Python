@@ -54,7 +54,7 @@ class Order:
         return total_quantity
 
     @property
-    def total_volume(self) -> int:
+    def volume(self) -> int:
         """
         Calculate and return the total volume of all items in the order.
 
@@ -76,16 +76,16 @@ class Container:
         :param volume: volume of container
         :param orders: list of orders
         """
-        self.volume = volume
+        self.order_volume = volume
         self.orders = orders
 
     @property
-    def volume_left(self) -> int:
+    def volume(self) -> int:
         """Count how much volume left."""
         total_volume = 0
         for order in self.orders:
             total_volume += order.total_volume
-        return self.volume - total_volume
+        return self.order_volume - total_volume
 
 
 class OrderAggregator:
