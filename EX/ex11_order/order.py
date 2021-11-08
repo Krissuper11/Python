@@ -19,7 +19,7 @@ class OrderItem:
         self.one_item_volume = one_item_volume
 
     @property
-    def volume(self) -> int:
+    def total_volume(self) -> int:
         """
         Calculate and return total volume the current order item.
 
@@ -49,12 +49,12 @@ class Order:
         :return: Total quantity as int.
         """
         total_quantity = 0
-        for order in self.order_items:
-            total_quantity += order.quantity
+        for order_item in self.order_items:
+            total_quantity += order_item.quantity
         return total_quantity
 
     @property
-    def volume(self) -> int:
+    def total_volume(self) -> int:
         """
         Calculate and return the total volume of all items in the order.
 
@@ -62,7 +62,7 @@ class Order:
         """
         total_volume = 0
         for order in self.order_items:
-            total_volume += order.volume
+            total_volume += order.total_volume
         return total_volume
 
 
@@ -76,16 +76,16 @@ class Container:
         :param volume: volume of container
         :param orders: list of orders
         """
-        self.max_volume = volume
+        self.volume = volume
         self.orders = orders
 
     @property
-    def volume(self) -> int:
+    def volume_left(self) -> int:
         """Count how much volume left."""
         total_volume = 0
         for order in self.orders:
             total_volume += order.total_volume
-        return self.max_volume - total_volume
+        return self.volume - total_volume
 
 
 class OrderAggregator:
@@ -152,7 +152,19 @@ class ContainerAggregator:
         :param orders: tuple of orders.
         :return: dict where keys are destinations and values are containers to that destination with orders.
         """
-        return {}
+        container_dict = {}
+        for order in orders:
+            if order.total_volume > self.container_volume:
+                self.not_used_orders.append(order)
+                continue
+            if order.destination not in container_dict:
+                container_dict[order.destination] = [Container(self.container_volume, [])]
+            if order.total_volume <= container_dict[order.destination][len(container_dict[order.destination]) - 1].volume_left:
+                container_dict[order.destination][len(container_dict[order.destination]) - 1].orders.append(order)
+            else:
+                container_dict[order.destination].append(Container(self.container_volume, []))
+                container_dict[order.destination][len(container_dict[order.destination]) - 1].orders.append(order)
+        return container_dict
 
 
 if __name__ == '__main__':
