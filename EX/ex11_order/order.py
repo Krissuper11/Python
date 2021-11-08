@@ -155,16 +155,19 @@ class ContainerAggregator:
         """
         container_dict = {}
         for order in orders:
+            added_check = False
             if order.total_volume > self.container_volume:
                 self.not_used_orders.append(order)
                 continue
             if order.destination not in container_dict:
                 container_dict[order.destination] = [Container(self.container_volume, [])]
             for container in container_dict[order.destination]:
-                if order.total_volume <= container.volume_left:
+                if order.total_volume <= container.volume_left and not added_check:
                     container.orders.append(order)
+                    added_check = True
                     continue
-            container_dict[order.destination].append(Container(self.container_volume, [order]))
+            if not added_check:
+                container_dict[order.destination].append(Container(self.container_volume, [order]))
         return container_dict
 
 
