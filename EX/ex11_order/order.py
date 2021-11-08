@@ -76,7 +76,7 @@ class Container:
         :param volume: volume of container
         :param orders: list of orders
         """
-        self.order_volume = volume
+        self.max_volume = volume
         self.orders = orders
 
     @property
@@ -85,7 +85,7 @@ class Container:
         total_volume = 0
         for order in self.orders:
             total_volume += order.total_volume
-        return self.order_volume - total_volume
+        return self.max_volume - total_volume
 
 
 class OrderAggregator:
