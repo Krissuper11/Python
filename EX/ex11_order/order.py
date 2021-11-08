@@ -19,7 +19,7 @@ class OrderItem:
         self.one_item_volume = one_item_volume
 
     @property
-    def total_volume(self) -> int:
+    def volume(self) -> int:
         """
         Calculate and return total volume the current order item.
 
