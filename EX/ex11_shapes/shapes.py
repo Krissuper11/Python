@@ -12,7 +12,7 @@ class Shape(ABC):
 
     def set_color(self, color: str):
         """Set the color of the shape."""
-        pass
+        self.color = color
 
     def get_color(self) -> str:
         """Get the color of the shape."""
@@ -114,7 +114,7 @@ class Rectangle(Shape):
         For this exercise, this should return a string:
         Square (a: {side}, color: {color})
         """
-        return f"Square (l: {self.length}, w: {self.width}, color: {self.color})"
+        return f"Rectangle (l: {self.length}, w: {self.width}, color: {self.color})"
 
     def get_area(self) -> float:
         """
