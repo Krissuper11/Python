@@ -164,8 +164,7 @@ class ContainerAggregator:
                 if order.total_volume <= container.volume_left:
                     container.orders.append(order)
                     continue
-            container_dict[order.destination].append(Container(self.container_volume, []))
-            container_dict[order.destination][len(container_dict[order.destination]) - 1].orders.append(order)
+            container_dict[order.destination].append(Container(self.container_volume, [order]))
         return container_dict
 
 
