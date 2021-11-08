@@ -25,7 +25,8 @@ class OrderItem:
 
         :return: Total volume (cm^3), int.
         """
-        return self.quantity * self.one_item_volume
+        volume = self.quantity * self.one_item_volume
+        return volume
 
 
 class Order:
