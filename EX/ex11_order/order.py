@@ -127,7 +127,7 @@ class OrderAggregator:
                 items.append(order_item)
                 self.order_items.remove(order_item)
             else:
-                total_volume -= order_item.one_item_volume
+                total_volume -= order_item.total_volume
                 total_amount -= order_item.quantity
         return Order(items)
 
