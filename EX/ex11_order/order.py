@@ -125,10 +125,10 @@ class OrderAggregator:
             total_amount += order_item.quantity
             if total_amount <= max_items_quantity and total_volume <= max_volume:
                 items.append(order_item)
-                self.order_items.remove(order_item)
             else:
                 total_volume -= order_item.one_item_volume
                 total_amount -= order_item.quantity
+        self.order_items = [order_item for order_item in self.order_items if order_item not in items]
         return Order(items)
 
 
