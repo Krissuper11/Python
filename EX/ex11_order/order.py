@@ -121,11 +121,14 @@ class OrderAggregator:
         total_amount = 0
         order_items = list(filter(lambda x: x.customer == customer, self.order_items))
         for order_item in order_items:
-            if total_amount + order_item.quantity <= max_items_quantity and total_volume + order_item.one_item_volume <= max_volume:
-                total_volume += order_item.one_item_volume
-                total_amount += order_item.quantity
+            total_volume += order_item.one_item_volume
+            total_amount += order_item.quantity
+            if total_amount < max_items_quantity and total_volume < max_volume:
                 items.append(order_item)
                 self.order_items.remove(order_item)
+            else:
+                total_volume -= order_item.one_item_volume
+                total_amount -= order_item.quantity
         return Order(items)
 
 
