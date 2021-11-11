@@ -452,7 +452,8 @@ class PetrolStation:
             try:
                 last_date = client.get_history()[-1].get_date()
                 since_order = (date.today().year - last_date.year) * 12 + (date.today().month - last_date.month)
-                if since_order > 2 and client.get_client_type() != ClientType.Bronze:
+                if ((since_order == 2 and date.today().day > last_date.day) or since_order > 2) and \
+                        client.get_client_type() != ClientType.Bronze:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
             except IndexError:
