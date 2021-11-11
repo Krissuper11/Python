@@ -2,6 +2,7 @@
 import copy
 from abc import ABC, abstractmethod
 from datetime import date
+from datetime import datetime
 from enum import Enum, auto
 
 
@@ -448,7 +449,8 @@ class PetrolStation:
         else:
             try:
                 last_order_date = client.get_history()[-1].get_date()
-                if 0 >= int(date.today().strftime(r"%m")) - int(last_order_date.strftime(r"%m")) >= 2 and \
+                since_last_order = int(date.today().strftime(r"%m")) - int(last_order_date.strftime(r"%m"))
+                if since_last_order >= 2 or since_last_order < 0 and\
                         client.get_client_type() != ClientType.Bronze:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
@@ -468,15 +470,12 @@ class PetrolStation:
             client.set_client_type(ClientType.Silver)
 
 
-order_item1 = Fuel("Fuel", 500000)
+order_item1 = Fuel("Fuel", 50)
 order_item = Fuel("Fuel", 1)
-order = Order({order_item1: 2}, date.today(), ClientType.Bronze)
-print(order.get_final_price())
+order = Order({order_item1: 2}, datetime.strptime("21 June, 2018","%d %B, %Y"), ClientType.Bronze)
 client = Client("Fuel", 5000000000000, ClientType.Basic)
-client.set_client_type(ClientType.Bronze)
-print(client.get_history())
-print(client.get_member_balance())
-print(client.get_client_type())
+client.set_client_type(ClientType.Silver)
+client.buy(order)
 petrol = PetrolStation({order_item1: 2000}, {})
 PetrolStation.sell(petrol, [(order_item1, 2)], client)
 print(client.get_history())
