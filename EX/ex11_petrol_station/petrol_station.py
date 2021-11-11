@@ -339,7 +339,10 @@ class PetrolStation:
         :param fuel:
         :param quantity:
         """
-        self.__fuel_stock[fuel] += quantity
+        if fuel not in self.__fuel_stock:
+            self.__fuel_stock[fuel] = quantity
+        else:
+            self.__fuel_stock[fuel] += quantity
 
     def add_shop_item(self, item: ShopItem, quantity: float):
         """
@@ -348,7 +351,10 @@ class PetrolStation:
         :param item:
         :param quantity:
         """
-        self.__shop_item_stock[item] = quantity
+        if item not in self.__shop_item_stock:
+            self.__shop_item_stock[item] = quantity
+        else:
+            self.__shop_item_stock[item] += quantity
 
     def remove_fuel(self, fuel: Fuel, quantity: float):
         """
@@ -424,16 +430,17 @@ class PetrolStation:
         """
         order_dict = {}
         price = 0
-        for order in items_to_sell:
-            if order[0] == Fuel:
-                self.remove_fuel(order[0], order[1])
-            elif order[0] == ShopItem:
-                self.add_shop_item(order[0], order[1])
-            if order[0] not in order_dict:
-                order_dict[order[0]] = order[1]
-            else:
-                order_dict[order[0]] += order[1]
-            price += order[0].get_total_price(ClientType.Basic, order[1])
+        if len(items_to_sell) != 0:
+            for order in items_to_sell:
+                if order[0] == Fuel:
+                    self.remove_fuel(order[0], order[1])
+                elif order[0] == ShopItem:
+                    self.add_shop_item(order[0], order[1])
+                if order[0] not in order_dict:
+                    order_dict[order[0]] = order[1]
+                else:
+                    order_dict[order[0]] += order[1]
+                price += order[0].get_total_price(ClientType.Basic, order[1])
         if client is None:
             client = Client("", price, ClientType.Basic)
         else:
@@ -453,4 +460,3 @@ class PetrolStation:
         elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Gold.name:
             client.set_client_type(ClientType.Gold)
         Order(order_dict, date.today(), client.get_client_type())
-
