@@ -194,6 +194,7 @@ class Order:
         :return: float
         """
         total_cost = 0
+        assert False, self.__items
         for key, value in self.__items:
             total_cost += key.__price * key.get_discount(self.__client_type) * value
         return total_cost
