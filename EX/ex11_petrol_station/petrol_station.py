@@ -307,6 +307,7 @@ class Client:
         """
         order_price = order.get_final_price()
         if self.__balance >= order_price:
+            self.__balance -= order_price
             self.__order_history.append(order)
             return True
         return False
