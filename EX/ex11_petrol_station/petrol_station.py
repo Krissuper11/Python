@@ -44,6 +44,8 @@ class OrderItem(ABC):
         """
         self.__name = name
         self.__price = price
+        if price < 0:
+            raise RuntimeError()
 
     def get_name(self) -> str:
         """
