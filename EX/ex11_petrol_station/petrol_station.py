@@ -277,7 +277,7 @@ class Client:
         Use deepcopy.So that changes made with the dictionary in the class do not affect the dictionary object that does not belong to the class.
         :return: list['Order']
         """
-        pass
+        return copy.deepcopy(self.__order_history)
 
     def clear_history(self):
         """Clear the purchase history."""
@@ -289,7 +289,10 @@ class Client:
 
         :return: float: the sum
         """
-        return 0.0
+        balance = 0
+        for order in self.__order_history:
+            balance += order.get_final_price()
+        return balance
 
     def buy(self, order: 'Order') -> bool:
         """
@@ -302,7 +305,11 @@ class Client:
         :param order:
         :return: boolean
         """
-        pass
+        order_price = order.get_final_price()
+        if self.__balance >= order_price:
+            self.__order_history.append(order)
+            return True
+        return False
 
     def __repr__(self):
         """String representation of the client."""
