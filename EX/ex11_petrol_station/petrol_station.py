@@ -453,7 +453,9 @@ class PetrolStation:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
             except IndexError:
-                pass
+                if client.get_client_type() != ClientType.Basic:
+                    client.set_client_type(ClientType.Bronze)
+                    client.clear_history()
         order = Order(order_dict, date.today(), client.get_client_type())
         client.buy(order)
         if client not in self.__sell_history:
@@ -462,7 +464,7 @@ class PetrolStation:
             self.__sell_history[client].append(order)
         if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
             client.set_client_type(ClientType.Silver)
-        elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Silver:
+        elif client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
             client.set_client_type(ClientType.Gold)
 
 order_item1 = Fuel("Fuel", 500000)
@@ -471,8 +473,6 @@ order = Order({order_item1: 2}, date.today(), ClientType.Bronze)
 print(order.get_final_price())
 client = Client("Fuel", 5000000000000, ClientType.Basic)
 client.set_client_type(ClientType.Bronze)
-client.buy(order)
-client.buy(order)
 print(client.get_history())
 print(client.get_member_balance())
 print(client.get_client_type())
