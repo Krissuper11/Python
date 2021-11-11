@@ -433,6 +433,7 @@ class PetrolStation:
         """
         order_dict = {}
         price = 0
+
         if len(items_to_sell) != 0:
             for order in items_to_sell:
                 if isinstance(order[0], Fuel):
@@ -444,26 +445,29 @@ class PetrolStation:
                 else:
                     order_dict[order[0]] += order[1]
                 price += order[0].get_total_price(ClientType.Basic, order[1])
+
         if client is None:
             client = Client("Name", price, ClientType.Basic)
         else:
             try:
                 last_date = client.get_history()[-1].get_date()
                 since_order = (date.today().year - last_date.year) * 12 + (date.today().month - last_date.month)
-                if since_order > 2 and\
-                        client.get_client_type() != ClientType.Bronze:
+                if since_order > 2 and client.get_client_type() != ClientType.Bronze:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
             except IndexError:
-                if len(client.get_history()) != 0 and client.get_client_type() != ClientType.Basic:
+                if client.get_client_type() != ClientType.Basic:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
+
         order = Order(order_dict, date.today(), client.get_client_type())
         client.buy(order)
+
         if client not in self.__sell_history:
             self.__sell_history[client] = [order]
         else:
             self.__sell_history[client].append(order)
+
         if client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
             client.set_client_type(ClientType.Gold)
         elif client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
