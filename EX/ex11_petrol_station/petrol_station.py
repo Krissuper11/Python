@@ -259,7 +259,7 @@ class Client:
 
         :param value: ClientType
         """
-        self.__client_type = value.name
+        self.__client_type = value
 
     def get_balance(self) -> float:
         """
