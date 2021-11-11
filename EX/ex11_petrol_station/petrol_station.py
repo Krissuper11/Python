@@ -292,7 +292,7 @@ class Client:
         balance = 0
         for order in self.__order_history:
             balance += order.get_final_price()
-        return round(balance, 1)
+        return round(balance, 2)
 
     def buy(self, order: 'Order') -> bool:
         """
