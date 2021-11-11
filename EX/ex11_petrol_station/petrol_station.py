@@ -448,14 +448,16 @@ class PetrolStation:
             client = Client("Name", price, ClientType.Basic)
         else:
             try:
-                last_order_date = client.get_history()[-1].get_date()
-                since_last_order = int(date.today().strftime(r"%m")) - int(last_order_date.strftime(r"%m"))
-                if since_last_order >= 2 or since_last_order < 0 and\
+                last_date = client.get_history()[-1].get_date()
+                since_order = (date.today().year - last_date.year) * 12 + (date.today().month - last_date.month)
+                if since_order >= 2 and\
                         client.get_client_type() != ClientType.Bronze:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
             except IndexError:
-                pass
+                if client.get_client_type() != ClientType.Basic:
+                    client.set_client_type(ClientType.Bronze)
+                    client.clear_history()
         order = Order(order_dict, date.today(), client.get_client_type())
         client.buy(order)
         if client not in self.__sell_history:
