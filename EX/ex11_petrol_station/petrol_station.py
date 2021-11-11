@@ -442,20 +442,13 @@ class PetrolStation:
                     order_dict[order[0]] += order[1]
                 price += order[0].get_total_price(ClientType.Basic, order[1])
         if client is None:
-            client = Client("", price, ClientType.Basic)
+            client = Client("Name", price, ClientType.Basic)
         else:
             try:
                 last_order_date = client.get_history()[-1].get_date()
                 if int(last_order_date.strftime(r"%m")) - int(date.today().strftime(r"%m")) >= 2:
-                    if client.get_client_type() == ClientType.Gold.name:
-                        client.set_client_type(ClientType.Silver)
-                        client.clear_history()
-                    elif client.get_client_type() == ClientType.Silver.name:
-                        client.set_client_type(ClientType.Bronze)
-                        client.clear_history()
-                    elif client.get_client_type() == ClientType.Bronze.name:
-                        client.set_client_type(ClientType.Basic)
-                        client.clear_history()
+                    client.set_client_type(ClientType.Bronze)
+                    client.clear_history()
             except IndexError:
                 pass
         if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze.name:
