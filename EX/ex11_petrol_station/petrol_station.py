@@ -329,7 +329,8 @@ class PetrolStation:
         :param fuel_stock: fuel tank
         :param shop_item_stock: products warehouse
         """
-        # define variables here
+        self.__fuel_stock = copy.deepcopy(fuel_stock)
+        self.__shop_item_stock = copy.deepcopy(shop_item_stock)
 
     def add_fuel(self, fuel: Fuel, quantity: float):
         """
@@ -338,7 +339,7 @@ class PetrolStation:
         :param fuel:
         :param quantity:
         """
-        pass
+        self.__fuel_stock[fuel] += quantity
 
     def add_shop_item(self, item: ShopItem, quantity: float):
         """
@@ -347,7 +348,7 @@ class PetrolStation:
         :param item:
         :param quantity:
         """
-        pass
+        self.__shop_item_stock[item] = quantity
 
     def remove_fuel(self, fuel: Fuel, quantity: float):
         """
@@ -361,7 +362,10 @@ class PetrolStation:
         :param fuel:
         :param quantity:
         """
-        pass
+        if quantity <= self.__fuel_stock[fuel]:
+            self.__fuel_stock[fuel] -= quantity
+        else:
+            raise RuntimeError
 
     def remove_items(self, item: ShopItem, quantity: float):
         """
@@ -372,19 +376,22 @@ class PetrolStation:
         :param item:
         :param quantity:
         """
-        pass
+        if quantity <= self.__shop_item_stock[item]:
+            self.__shop_item_stock[item] -= quantity
+        else:
+            raise RuntimeError
 
     def get_fuel_dict(self) -> dict[Fuel, float]:
         """Return dict with Fuel objects as keys and quantities as values."""
-        pass
+        return self.__fuel_stock
 
     def get_shop_item_dict(self) -> dict[ShopItem, float]:
         """Return dict with ShopItem objects as keys and quantities as values."""
-        pass
+        return self.__shop_item_stock
 
     def get_sell_history(self) -> dict[Client, list[Order]]:
         """Return sell history dict where key is Client, value is a list of Orders."""
-        pass
+
 
     def sell(self, items_to_sell: list[tuple[OrderItem, float]], client: Client = None):
         """
@@ -416,4 +423,28 @@ class PetrolStation:
         :param client: is a customer, but the customer can be specified as None,
         in which case a new customer must be created with `Basic` status and a sufficient amount of money to purchase
         """
-        pass
+        order_dict = {}
+        price = 0
+        for order in items_to_sell:
+            if order[0] == Fuel:
+                self.remove_fuel(order[0], order[1])
+            elif order[0] == ShopItem:
+                self.add_shop_item(order[0], order[1])
+            if order[0] not in order_dict:
+                order_dict[order[0]] = order[1]
+            else:
+                order_dict[order[0]] += order[1]
+            price += order[0].get_total_price(ClientType.Basic, order[1])
+        if client is None:
+            client = Client("", price, ClientType.Basic)
+        else:
+            last_order_date = client.get_history()[-1].get_date()
+            if int(last_order_date.strftime(r"%m")) - int(date.today().strftime(r"%m")) >= 2:
+                if client.get_client_type() == ClientType.Gold.name:
+                    client.set_client_type(ClientType.Silver)
+                elif client.get_client_type() == ClientType.Silver.name:
+                    client.set_client_type(ClientType.Bronze)
+                elif client.get_client_type() == ClientType.Bronze.name:
+                    client.set_client_type(ClientType.Basic)
+
+        Order(order_dict, date.today(), client.get_client_type())
