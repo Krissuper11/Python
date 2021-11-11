@@ -456,12 +456,28 @@ class PetrolStation:
                 pass
         order = Order(order_dict, date.today(), client.get_client_type())
         client.buy(order)
-        if client.buy(order):
-            if client not in self.__sell_history:
-                self.__sell_history[client] = [order]
-            else:
-                self.__sell_history[client].append(order)
+        if client not in self.__sell_history:
+            self.__sell_history[client] = [order]
+        else:
+            self.__sell_history[client].append(order)
         if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
             client.set_client_type(ClientType.Silver)
         elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Silver:
             client.set_client_type(ClientType.Gold)
+
+order_item1 = Fuel("Fuel", 500000)
+order_item = Fuel("Fuel", 1)
+order = Order({order_item1: 2}, date.today(), ClientType.Bronze)
+print(order.get_final_price())
+client = Client("Fuel", 5000000000000, ClientType.Basic)
+client.set_client_type(ClientType.Bronze)
+client.buy(order)
+client.buy(order)
+print(client.get_history())
+print(client.get_member_balance())
+print(client.get_client_type())
+petrol = PetrolStation({order_item1: 2000}, {})
+PetrolStation.sell(petrol, [(order_item1, 2)], client)
+print(client.get_history())
+print(client.get_member_balance())
+print(client.get_client_type())
