@@ -195,7 +195,7 @@ class Order:
         """
         total_cost = 0
         for key, value in self.__items:
-            total_cost += key.__price * key.get_discount(self.__client_type) * value
+            total_cost += key.get_total_price(self.__client_type, value)
         return total_cost
 
     def __hash__(self):
