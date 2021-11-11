@@ -331,6 +331,7 @@ class PetrolStation:
         """
         self.__fuel_stock = copy.deepcopy(fuel_stock)
         self.__shop_item_stock = copy.deepcopy(shop_item_stock)
+        self.__sell_history = {}
 
     def add_fuel(self, fuel: Fuel, quantity: float):
         """
@@ -397,6 +398,7 @@ class PetrolStation:
 
     def get_sell_history(self) -> dict[Client, list[Order]]:
         """Return sell history dict where key is Client, value is a list of Orders."""
+        return self.__sell_history
 
     def sell(self, items_to_sell: list[tuple[OrderItem, float]], client: Client = None):
         """
@@ -432,9 +434,9 @@ class PetrolStation:
         price = 0
         if len(items_to_sell) != 0:
             for order in items_to_sell:
-                if order[0] == Fuel:
+                if isinstance(order[0], Fuel):
                     self.remove_fuel(order[0], order[1])
-                elif order[0] == ShopItem:
+                elif isinstance(order[0], ShopItem):
                     self.add_shop_item(order[0], order[1])
                 if order[0] not in order_dict:
                     order_dict[order[0]] = order[1]
@@ -451,9 +453,12 @@ class PetrolStation:
                     client.clear_history()
             except IndexError:
                 pass
+        order = Order(order_dict, date.today(), client.get_client_type())
+        if client not in self.__sell_history:
+            self.__sell_history[client] = [order]
+        else:
+            self.__sell_history[client].append(order)
         if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze.name:
             client.set_client_type(ClientType.Silver)
         elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Gold.name:
             client.set_client_type(ClientType.Gold)
-        Order(order_dict, date.today(), client.get_client_type())
-
