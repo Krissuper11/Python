@@ -369,7 +369,7 @@ class PetrolStation:
         :param fuel:
         :param quantity:
         """
-        if quantity <= self.__fuel_stock[fuel]:
+        if fuel in self.__fuel_stock and quantity <= self.__fuel_stock[fuel]:
             self.__fuel_stock[fuel] -= quantity
         else:
             raise RuntimeError()
@@ -383,7 +383,7 @@ class PetrolStation:
         :param item:
         :param quantity:
         """
-        if quantity <= self.__shop_item_stock[item]:
+        if item in self.__shop_item_stock and quantity <= self.__shop_item_stock[item]:
             self.__shop_item_stock[item] -= quantity
         else:
             raise RuntimeError()
@@ -448,7 +448,8 @@ class PetrolStation:
         else:
             try:
                 last_order_date = client.get_history()[-1].get_date()
-                if int(last_order_date.strftime(r"%m")) - int(date.today().strftime(r"%m")) >= 2:
+                if 0 >= int(date.today().strftime(r"%m")) - int(last_order_date.strftime(r"%m")) >= 2 and \
+                        client.get_client_type() != ClientType.Bronze:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
             except IndexError:
