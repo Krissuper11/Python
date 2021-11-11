@@ -73,7 +73,7 @@ class OrderItem(ABC):
         :return: float: total price
         """
         if self.__price < 0:
-            raise RuntimeError
+            raise RuntimeError()
         return self.get_discount(client_type) * quantity
 
     @abstractmethod
@@ -198,7 +198,7 @@ class Order:
         total_cost = 0
         for key, value in self.__items.items():
             if value < 0:
-                raise RuntimeError
+                raise RuntimeError()
             total_cost += key.get_total_price(self.__client_type, value)
         return total_cost
 
