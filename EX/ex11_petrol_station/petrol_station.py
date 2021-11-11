@@ -123,13 +123,13 @@ class ShopItem(OrderItem):
         :return: float: the discount
         """
         if client_type.name == "Basic":
-            return self.__price
+            return 1
         elif client_type.name == "Bronze":
-            return self.__price - 0.025
+            return 0.95
         elif client_type.name == "Silver":
-            return self.__price - 0.05
+            return 0.9
         elif client_type.name == "Gold":
-            return self.__price - 0.1
+            return 0.85
 
 
 class Fuel(OrderItem):
@@ -153,13 +153,13 @@ class Fuel(OrderItem):
         :return: float: the discount
         """
         if client_type.name == "Basic":
-            return 1
+            return self.__price
         elif client_type.name == "Bronze":
-            return 0.975
+            return self.__price - 0.025
         elif client_type.name == "Silver":
-            return 0.95
+            return self.__price - 0.05
         elif client_type.name == "Gold":
-            return 0.9
+            return self.__price - 0.1
 
 
 class Order:
