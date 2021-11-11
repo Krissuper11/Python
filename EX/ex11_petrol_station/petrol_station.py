@@ -453,3 +453,4 @@ class PetrolStation:
         elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Gold.name:
             client.set_client_type(ClientType.Gold)
         Order(order_dict, date.today(), client.get_client_type())
+
