@@ -122,13 +122,13 @@ class ShopItem(OrderItem):
         :param client_type
         :return: float: the discount
         """
-        if ClientType[client_type] == "Basic":
+        if client_type.name == "Basic":
             return 1
-        elif ClientType[client_type] == "Bronze":
+        elif client_type.name == "Bronze":
             return 0.95
-        elif ClientType[client_type] == "Silver":
+        elif client_type.name == "Silver":
             return 0.9
-        elif ClientType[client_type] == "Gold":
+        elif client_type.name == "Gold":
             return 0.85
 
 
@@ -152,13 +152,13 @@ class Fuel(OrderItem):
         :param client_type
         :return: float: the discount
         """
-        if ClientType[client_type] == "Basic":
+        if client_type.name == "Basic":
             return 1
-        elif ClientType[client_type] == "Bronze":
+        elif client_type.name == "Bronze":
             return 0.975
-        elif ClientType[client_type] == "Silver":
+        elif client_type.name == "Silver":
             return 0.95
-        elif ClientType[client_type] == "Gold":
+        elif client_type.name == "Gold":
             return 0.9
 
 
@@ -194,7 +194,6 @@ class Order:
         :return: float
         """
         total_cost = 0
-        assert False, self.__items
         for key, value in self.__items:
             total_cost += key.__price * key.get_discount(self.__client_type) * value
         return total_cost
@@ -237,7 +236,7 @@ class Client:
 
     def get_name(self):
         """Return client name."""
-        return ""
+        return self.__name
 
     def get_client_type(self) -> ClientType:
         """
@@ -245,7 +244,7 @@ class Client:
 
         :return: ClientType
         """
-        pass
+        return self.__client_type
 
     def set_client_type(self, value: ClientType):
         """
@@ -253,7 +252,7 @@ class Client:
 
         :param value: ClientType
         """
-        pass
+        self.__client_type = value.name
 
     def get_balance(self) -> float:
         """
@@ -261,7 +260,7 @@ class Client:
 
         :return: float
         """
-        return 0.0
+        return self.__balance
 
     def get_history(self) -> list['Order']:
         """
@@ -275,7 +274,7 @@ class Client:
 
     def clear_history(self):
         """Clear the purchase history."""
-        pass
+        self.__order_history = []
 
     def get_member_balance(self) -> float:
         """
