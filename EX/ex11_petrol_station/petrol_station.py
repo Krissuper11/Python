@@ -292,7 +292,7 @@ class Client:
         balance = 0
         for order in self.__order_history:
             balance += order.get_final_price()
-        return balance
+        return round(balance, 1)
 
     def buy(self, order: 'Order') -> bool:
         """
@@ -462,10 +462,11 @@ class PetrolStation:
             self.__sell_history[client] = [order]
         else:
             self.__sell_history[client].append(order)
-        if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
-            client.set_client_type(ClientType.Silver)
-        elif client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
+        if client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
             client.set_client_type(ClientType.Gold)
+        elif client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
+            client.set_client_type(ClientType.Silver)
+
 
 order_item1 = Fuel("Fuel", 500000)
 order_item = Fuel("Fuel", 1)
