@@ -437,7 +437,7 @@ class PetrolStation:
                 if isinstance(order[0], Fuel):
                     self.remove_fuel(order[0], order[1])
                 elif isinstance(order[0], ShopItem):
-                    self.add_shop_item(order[0], order[1])
+                    self.remove_items(order[0], order[1])
                 if order[0] not in order_dict:
                     order_dict[order[0]] = order[1]
                 else:
@@ -458,7 +458,7 @@ class PetrolStation:
             self.__sell_history[client] = [order]
         else:
             self.__sell_history[client].append(order)
-        if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze.name:
+        if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
             client.set_client_type(ClientType.Silver)
-        elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Gold.name:
+        elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Silver:
             client.set_client_type(ClientType.Gold)
