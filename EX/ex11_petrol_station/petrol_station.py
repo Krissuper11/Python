@@ -182,6 +182,9 @@ class Order:
         self.__items = items
         self.__order_date = order_date
         self.__client_type = client_type
+        for value in items.values():
+            if value < 0:
+                raise RuntimeError()
 
     def get_date(self) -> date:
         """
@@ -199,8 +202,6 @@ class Order:
         """
         total_cost = 0
         for key, value in self.__items.items():
-            if value < 0:
-                raise RuntimeError()
             total_cost += key.get_total_price(self.__client_type, value)
         return total_cost
 
