@@ -455,7 +455,7 @@ class PetrolStation:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
             except IndexError:
-                if client.get_client_type() != ClientType.Basic:
+                if len(client.get_history()) != 0 and client.get_client_type() != ClientType.Basic:
                     client.set_client_type(ClientType.Bronze)
                     client.clear_history()
         order = Order(order_dict, date.today(), client.get_client_type())
