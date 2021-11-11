@@ -392,7 +392,6 @@ class PetrolStation:
     def get_sell_history(self) -> dict[Client, list[Order]]:
         """Return sell history dict where key is Client, value is a list of Orders."""
 
-
     def sell(self, items_to_sell: list[tuple[OrderItem, float]], client: Client = None):
         """
         Sell item.
@@ -442,9 +441,15 @@ class PetrolStation:
             if int(last_order_date.strftime(r"%m")) - int(date.today().strftime(r"%m")) >= 2:
                 if client.get_client_type() == ClientType.Gold.name:
                     client.set_client_type(ClientType.Silver)
+                    client.clear_history()
                 elif client.get_client_type() == ClientType.Silver.name:
                     client.set_client_type(ClientType.Bronze)
+                    client.clear_history()
                 elif client.get_client_type() == ClientType.Bronze.name:
                     client.set_client_type(ClientType.Basic)
-
+                    client.clear_history()
+        if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze.name:
+            client.set_client_type(ClientType.Silver)
+        elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Gold.name:
+            client.set_client_type(ClientType.Gold)
         Order(order_dict, date.today(), client.get_client_type())
