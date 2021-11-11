@@ -371,7 +371,7 @@ class PetrolStation:
         if quantity <= self.__fuel_stock[fuel]:
             self.__fuel_stock[fuel] -= quantity
         else:
-            raise RuntimeError
+            raise RuntimeError()
 
     def remove_items(self, item: ShopItem, quantity: float):
         """
@@ -385,7 +385,7 @@ class PetrolStation:
         if quantity <= self.__shop_item_stock[item]:
             self.__shop_item_stock[item] -= quantity
         else:
-            raise RuntimeError
+            raise RuntimeError()
 
     def get_fuel_dict(self) -> dict[Fuel, float]:
         """Return dict with Fuel objects as keys and quantities as values."""
@@ -444,17 +444,20 @@ class PetrolStation:
         if client is None:
             client = Client("", price, ClientType.Basic)
         else:
-            last_order_date = client.get_history()[-1].get_date()
-            if int(last_order_date.strftime(r"%m")) - int(date.today().strftime(r"%m")) >= 2:
-                if client.get_client_type() == ClientType.Gold.name:
-                    client.set_client_type(ClientType.Silver)
-                    client.clear_history()
-                elif client.get_client_type() == ClientType.Silver.name:
-                    client.set_client_type(ClientType.Bronze)
-                    client.clear_history()
-                elif client.get_client_type() == ClientType.Bronze.name:
-                    client.set_client_type(ClientType.Basic)
-                    client.clear_history()
+            try:
+                last_order_date = client.get_history()[-1].get_date()
+                if int(last_order_date.strftime(r"%m")) - int(date.today().strftime(r"%m")) >= 2:
+                    if client.get_client_type() == ClientType.Gold.name:
+                        client.set_client_type(ClientType.Silver)
+                        client.clear_history()
+                    elif client.get_client_type() == ClientType.Silver.name:
+                        client.set_client_type(ClientType.Bronze)
+                        client.clear_history()
+                    elif client.get_client_type() == ClientType.Bronze.name:
+                        client.set_client_type(ClientType.Basic)
+                        client.clear_history()
+            except IndexError:
+                pass
         if client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze.name:
             client.set_client_type(ClientType.Silver)
         elif client.get_member_balance() > 6000 and client.get_client_type() == ClientType.Gold.name:
