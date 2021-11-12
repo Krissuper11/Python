@@ -386,7 +386,7 @@ class PetrolStation:
         """
         if item in self.__shop_item_stock and quantity <= self.__shop_item_stock[item]:
             self.__shop_item_stock[item] -= quantity
-        elif item not in self.__shop_item_stock and quantity > self.__shop_item_stock[item]:
+        else:
             self.__shop_item_stock = self.get_shop_item_dict()
             raise RuntimeError()
 
@@ -478,12 +478,14 @@ class PetrolStation:
 
 order_item1 = Fuel("Fuel", 50)
 order_item = Fuel("Fuel", 1)
-order = Order({order_item1: 2}, datetime.strptime("21 June, 2018","%d %B, %Y"), ClientType.Bronze)
+order = Order({order_item1: 200}, datetime.strptime("21 June, 2018","%d %B, %Y"), ClientType.Bronze)
 client = Client("Fuel", 5000000000000, ClientType.Basic)
 client.set_client_type(ClientType.Silver)
-client.buy(order)
-petrol = PetrolStation({order_item1: 2000}, {})
-PetrolStation.sell(petrol, [(order_item1, 2)], client)
-print(client.get_history())
-print(client.get_member_balance())
-print(client.get_client_type())
+petrol = PetrolStation({order_item1: 199}, {})
+# print(petrol.get_fuel_dict())
+sell = PetrolStation.sell(petrol, [(order_item1, 200)], client)
+# print(client.get_history())
+# print(client.get_member_balance())
+# print(client.get_client_type())
+
+print(petrol.get_fuel_dict())
