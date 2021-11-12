@@ -438,7 +438,11 @@ class PetrolStation:
         if len(items_to_sell) != 0:
             for order in items_to_sell:
                 if isinstance(order[0], Fuel):
-                    self.remove_fuel(order[0], order[1])
+                    try:
+                        self.remove_fuel(order[0], order[1])
+                    except RuntimeError:
+                        self.__fuel_stock = self.get_fuel_dict()
+                        break
                 elif isinstance(order[0], ShopItem):
                     self.remove_items(order[0], order[1])
                 if order[0] not in order_dict:
