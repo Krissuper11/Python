@@ -386,7 +386,8 @@ class PetrolStation:
         """
         if item in self.__shop_item_stock and quantity <= self.__shop_item_stock[item]:
             self.__shop_item_stock[item] -= quantity
-        else:
+        elif item not in self.__shop_item_stock and quantity > self.__shop_item_stock[item]:
+            self.__shop_item_stock = self.get_shop_item_dict()
             raise RuntimeError()
 
     def get_fuel_dict(self) -> dict[Fuel, float]:
