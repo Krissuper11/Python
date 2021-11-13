@@ -457,13 +457,13 @@ class PetrolStation:
 
         for order_tuple in items_to_sell:
             order = Order({order_tuple[0]: order_tuple[1]}, date.today(), client.get_client_type())
-            if client.buy(Order({order_tuple[0]: order_tuple[1]}, date.today(), client.get_client_type())):
+            if client.buy(order):
                 if isinstance(order_tuple[0], Fuel):
                     self.remove_fuel(order_tuple[0], order_tuple[1])
                 elif isinstance(order_tuple[0], ShopItem):
                     self.remove_items(order_tuple[0], order_tuple[1])
                 if client not in self.__sell_history:
-                    self.__sell_history[client] = [order]
+                    self.__sell_history[client] = client.get_history()
                 else:
                     self.__sell_history[client].append(order)
 
@@ -471,3 +471,17 @@ class PetrolStation:
             client.set_client_type(ClientType.Gold)
         elif client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
             client.set_client_type(ClientType.Silver)
+
+order_item1 = ShopItem("Mars", 50)
+order_item = Fuel("95", 1)
+order_item3 = ShopItem("Snickers", 20)
+
+client = Client("Fuel", 50, ClientType.Basic)
+client.set_client_type(ClientType.Silver)
+petrol = PetrolStation({order_item: 50}, {order_item3: 20, order_item1: 199})
+print(petrol.get_fuel_dict())
+sell = PetrolStation.sell(petrol, [(order_item1, 199), (order_item3, 20), (order_item, 50)], client)
+print(client.get_history())
+print(client.get_member_balance())
+print(client.get_client_type())
+print(petrol.get_sell_history())
