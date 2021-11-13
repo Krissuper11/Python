@@ -387,7 +387,6 @@ class PetrolStation:
         if item in self.__shop_item_stock and quantity <= self.__shop_item_stock[item]:
             self.__shop_item_stock[item] -= quantity
         else:
-            self.__shop_item_stock = self.get_shop_item_dict()
             raise RuntimeError()
 
     def get_fuel_dict(self) -> dict[Fuel, float]:
@@ -438,11 +437,15 @@ class PetrolStation:
         if len(items_to_sell) != 0:
             for order in items_to_sell:
                 if isinstance(order[0], Fuel):
-                    try:
-                        self.remove_fuel(order[0], order[1])
-                    except RuntimeError as error:
-                        print(error)
-                        break
+                    if order[0] not in self.__fuel_stock or order[1] > self.__fuel_stock[order[0]]:
+                        raise RuntimeError
+                elif isinstance(order[0], ShopItem):
+                    if order[0] not in self.__shop_item_stock or order[1] > self.__shop_item_stock[order[0]]:
+                        raise RuntimeError
+
+            for order in items_to_sell:
+                if isinstance(order[0], Fuel):
+                    self.remove_fuel(order[0], order[1])
                 elif isinstance(order[0], ShopItem):
                     self.remove_items(order[0], order[1])
                 if order[0] not in order_dict:
@@ -478,3 +481,16 @@ class PetrolStation:
             client.set_client_type(ClientType.Gold)
         elif client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
             client.set_client_type(ClientType.Silver)
+
+
+order_item1 = Fuel("Fuel", 50)
+order_item = Fuel("Fuel", 1)
+order = Order({order_item1: 2}, datetime.strptime("21 June, 2018","%d %B, %Y"), ClientType.Bronze)
+client = Client("Fuel", 5000000000000, ClientType.Basic)
+client.set_client_type(ClientType.Silver)
+client.buy(order)
+petrol = PetrolStation({order_item1: 10}, {})
+PetrolStation.sell(petrol, [(order_item1, 2000)], client)
+print(client.get_history())
+print(client.get_member_balance())
+print(client.get_client_type())
