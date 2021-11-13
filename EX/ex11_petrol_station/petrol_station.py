@@ -481,16 +481,3 @@ class PetrolStation:
             client.set_client_type(ClientType.Gold)
         elif client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
             client.set_client_type(ClientType.Silver)
-
-
-order_item1 = Fuel("Fuel", 50)
-order_item = Fuel("Fuel", 1)
-order = Order({order_item1: 2}, datetime.strptime("21 June, 2018","%d %B, %Y"), ClientType.Bronze)
-client = Client("Fuel", 5000000000000, ClientType.Basic)
-client.set_client_type(ClientType.Silver)
-client.buy(order)
-petrol = PetrolStation({order_item1: 10}, {})
-PetrolStation.sell(petrol, [(order_item1, 2000)], client)
-print(client.get_history())
-print(client.get_member_balance())
-print(client.get_client_type())
