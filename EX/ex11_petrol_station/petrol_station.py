@@ -463,9 +463,9 @@ class PetrolStation:
                 elif isinstance(order[0], ShopItem):
                     self.remove_items(order[0], order[1])
                 if client not in self.__sell_history:
-                    self.__sell_history[client] = [order]
+                    self.__sell_history[client] = [order[0]]
                 else:
-                    self.__sell_history[client].append(order)
+                    self.__sell_history[client].append(order[0])
 
         if client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
             client.set_client_type(ClientType.Gold)
