@@ -373,7 +373,7 @@ class PetrolStation:
         if fuel in self.__fuel_stock and quantity <= self.__fuel_stock[fuel]:
             self.__fuel_stock[fuel] -= quantity
         else:
-            raise RuntimeError(self.get_fuel_dict())
+            raise RuntimeError()
 
     def remove_items(self, item: ShopItem, quantity: float):
         """
@@ -438,7 +438,11 @@ class PetrolStation:
         if len(items_to_sell) != 0:
             for order in items_to_sell:
                 if isinstance(order[0], Fuel):
-                    self.remove_fuel(order[0], order[1])
+                    try:
+                        self.remove_fuel(order[0], order[1])
+                    except RuntimeError as error:
+                        print(error)
+                        break
                 elif isinstance(order[0], ShopItem):
                     self.remove_items(order[0], order[1])
                 if order[0] not in order_dict:
