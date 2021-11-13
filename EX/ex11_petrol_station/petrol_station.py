@@ -431,51 +431,41 @@ class PetrolStation:
         :param client: is a customer, but the customer can be specified as None,
         in which case a new customer must be created with `Basic` status and a sufficient amount of money to purchase
         """
-        order_dict = {}
         price = 0
 
-        if len(items_to_sell) != 0:
-            for order in items_to_sell:
-                if isinstance(order[0], Fuel):
-                    if order[0] not in self.__fuel_stock or order[1] > self.__fuel_stock[order[0]]:
-                        raise RuntimeError
-                elif isinstance(order[0], ShopItem):
-                    if order[0] not in self.__shop_item_stock or order[1] > self.__shop_item_stock[order[0]]:
-                        raise RuntimeError
+        for order in items_to_sell:
+            if isinstance(order[0], Fuel):
+                if order[0] not in self.__fuel_stock or order[1] > self.__fuel_stock[order[0]]:
+                    raise RuntimeError
+            elif isinstance(order[0], ShopItem):
+                if order[0] not in self.__shop_item_stock or order[1] > self.__shop_item_stock[order[0]]:
+                    raise RuntimeError
+            price += order[0].get_total_price(ClientType.Basic, order[1])
 
-            for order in items_to_sell:
+        if client is None:
+            client = Client("Name", price, ClientType.Basic)
+        elif len(client.get_history()) != 0:
+            last_date = client.get_history()[-1].get_date()
+            since_order = (date.today().year - last_date.year) * 12 + (date.today().month - last_date.month)
+            if (since_order == 2 and date.today().day > last_date.day or since_order > 2) and \
+                    client.get_client_type() != ClientType.Bronze:
+                client.set_client_type(ClientType.Bronze)
+                client.clear_history()
+        else:
+            if client.get_client_type() != ClientType.Basic:
+                client.set_client_type(ClientType.Bronze)
+                client.clear_history()
+
+        for order in items_to_sell:
+            if client.buy(Order({order[0]: order[1]}, date.today(), client.get_client_type())):
                 if isinstance(order[0], Fuel):
                     self.remove_fuel(order[0], order[1])
                 elif isinstance(order[0], ShopItem):
                     self.remove_items(order[0], order[1])
-                if order[0] not in order_dict:
-                    order_dict[order[0]] = order[1]
+                if client not in self.__sell_history:
+                    self.__sell_history[client] = [order]
                 else:
-                    order_dict[order[0]] += order[1]
-                price += order[0].get_total_price(ClientType.Basic, order[1])
-
-        if client is None:
-            client = Client("Name", price, ClientType.Basic)
-        else:
-            try:
-                last_date = client.get_history()[-1].get_date()
-                since_order = (date.today().year - last_date.year) * 12 + (date.today().month - last_date.month)
-                if ((since_order == 2 and date.today().day > last_date.day) or since_order > 2) and \
-                        client.get_client_type() != ClientType.Bronze:
-                    client.set_client_type(ClientType.Bronze)
-                    client.clear_history()
-            except IndexError:
-                if client.get_client_type() != ClientType.Basic:
-                    client.set_client_type(ClientType.Bronze)
-                    client.clear_history()
-
-        order = Order(order_dict, date.today(), client.get_client_type())
-        client.buy(order)
-
-        if client not in self.__sell_history:
-            self.__sell_history[client] = [order]
-        else:
-            self.__sell_history[client].append(order)
+                    self.__sell_history[client].append(order)
 
         if client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
             client.set_client_type(ClientType.Gold)
