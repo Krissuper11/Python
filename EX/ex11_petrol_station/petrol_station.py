@@ -2,7 +2,6 @@
 import copy
 from abc import ABC, abstractmethod
 from datetime import date
-from datetime import datetime
 from enum import Enum, auto
 
 
@@ -433,14 +432,14 @@ class PetrolStation:
         """
         price = 0
 
-        for order in items_to_sell:
-            if isinstance(order[0], Fuel):
-                if order[0] not in self.__fuel_stock or order[1] > self.__fuel_stock[order[0]]:
+        for order_tuple in items_to_sell:
+            if isinstance(order_tuple[0], Fuel):
+                if order_tuple[0] not in self.__fuel_stock or order_tuple[1] > self.__fuel_stock[order_tuple[0]]:
                     raise RuntimeError
-            elif isinstance(order[0], ShopItem):
-                if order[0] not in self.__shop_item_stock or order[1] > self.__shop_item_stock[order[0]]:
+            elif isinstance(order_tuple[0], ShopItem):
+                if order_tuple[0] not in self.__shop_item_stock or order_tuple[1] > self.__shop_item_stock[order_tuple[0]]:
                     raise RuntimeError
-            price += order[0].get_total_price(ClientType.Basic, order[1])
+            price += order_tuple[0].get_total_price(ClientType.Basic, order_tuple[1])
 
         if client is None:
             client = Client("Name", price, ClientType.Basic)
@@ -456,16 +455,17 @@ class PetrolStation:
                 client.set_client_type(ClientType.Bronze)
                 client.clear_history()
 
-        for order in items_to_sell:
-            if client.buy(Order({order[0]: order[1]}, date.today(), client.get_client_type())):
-                if isinstance(order[0], Fuel):
-                    self.remove_fuel(order[0], order[1])
-                elif isinstance(order[0], ShopItem):
-                    self.remove_items(order[0], order[1])
+        for order_tuple in items_to_sell:
+            order = Order({order_tuple[0]: order_tuple[1]}, date.today(), client.get_client_type())
+            if client.buy(Order({order_tuple[0]: order_tuple[1]}, date.today(), client.get_client_type())):
+                if isinstance(order_tuple[0], Fuel):
+                    self.remove_fuel(order_tuple[0], order_tuple[1])
+                elif isinstance(order_tuple[0], ShopItem):
+                    self.remove_items(order_tuple[0], order_tuple[1])
                 if client not in self.__sell_history:
-                    self.__sell_history[client] = [order[0]]
+                    self.__sell_history[client] = [order]
                 else:
-                    self.__sell_history[client].append(order[0])
+                    self.__sell_history[client].append(order)
 
         if client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
             client.set_client_type(ClientType.Gold)
