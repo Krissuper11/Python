@@ -433,27 +433,10 @@ class PetrolStation:
         price = 0
 
         for order_tuple in items_to_sell:
-            if isinstance(order_tuple[0], Fuel):
-                if order_tuple[0] not in self.__fuel_stock or order_tuple[1] > self.__fuel_stock[order_tuple[0]]:
-                    raise RuntimeError
-            elif isinstance(order_tuple[0], ShopItem):
-                if order_tuple[0] not in self.__shop_item_stock or order_tuple[1] > self.__shop_item_stock[order_tuple[0]]:
-                    raise RuntimeError
+            self.enough_items(order_tuple)
             price += order_tuple[0].get_total_price(ClientType.Basic, order_tuple[1])
 
-        if client is None:
-            client = Client("Name", price, ClientType.Basic)
-        elif len(client.get_history()) != 0:
-            last_date = client.get_history()[-1].get_date()
-            since_order = (date.today().year - last_date.year) * 12 + (date.today().month - last_date.month)
-            if (since_order == 2 and date.today().day > last_date.day or since_order > 2) and \
-                    client.get_client_type() != ClientType.Bronze:
-                client.set_client_type(ClientType.Bronze)
-                client.clear_history()
-        else:
-            if client.get_client_type() != ClientType.Basic:
-                client.set_client_type(ClientType.Bronze)
-                client.clear_history()
+        client = downgrade_check(client, price)
 
         for order_tuple in items_to_sell:
             if client.buy(Order({order_tuple[0]: order_tuple[1]}, date.today(), client.get_client_type())):
@@ -473,16 +456,41 @@ class PetrolStation:
         elif client.get_member_balance() > 1000 and client.get_client_type() == ClientType.Bronze:
             client.set_client_type(ClientType.Silver)
 
-order_item1 = ShopItem("Mars", 50)
-order_item = Fuel("95", 1)
-order_item3 = ShopItem("Snickers", 20)
+    def enough_items(self, order_tuple: tuple[OrderItem, float]):
+        """Check that there are enough items in stock.
 
-client = Client("Fuel", 50000, ClientType.Basic)
-client.set_client_type(ClientType.Silver)
-petrol = PetrolStation({order_item: 50}, {order_item3: 20, order_item1: 199})
-print(petrol.get_fuel_dict())
-sell = PetrolStation.sell(petrol, [(order_item1, 199), (order_item3, 20), (order_item, 50)], client)
-print(client.get_history())
-print(client.get_member_balance())
-print(client.get_client_type())
-print(petrol.get_sell_history())
+        If not enough, rise RuntimeError.
+        If enough, pass.
+        """
+        if isinstance(order_tuple[0], Fuel):
+            if order_tuple[0] not in self.__fuel_stock or order_tuple[1] > self.__fuel_stock[order_tuple[0]]:
+                raise RuntimeError
+        elif isinstance(order_tuple[0], ShopItem):
+            if order_tuple[0] not in self.__shop_item_stock or order_tuple[1] > self.__shop_item_stock[order_tuple[0]]:
+                raise RuntimeError
+
+
+def downgrade_check(client: Client, price: int) -> Client:
+    """
+    Check if client needs to be downgraded to bronze level.
+
+    If client is None, then create it.
+    Just created client must have enough money to pay for order.
+    :param client: client
+    :param price: price for the whole order
+    :return: Client
+    """
+    if client is None:
+        client = Client("Name", price, ClientType.Basic)
+    elif len(client.get_history()) != 0:
+        last_date = client.get_history()[-1].get_date()
+        since_order = (date.today().year - last_date.year) * 12 + (date.today().month - last_date.month)
+        if (since_order == 2 and date.today().day > last_date.day or since_order > 2) and \
+                client.get_client_type() != ClientType.Bronze:
+            client.set_client_type(ClientType.Bronze)
+            client.clear_history()
+    else:
+        if client.get_client_type() != ClientType.Basic:
+            client.set_client_type(ClientType.Bronze)
+            client.clear_history()
+    return client
