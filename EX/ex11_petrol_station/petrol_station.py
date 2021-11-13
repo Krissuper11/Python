@@ -457,15 +457,15 @@ class PetrolStation:
 
         for order_tuple in items_to_sell:
             order = Order({order_tuple[0]: order_tuple[1]}, date.today(), client.get_client_type())
-            if client.buy(order):
-                if isinstance(order_tuple[0], Fuel):
-                    self.remove_fuel(order_tuple[0], order_tuple[1])
-                elif isinstance(order_tuple[0], ShopItem):
-                    self.remove_items(order_tuple[0], order_tuple[1])
-                if client not in self.__sell_history:
-                    self.__sell_history[client] = [order]
-                else:
-                    self.__sell_history[client] = client.get_history()
+            client.buy(order)
+            if isinstance(order_tuple[0], Fuel):
+                self.remove_fuel(order_tuple[0], order_tuple[1])
+            elif isinstance(order_tuple[0], ShopItem):
+                self.remove_items(order_tuple[0], order_tuple[1])
+            if client not in self.__sell_history:
+                self.__sell_history[client] = [order]
+            else:
+                self.__sell_history[client].append(order)
 
         if client.get_member_balance() > 6000 and client.get_client_type() != ClientType.Basic:
             client.set_client_type(ClientType.Gold)
