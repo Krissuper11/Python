@@ -104,20 +104,20 @@ class App:
             if product.name == name:
                 return product
 
-    def order_products(self):
+    def order_products(self, products: tuple or list):
         """Order products in general.
 
         The parameter is list of products. Create a new order, then add passed products to
         this order, then add this order to the orders list.
         """
-        if len(self.product_list) == 1:
+        if isinstance(products, tuple):
             order = Order()
-            Order.add_product(order, self.product_list[0])
+            Order.add_product(order, products)
             order_dict = order.order_dict
             self.order_list.append(order_dict)
-        elif len(self.product_list) > 1:
+        elif isinstance(products, list):
             order = Order()
-            Order.add_products(order, self.product_list)
+            Order.add_products(order, products)
             order_dict = order.order_dict
             self.order_list.append(order_dict)
 
