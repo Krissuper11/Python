@@ -21,7 +21,7 @@ class Product:
 class Order:
     """Order class."""
 
-    def __init__(self):
+    def __init__(self, customer: str = None):
         """
         Order constructor.
 
@@ -29,10 +29,15 @@ class Order:
         is expected to be created and products names set as a helper.
         """
         self.order_dict = {}
+        self.customer = customer
 
     def get_products(self) -> dict:
-        """Return dict with products and amounts."""
+        """Getter for orders dict."""
         return self.order_dict
+
+    def get_client(self):
+        """Getter for customer."""
+        return self.customer
 
     def get_products_string(self) -> str:
         """
@@ -73,6 +78,11 @@ class App:
         """App constructor, no arguments expected."""
         self.product_list = self.import_products()
         self.order_list = []
+        self.customer_list = []
+
+    def get_customers(self) -> list:
+        """Getter for customers list."""
+        return self.customer_list
 
     def get_products(self) -> list:
         """Getter for products list."""
@@ -119,21 +129,33 @@ class App:
             order.add_products(products)
             self.order_list.append(order)
 
-    def order(self):
+    def order(self, customer_name: str, products: list):
         """
         Method for ordering products for a customer.
 
         Products here is list of tuples.
         """
-        pass
+        ordering_customer = None
+        for customer in self.customer_list:
+            if customer_name == customer.name:
+                ordering_customer = customer
+        order = Order(ordering_customer)
+        for product_tuple in products:
+            for product in self.product_list:
+                if product.name == product_tuple[0]:
+                    order.add_product((product, product_tuple[1]))
+        ordering_customer.add_new_order(order)
 
-    def add_customer(self):
+    def add_customer(self, customer):
         """Method for adding a customer to the list."""
-        pass
+        if customer not in self.customer_list:
+            self.customer_list.append(customer)
 
-    def add_customers(self):
+    def add_customers(self, customers: list):
         """Method for adding several customers to the list."""
-        pass
+        for customer in customers:
+            if customer not in self.customer_list:
+                self.customer_list.append(customer)
 
     def show_all_orders(self) -> str:
         """
@@ -156,29 +178,48 @@ class App:
 class Customer:
     """Customer to implement."""
 
-    pass
+    def __init__(self, name: str, address: str):
+        """Customer constructor."""
+        self.name = name
+        self.address = address
+        self.orders = []
+
+    def get_name(self) -> str:
+        """Getter for client name."""
+        return self.name
+
+    def get_address(self) -> str:
+        """Getter for client address."""
+        return self.address
+
+    def get_orders(self) -> list:
+        """Getter for client orders."""
+        return self.orders
+
+    def add_new_order(self, order: Order):
+        """Add order to the list of orders."""
+        self.orders.append(order)
 
 
 if __name__ == '__main__':
-    # app = App()
-    # # Adding default customers to our app.
-    # app.add_customers([Customer("Anton", "home"), Customer("Rubber Duck", "home-table"), Customer("Svetozar", "Dorm 1"),
-    #                    Customer("Toivo", "Dorm 2"), Customer("Muhhamad", "Muhha's lair"), Customer("test", "TEST")])
-    # # Ordering some food for everyone.
-    # app.order("Anton", [("Avocado", 2), ("Orange", 1), ("Papaya", 3), ("Cherry tomato", 2)])
-    # app.order("Anton", [("Avocado", 4), ("Orange", 2), ("Papaya", 3), ("Cherry tomato", 2)])
-    # app.order("Rubber Duck", [("Mango Irwin", 6)])
-    # app.order("Svetozar", [("Lemon", 1)])
-    # app.order("Svetozar", [("Grapefruit", 10)])
-    # app.order("Muhhamad", [("Grenades", 13), ("Cannon", 1), ("Red pepper", 666)])
-    # app.order("Toivo", [("Granadilla", 3), ("Chestnut", 3), ("Pitaya(Dragon Fruit)", 3)])
-    # # Checking products dictionary format (we want numeric price, not string).
-    # print(app.get_products())
-    # print("=======")
-    # # Checking how all orders and summary look like.
+    app = App()
+    # Adding default customers to our app.
+    app.add_customers([Customer("Anton", "home"), Customer("Rubber Duck", "home-table"), Customer("Svetozar", "Dorm 1"),
+                       Customer("Toivo", "Dorm 2"), Customer("Muhhamad", "Muhha's lair"), Customer("test", "TEST")])
+    # Ordering some food for everyone.
+    app.order("Anton", [("Avocado", 2), ("Orange", 1), ("Papaya", 3), ("Cherry tomato", 2)])
+    app.order("Anton", [("Avocado", 4), ("Orange", 2), ("Papaya", 3), ("Cherry tomato", 2)])
+    app.order("Rubber Duck", [("Mango Irwin", 6)])
+    app.order("Svetozar", [("Lemon", 1)])
+    app.order("Svetozar", [("Grapefruit", 10)])
+    app.order("Muhhamad", [("Grenades", 13), ("Cannon", 1), ("Red pepper", 666)])
+    app.order("Toivo", [("Granadilla", 3), ("Chestnut", 3), ("Pitaya(Dragon Fruit)", 3)])
+    # Checking products dictionary format (we want numeric price, not string).
+    print(app.get_products())
+    print("=======")
+    # Checking how all orders and summary look like.
     # print(app.show_all_orders(False))
     # print("=======")
     # print(app.show_all_orders(True))
     # print("=======")
     # app.calculate_summary()
-    print(App.import_products(App()))
