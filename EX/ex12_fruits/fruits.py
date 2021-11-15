@@ -70,14 +70,14 @@ class App:
         """Getter for orders list."""
         pass
 
-    def import_products(self) -> list[Product]:
+    def import_products(self, file: str = "pricelist.txt") -> list[Product]:
         """
         Import products from a file, return list of Product objects.
 
         Filename is an argument here.
         """
         product_list = []
-        with open("pricelist.txt") as file:
+        with open(file) as file:
             data = file.read()
         data = data.split("\n")
         for data_line in data:
