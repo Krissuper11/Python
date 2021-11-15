@@ -196,15 +196,17 @@ class App:
         for order in customer.orders:
             for product, quantity in order.order_dict.items():
                 total_price += product.price * quantity
-        return round(total_price, 2)
+        return total_price
 
     def calculate_summary(self):
         """Method for printing a summary of all orders with totals and the total for all customers' all orders."""
+        result = ""
         total_summary = 0
         for customer in self.customer_list:
             total_summary += self.calculate_total(customer)
-        print(self.show_all_orders(True))
-        print(f"ALL ORDERS TOTAL: {total_summary}")
+        result += self.show_all_orders(True)
+        result += f"ALL ORDERS TOTAL: {total_summary}"
+        return result
 
 
 class Customer:
