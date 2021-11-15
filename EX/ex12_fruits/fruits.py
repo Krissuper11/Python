@@ -81,8 +81,9 @@ class App:
             data = file.read()
         data = data.split("\n")
         for data_line in data:
-            index = data_line.index("-")
-            product_list.append(Product(data_line[:index], float(data_line[index + 2:])))
+            if "-" in data_line:
+                index = data_line.index(" - ")
+                product_list.append(Product(data_line[:index], float(data_line[index + 2:])))
         return product_list
 
     def find_product_by_name(self, name: str) -> Product:
