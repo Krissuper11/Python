@@ -35,7 +35,7 @@ class Order:
         """Getter for orders dict."""
         return self.order_dict
 
-    def get_client(self):
+    def get_customer(self):
         """Getter for customer."""
         return self.customer
 
