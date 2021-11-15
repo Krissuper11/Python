@@ -148,14 +148,12 @@ class App:
 
     def add_customer(self, customer):
         """Method for adding a customer to the list."""
-        if customer not in self.customer_list:
-            self.customer_list.append(customer)
+        self.customer_list.append(customer)
 
     def add_customers(self, customers: list):
         """Method for adding several customers to the list."""
         for customer in customers:
-            if customer not in self.customer_list:
-                self.customer_list.append(customer)
+            self.customer_list.append(customer)
 
     def show_all_orders(self) -> str:
         """
