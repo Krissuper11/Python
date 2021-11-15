@@ -28,7 +28,7 @@ class Order:
         Expected default customer parameter starting from Part 3. Also, products dictionary
         is expected to be created and products names set as a helper.
         """
-        pass
+        self.order_dict = {}
 
     def get_products_string(self) -> str:
         """
@@ -43,11 +43,18 @@ class Order:
 
     def add_product(self, product):
         """Method for adding a single product to the dictionary."""
-        pass
+        if product[0] not in self.order_dict:
+            self.order_dict[product[0]] = product[1]
+        else:
+            self.order_dict[product[0]] += product[1]
 
     def add_products(self, products):
         """Method for adding several products to the dictionary."""
-        pass
+        for product in products:
+            if product[0] not in self.order_dict:
+                self.order_dict[product[0]] = product[1]
+            else:
+                self.order_dict[product[0]] += product[1]
 
 
 class App:
@@ -61,6 +68,7 @@ class App:
     def __init__(self):
         """App constructor, no arguments expected."""
         self.product_list = self.import_products()
+        self.order_list = []
 
     def get_products(self) -> list:
         """Getter for products list."""
@@ -98,7 +106,16 @@ class App:
         The parameter is list of products. Create a new order, then add passed products to
         this order, then add this order to the orders list.
         """
-        pass
+        if len(self.product_list) == 1:
+            order = Order()
+            Order.add_product(order, self.product_list[0])
+            order_dict = order.order_dict
+            self.order_list.append(order_dict)
+        elif len(self.product_list) > 1:
+            order = Order()
+            Order.add_products(order, self.product_list)
+            order_dict = order.order_dict
+            self.order_list.append(order_dict)
 
     def order(self):
         """
