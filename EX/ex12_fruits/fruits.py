@@ -30,6 +30,10 @@ class Order:
         """
         self.order_dict = {}
 
+    def get_products(self) -> dict:
+        """Return dict with products and amounts."""
+        return self.order_dict
+
     def get_products_string(self) -> str:
         """
         Method for converting products to a string.
@@ -76,7 +80,7 @@ class App:
 
     def get_orders(self) -> list:
         """Getter for orders list."""
-        pass
+        return self.order_list
 
     def import_products(self, file: str = "pricelist.txt") -> list[Product]:
         """
