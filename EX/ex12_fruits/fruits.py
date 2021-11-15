@@ -48,7 +48,10 @@ class Order:
         of such long string there should be no comma, nor string. Example:
         'Avocado: 2 kg, Orange: 1 kg, Papaya: 3 kg, Cherry tomato: 2 kg'
         """
-        pass
+        result = ""
+        for product, quantity in self.order_dict.items():
+            result += f"{product}: {quantity} kg, "
+        return result[:-2]
 
     def add_product(self, product):
         """Method for adding a single product to the dictionary."""
@@ -155,22 +158,53 @@ class App:
         for customer in customers:
             self.customer_list.append(customer)
 
-    def show_all_orders(self) -> str:
+    def show_all_orders(self, is_summary: bool) -> str:
         """
         Method for returning all orders for all customers.
 
         If is_summary is true, add totals for each customer
         and also global total price.
         """
-        pass
+        result = ""
+        if is_summary is False:
+            for i, customer in enumerate(self.customer_list):
+                result += f"{customer.name}:\n"
+                for order in customer.orders:
+                    result += f"{order.get_products_string()}\n"
+                if len(customer.orders) == 0:
+                    result += "nothing"
+                if i != len(self.customer_list) - 1:
+                    result += "\n"
+        elif is_summary is True:
+            for i, customer in enumerate(self.customer_list):
+                result += f"{customer.name}:\n"
+                for order in customer.orders:
+                    result += f"{order.get_products_string()}\n"
+                if len(customer.orders) == 0:
+                    result += "nothing"
+                else:
+                    total_price = self.calculate_total(customer)
+                    formatted_price = "{:.2f}".format(total_price)
+                    result += f"Total: {str(formatted_price)}\n"
+                if i != len(self.customer_list) - 1:
+                    result += "\n"
+        return result
 
-    def calculate_total(self) -> float:
+    def calculate_total(self, customer) -> float:
         """Method for calculating total price for all customer's orders."""
-        pass
+        total_price = 0
+        for order in customer.orders:
+            for product, quantity in order.order_dict.items():
+                total_price += product.price * quantity
+        return round(total_price, 2)
 
     def calculate_summary(self):
         """Method for printing a summary of all orders with totals and the total for all customers' all orders."""
-        pass
+        total_summary = 0
+        for customer in self.customer_list:
+            total_summary += self.calculate_total(customer)
+        print(self.show_all_orders(True))
+        print(f"ALL ORDERS TOTAL: {total_summary}")
 
 
 class Customer:
@@ -216,8 +250,8 @@ if __name__ == '__main__':
     print(app.get_products())
     print("=======")
     # Checking how all orders and summary look like.
-    # print(app.show_all_orders(False))
-    # print("=======")
-    # print(app.show_all_orders(True))
-    # print("=======")
-    # app.calculate_summary()
+    print(app.show_all_orders(False))
+    print("=======")
+    print(app.show_all_orders(True))
+    print("=======")
+    app.calculate_summary()
