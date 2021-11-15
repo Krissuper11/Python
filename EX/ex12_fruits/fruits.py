@@ -13,6 +13,10 @@ class Product:
         self.name = name
         self.price = price
 
+    def __repr__(self):
+        """__repr__."""
+        return self.name
+
 
 class Order:
     """Order class."""
@@ -77,7 +81,7 @@ class App:
             data = file.read()
         data = data.split("\n")
         for data_line in data:
-            index = data_line.index(" - ")
+            index = data_line.index("-")
             product_list.append(Product(data_line[:index], float(data_line[index + 2:])))
         return product_list
 
@@ -136,24 +140,25 @@ class Customer:
 
 
 if __name__ == '__main__':
-    app = App()
-    # Adding default customers to our app.
-    app.add_customers([Customer("Anton", "home"), Customer("Rubber Duck", "home-table"), Customer("Svetozar", "Dorm 1"),
-                       Customer("Toivo", "Dorm 2"), Customer("Muhhamad", "Muhha's lair"), Customer("test", "TEST")])
-    # Ordering some food for everyone.
-    app.order("Anton", [("Avocado", 2), ("Orange", 1), ("Papaya", 3), ("Cherry tomato", 2)])
-    app.order("Anton", [("Avocado", 4), ("Orange", 2), ("Papaya", 3), ("Cherry tomato", 2)])
-    app.order("Rubber Duck", [("Mango Irwin", 6)])
-    app.order("Svetozar", [("Lemon", 1)])
-    app.order("Svetozar", [("Grapefruit", 10)])
-    app.order("Muhhamad", [("Grenades", 13), ("Cannon", 1), ("Red pepper", 666)])
-    app.order("Toivo", [("Granadilla", 3), ("Chestnut", 3), ("Pitaya(Dragon Fruit)", 3)])
-    # Checking products dictionary format (we want numeric price, not string).
-    print(app.get_products())
-    print("=======")
-    # Checking how all orders and summary look like.
-    print(app.show_all_orders(False))
-    print("=======")
-    print(app.show_all_orders(True))
-    print("=======")
-    app.calculate_summary()
+    # app = App()
+    # # Adding default customers to our app.
+    # app.add_customers([Customer("Anton", "home"), Customer("Rubber Duck", "home-table"), Customer("Svetozar", "Dorm 1"),
+    #                    Customer("Toivo", "Dorm 2"), Customer("Muhhamad", "Muhha's lair"), Customer("test", "TEST")])
+    # # Ordering some food for everyone.
+    # app.order("Anton", [("Avocado", 2), ("Orange", 1), ("Papaya", 3), ("Cherry tomato", 2)])
+    # app.order("Anton", [("Avocado", 4), ("Orange", 2), ("Papaya", 3), ("Cherry tomato", 2)])
+    # app.order("Rubber Duck", [("Mango Irwin", 6)])
+    # app.order("Svetozar", [("Lemon", 1)])
+    # app.order("Svetozar", [("Grapefruit", 10)])
+    # app.order("Muhhamad", [("Grenades", 13), ("Cannon", 1), ("Red pepper", 666)])
+    # app.order("Toivo", [("Granadilla", 3), ("Chestnut", 3), ("Pitaya(Dragon Fruit)", 3)])
+    # # Checking products dictionary format (we want numeric price, not string).
+    # print(app.get_products())
+    # print("=======")
+    # # Checking how all orders and summary look like.
+    # print(app.show_all_orders(False))
+    # print("=======")
+    # print(app.show_all_orders(True))
+    # print("=======")
+    # app.calculate_summary()
+    print(App.import_products(App()))
