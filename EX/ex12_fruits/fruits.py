@@ -112,14 +112,12 @@ class App:
         """
         if isinstance(products, tuple):
             order = Order()
-            Order.add_product(order, products)
-            order_dict = order.order_dict
-            self.order_list.append(order_dict)
+            order.add_product(products)
+            self.order_list.append(order)
         elif isinstance(products, list):
             order = Order()
-            Order.add_products(order, products)
-            order_dict = order.order_dict
-            self.order_list.append(order_dict)
+            order.add_products(products)
+            self.order_list.append(order)
 
     def order(self):
         """
