@@ -144,11 +144,13 @@ class App:
                 ordering_customer = customer
         order = Order(ordering_customer)
         for product_tuple in products:
+            product_check = False
             for product in self.product_list:
                 if product.name == product_tuple[0]:
                     order.add_product((product, product_tuple[1]))
-                else:
-                    raise Exception(f"Woopsie. There is no such product as {product_tuple[0]}")
+                    product_check = True
+            if product_check is False:
+                raise Exception(f"Woopsie. There is no such product as {product_tuple[0]}")
         ordering_customer.add_new_order(order)
 
     def add_customer(self, customer):
@@ -269,7 +271,7 @@ if __name__ == '__main__':
     app.order("name1", [])
     app.order("name1", [])
     app.order("name12", [])
-    app.order("orderer1", [("Avocadoo", 2), ("Orange", 3)])
+    app.order("orderer1", [("Avocado", 2), ("Orange", 3)])
     app.order("orderer1", [])
     app.order("orderer1", [("Grenades", 5), ("Lychees", 123)])
     app.order("orderer2", [("Grenades", 5), ("Lychees", 123), ("Green pepper", 3)])
