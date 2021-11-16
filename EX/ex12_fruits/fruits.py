@@ -173,6 +173,7 @@ class App:
                 for order in customer.orders:
                     order_string += f"{order.get_products_string()}\n"
                 if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
+                    order_string = ""
                     if i != len(self.customer_list) - 1:
                         result += "nothing\n"
                     else:
@@ -250,19 +251,17 @@ class Customer:
 if __name__ == '__main__':
     app = App()
     # Adding default customers to our app.
-    app.add_customers([Customer("Anton", "home"), Customer("Rubber Duck", "home-table"), Customer("Svetozar", "Dorm 1"),
-                       Customer("Toivo", "Dorm 2"), Customer("Muhhamad", "Muhha's lair"), Customer("test", "TEST")])
+    app.add_customers([Customer("name1", "home"), Customer("name1", "home-table"), Customer("name12", "Dorm 1"),
+                       Customer("orderer1", "Dorm 2"), Customer("orderer2", "Muhha's lair")])
     # Ordering some food for everyone.
-    app.order("Anton", [("Avocado", 2), ("Orange", 1), ("Papaya", 3), ("Cherry tomato", 2)])
-    app.order("Anton", [("Avocado", 4), ("Orange", 2), ("Papaya", 3), ("Cherry tomato", 2)])
-    app.order("Rubber Duck", [("Mango Irwin", 6)])
-    app.order("Svetozar", [])
-    app.order("Svetozar", [])
-    app.order("Muhhamad", [("Grenades", 13), ("Cannon", 1), ("Red pepper", 666)])
-    app.order("Toivo", [("Granadilla", 3), ("Chestnut", 3), ("Pitaya(Dragon Fruit)", 3)])
-    app.order("test", [("Cannon", 1)])
+    app.order("name1", [])
+    app.order("name1", [])
+    app.order("name12", [])
+    app.order("orderer1", [("Avocado", 2), ("Orange", 3)])
+    app.order("orderer1", [])
+    app.order("orderer1", [("Grenades", 5), ("Lychees", 123)])
+    app.order("orderer2", [("Grenades", 5), ("Lychees", 123), ("Green pepper", 3)])
     # Checking products dictionary format (we want numeric price, not string).
-    print(app.get_products())
     print("=======")
     # Checking how all orders and summary look like.
     print(app.show_all_orders(False))
