@@ -165,41 +165,51 @@ class App:
         If is_summary is true, add totals for each customer
         and also global total price.
         """
-        result = ""
         if is_summary is False:
-            for i, customer in enumerate(self.customer_list):
-                order_string = ""
-                result += f"{customer.name}:\n"
-                for order in customer.orders:
-                    order_string += f"{order.get_products_string()}\n"
-                if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
-                    order_string = ""
-                    if i != len(self.customer_list) - 1:
-                        result += "nothing\n"
-                    else:
-                        result += "nothing"
-                if i != len(self.customer_list) - 1:
-                    result += order_string
-                    result += "\n"
-                else:
-                    result += order_string[:-1]
+            return self.show_all_orders_if_false()
         elif is_summary is True:
-            for i, customer in enumerate(self.customer_list):
+            return self.show_all_orders_if_true()
+
+    def show_all_orders_if_false(self) -> str:
+        """Create report if is_summary is False."""
+        result = ""
+        for i, customer in enumerate(self.customer_list):
+            order_string = ""
+            result += f"{customer.name}:\n"
+            for order in customer.orders:
+                order_string += f"{order.get_products_string()}\n"
+            if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
                 order_string = ""
-                result += f"{customer.name}:\n"
-                for order in customer.orders:
-                    order_string += f"{order.get_products_string()}\n"
-                if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
+                if i != len(self.customer_list) - 1:
                     result += "nothing\n"
                 else:
-                    result += order_string
-                total_price = self.calculate_total(customer)
-                formatted_price = "{:.2f}".format(total_price)
-                if i != len(self.customer_list) - 1:
-                    result += f"Total: {str(formatted_price)}\n"
-                    result += "\n"
-                else:
-                    result += f"Total: {str(formatted_price)}"
+                    result += "nothing"
+            if i != len(self.customer_list) - 1:
+                result += order_string
+                result += "\n"
+            else:
+                result += order_string[:-1]
+        return result
+
+    def show_all_orders_if_true(self) -> str:
+        """Create report if is_summary is True."""
+        result = ""
+        for i, customer in enumerate(self.customer_list):
+            order_string = ""
+            result += f"{customer.name}:\n"
+            for order in customer.orders:
+                order_string += f"{order.get_products_string()}\n"
+            if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
+                result += "nothing\n"
+            else:
+                result += order_string
+            total_price = self.calculate_total(customer)
+            formatted_price = "{:.2f}".format(total_price)
+            if i != len(self.customer_list) - 1:
+                result += f"Total: {str(formatted_price)}\n"
+                result += "\n"
+            else:
+                result += f"Total: {str(formatted_price)}"
         return result
 
     def calculate_total(self, customer) -> float:
