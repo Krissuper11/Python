@@ -168,26 +168,36 @@ class App:
         result = ""
         if is_summary is False:
             for i, customer in enumerate(self.customer_list):
+                order_string = ""
                 result += f"{customer.name}:\n"
                 for order in customer.orders:
-                    result += f"{order.get_products_string()}\n"
-                if len(customer.orders) == 0:
-                    result += "nothing"
+                    order_string += f"{order.get_products_string()}\n"
+                if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
+                    if i != len(self.customer_list) - 1:
+                        result += "nothing\n"
+                    else:
+                        result += "nothing"
+                else:
+                    result += order_string
                 if i != len(self.customer_list) - 1:
                     result += "\n"
         elif is_summary is True:
             for i, customer in enumerate(self.customer_list):
+                order_string = ""
                 result += f"{customer.name}:\n"
                 for order in customer.orders:
-                    result += f"{order.get_products_string()}\n"
-                if len(customer.orders) == 0:
-                    result += "nothing"
+                    order_string += f"{order.get_products_string()}\n"
+                if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
+                    result += "nothing\n"
                 else:
-                    total_price = self.calculate_total(customer)
-                    formatted_price = "{:.2f}".format(total_price)
-                    result += f"Total: {str(formatted_price)}\n"
+                    result += order_string
+                total_price = self.calculate_total(customer)
+                formatted_price = "{:.2f}".format(total_price)
                 if i != len(self.customer_list) - 1:
+                    result += f"Total: {str(formatted_price)}\n"
                     result += "\n"
+                else:
+                    result += f"Total: {str(formatted_price)}"
         return result
 
     def calculate_total(self, customer) -> float:
@@ -205,7 +215,8 @@ class App:
         for customer in self.customer_list:
             total_summary += self.calculate_total(customer)
         result += self.show_all_orders(True)
-        result += f"ALL ORDERS TOTAL: {total_summary}"
+        result += f"\nALL ORDERS TOTAL: {total_summary}"
+        print(result)
         return result
 
 
@@ -244,8 +255,8 @@ if __name__ == '__main__':
     app.order("Anton", [("Avocado", 2), ("Orange", 1), ("Papaya", 3), ("Cherry tomato", 2)])
     app.order("Anton", [("Avocado", 4), ("Orange", 2), ("Papaya", 3), ("Cherry tomato", 2)])
     app.order("Rubber Duck", [("Mango Irwin", 6)])
-    app.order("Svetozar", [("Lemon", 1)])
-    app.order("Svetozar", [("Grapefruit", 10)])
+    app.order("Svetozar", [])
+    app.order("Svetozar", [])
     app.order("Muhhamad", [("Grenades", 13), ("Cannon", 1), ("Red pepper", 666)])
     app.order("Toivo", [("Granadilla", 3), ("Chestnut", 3), ("Pitaya(Dragon Fruit)", 3)])
     # Checking products dictionary format (we want numeric price, not string).
