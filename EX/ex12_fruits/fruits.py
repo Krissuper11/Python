@@ -168,34 +168,30 @@ class App:
         result = ""
         if is_summary is False:
             for i, customer in enumerate(self.customer_list):
-                order_result = ""
+                order_string = ""
                 result += f"{customer.name}:\n"
                 for order in customer.orders:
-                    order_string = f"{order.get_products_string()}\n"
-                    if order_string != "\n":
-                        order_result += order_string
-                if len(customer.orders) == 0 or order_result == "":
+                    order_string += f"{order.get_products_string()}\n"
+                if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
                     if i != len(self.customer_list) - 1:
                         result += "nothing\n"
                     else:
                         result += "nothing"
                 if i != len(self.customer_list) - 1:
-                    result += order_result
+                    result += order_string
                     result += "\n"
                 else:
-                    result += order_result[:-1]
+                    result += order_string[:-1]
         elif is_summary is True:
             for i, customer in enumerate(self.customer_list):
-                order_result = ""
+                order_string = ""
                 result += f"{customer.name}:\n"
                 for order in customer.orders:
-                    order_string = f"{order.get_products_string()}\n"
-                    if order_string != "\n":
-                        order_result += order_string
-                if len(customer.orders) == 0 or order_result == "":
+                    order_string += f"{order.get_products_string()}\n"
+                if len(customer.orders) == 0 or order_string == "\n" * len(customer.orders):
                     result += "nothing\n"
                 else:
-                    result += order_result
+                    result += order_string
                 total_price = self.calculate_total(customer)
                 formatted_price = "{:.2f}".format(total_price)
                 if i != len(self.customer_list) - 1:
