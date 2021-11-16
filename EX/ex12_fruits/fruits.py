@@ -177,10 +177,11 @@ class App:
                         result += "nothing\n"
                     else:
                         result += "nothing"
-                else:
-                    result += order_string
                 if i != len(self.customer_list) - 1:
+                    result += order_string
                     result += "\n"
+                else:
+                    result += order_string[:-1]
         elif is_summary is True:
             for i, customer in enumerate(self.customer_list):
                 order_string = ""
@@ -259,6 +260,7 @@ if __name__ == '__main__':
     app.order("Svetozar", [])
     app.order("Muhhamad", [("Grenades", 13), ("Cannon", 1), ("Red pepper", 666)])
     app.order("Toivo", [("Granadilla", 3), ("Chestnut", 3), ("Pitaya(Dragon Fruit)", 3)])
+    app.order("test", [("Cannon", 1)])
     # Checking products dictionary format (we want numeric price, not string).
     print(app.get_products())
     print("=======")
