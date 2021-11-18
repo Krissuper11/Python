@@ -282,4 +282,3 @@ if __name__ == '__main__':
     print("=======")
     print(app.show_all_orders(True))
     print("=======")
-    app.calculate_summary()
