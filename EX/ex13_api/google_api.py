@@ -16,10 +16,10 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
 
     creds = Credentials.from_authorized_user_file(token, scopes)
 
-    service = build('sheets', 'v4', credentials=creds)
+    service = build("sheets", "v4", credentials=creds)
 
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=id,
-                                range="1:100").execute()
+                                range="A:A").execute()
     values = result.get('values', [])
     return [row[0] for row in values]
