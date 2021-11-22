@@ -1,8 +1,5 @@
 from __future__ import print_function
-import os.path
 from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 
 
@@ -23,6 +20,6 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
 
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=id,
-                                range="Class Data!A1:A31").execute()
+                                range="Class Data!A1:A").execute()
     values = result.get('values', [])
     return [row[0] for row in values]
