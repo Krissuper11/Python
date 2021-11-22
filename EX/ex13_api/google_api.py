@@ -20,6 +20,6 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
 
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=id,
-                                range="Class Data!A1:A").execute()
+                                range="1:100").execute()
     values = result.get('values', [])
     return [row[0] for row in values]
