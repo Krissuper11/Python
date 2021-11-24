@@ -53,14 +53,14 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
     request = youtube.playlistItems().list(
         part="contentDetails",
         playlistId=playlist_id,
-        maxResults=50,
+        maxResults=1,
     )
     response = request.execute()
     for dictionary in response["items"]:
         result_list.append(f"www.youtube.com/watch?v={dictionary['contentDetails']['videoId']}")
     next_page_token = response.get("nextPageToken")
 
-    while next_page_token in response:
+    while "nextPageToken" in response:
         request1 = youtube.playlistItems().list(
             part="contentDetails",
             playlistId=playlist_id,
@@ -71,8 +71,8 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
 
         for dictionary in response1["items"]:
             result_list.append(f"www.youtube.com/watch?v={dictionary['contentDetails']['videoId']}")
-        if "nextPageToken" in request1:
-            next_page_token = request1['nextPageToken']
+        if "nextPageToken" in response1:
+            next_page_token = response1['nextPageToken']
         else:
             return result_list
     return result_list
