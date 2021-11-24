@@ -1,6 +1,6 @@
 """EX 13 Google API."""
 from __future__ import print_function
-import googleapiclient.discovery
+from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 
 
@@ -39,7 +39,7 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
         ['https://youtube.com/watch?v=r_It_X7v-1E', 'https://youtube.com/watch?v=U4ogK0MIzqk', ... and so on]
     """
     result_list = []
-    next_page_token = ""
+    import googleapiclient.discovery
 
     api_service_name = "youtube"
     api_version = "v3"
@@ -61,8 +61,10 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
         result_list.append(f"www.youtube.com/watch?v={dictionary['contentDetails']['videoId']}")
     if "nextPageToken" in response:
         next_page_token = response.get("nextPageToken")
+    else:
+        return result_list
 
-    while next_page_token != "":
+    while "nextPageToken" in response:
         request1 = youtube.playlistItems().list(
             part="contentDetails",
             playlistId=playlist_id,
