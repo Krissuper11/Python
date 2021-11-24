@@ -55,20 +55,26 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
         playlistId=playlist_id,
         maxResults=50,
     )
-    next_page_token = request.get("nextPageToken")
     response = request.execute()
+    for dictionary in response["items"]:
+        result_list.append(f"www.youtube.com/watch?v={dictionary['contentDetails']['videoId']}")
+    next_page_token = response.get("nextPageToken")
 
-    while next_page_token in request:
+    while next_page_token in response:
         request1 = youtube.playlistItems().list(
             part="contentDetails",
             playlistId=playlist_id,
             maxResults=50,
             pageToken=next_page_token
         )
+        response1 = request1.execute()
 
-        for dictionary in response["items"]:
+        for dictionary in response1["items"]:
             result_list.append(f"www.youtube.com/watch?v={dictionary['contentDetails']['videoId']}")
         if "nextPageToken" in request1:
             next_page_token = request1['nextPageToken']
         else:
             return result_list
+    return result_list
+print(get_links_from_playlist('https://www.youtube.com/playlist?list=PLFt_AvWsXl0ehjAfLFsp1PGaatzAwo0uK',
+                                'AIzaSyB5db-2e2k6AbOjZ3dRLPCKKMV1eMYsRzA'))
