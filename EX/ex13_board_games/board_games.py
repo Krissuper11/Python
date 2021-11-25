@@ -54,8 +54,8 @@ class Statistics:
             player = self.find_player_in_list(player_name)
             return sum(player.games.values())
 
-        elif "/favorite" in path:
-            player_name = path[8:path.index("/favorite")]
+        elif "/favourite" in path:
+            player_name = path[8:path.index("/favourite")]
             player = self.find_player_in_list(player_name)
             game_count = 0
             for key, value in player.games.items():
@@ -92,6 +92,20 @@ class Statistics:
                         game_win_freq = win_freq
                         best_player = player.name
             return best_player
+        elif "/most-losses" in path:
+            game_name = path[6:path.index("/most-losses")]
+            game = self.find_game_in_list(game_name)
+            return min(game.winners, key=game.winners.count)
+        elif "/most-frequent-loser" in path:
+            game_name = path[6:path.index("/most-frequent-winner")]
+            game_win_freq = 0
+            for player in self.players:
+                if game_name in player.losses and game_name in player.games:
+                    win_freq = player.losses[game_name] / player.losses[game_name]
+                    if win_freq > -game_win_freq:
+                        game_win_freq = -win_freq
+                        player_name = player.name
+            return player_name
 
 
     def add_games_from_data(self, data_list):
@@ -104,6 +118,7 @@ class Statistics:
             players = element[1].split(",")
             game.add_count(element[1])
             game.winners.append(self.find_winner(players, element))
+            game.losers.append(self.find_loser(players, element))
 
             if game.type == "points":
                 points = element[3].split(",")
@@ -123,9 +138,12 @@ class Statistics:
 
     def add_player_from_data(self, data_list):
         """Create and add player."""
+        loser_name = ""
         for element in data_list:
             players = element[1].split(",")
             winner_name = self.find_winner(players, element)
+            if element[2] == "points" or element[2] == "places":
+                loser_name = self.find_winner(players, element)
             for player_name in players:
                 player = self.find_player_in_list(player_name)
                 if not player:
@@ -133,6 +151,8 @@ class Statistics:
                     self.players.append(player)
                 if player_name == winner_name:
                     player.add_win(element[0])
+                if player_name == loser_name:
+                    player.add_loss(element[0])
                 player.add_game_count(element[0])
 
     def find_winner(self, players, element):
@@ -149,6 +169,18 @@ class Statistics:
 
         elif element[2] == "winner":
             return element[3]
+
+    def find_loser(self, players, element):
+        """Find loser."""
+        if element[2] == "points":
+            points = [int(element) for element in element[3].split(",")]
+            min_points = min(points)
+            points_index = points.index(min_points)
+            return players[points_index]
+
+        elif element[2] == "places":
+            places = element[3].split(",")
+            return places[-1]
 
     def find_player_in_list(self, player_name):
         """Find player in player list."""
@@ -173,17 +205,25 @@ class Player:
         self.name = name
         self.wins = {}
         self.games = {}
+        self.losses = {}
 
     def __repr__(self):
         """Name."""
         return self.name
 
     def add_win(self, game: str):
-        """Add points to points dict."""
+        """Add win to wins dict."""
         if game not in self.wins:
             self.wins[game] = 1
         else:
             self.wins[game] += 1
+
+    def add_loss(self, game: str):
+        """Add loss to losses dict."""
+        if game not in self.losses:
+            self.losses[game] = 1
+        else:
+            self.losses[game] += 1
 
     def add_game_count(self, game: str):
         """Count games."""
@@ -200,6 +240,7 @@ class Game:
         self.type = game_type
         self.results = {}
         self.winners = []
+        self.losers = []
         self.counter = 0
         self.number_of_players = []
 
@@ -227,5 +268,5 @@ class Game:
 if __name__ == "__main__":
     stat = Statistics("data.txt")
     print(stat.get("/game/chess/player-amount"))
-    print(stat.get("/game/terraforming mars/most-frequent-winner"))
+    print(stat.get("/player/joosep/favourite"))
 
