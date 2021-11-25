@@ -95,9 +95,9 @@ class Statistics:
         elif "/most-losses" in path:
             game_name = path[6:path.index("/most-losses")]
             game = self.find_game_in_list(game_name)
-            return min(game.winners, key=game.winners.count)
+            return min(game.losers, key=game.losers.count)
         elif "/most-frequent-loser" in path:
-            game_name = path[6:path.index("/most-frequent-winner")]
+            game_name = path[6:path.index("/most-frequent-loser")]
             game_win_freq = 0
             for player in self.players:
                 if game_name in player.losses and game_name in player.games:
