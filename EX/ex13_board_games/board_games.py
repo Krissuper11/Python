@@ -15,7 +15,10 @@ class Statistics:
         data_list = []
         with open(self.filename) as file:
             for line in file:
-                data_list.append(tuple(line[:-1].split(";")))
+                if "\n" in line:
+                    data_list.append(tuple(line[:-1].split(";")))
+                else:
+                    data_list.append(tuple(line.split(";")))
         self.add_player_from_data(data_list)
         self.add_games_from_data(data_list)
 
@@ -25,8 +28,17 @@ class Statistics:
             return [player.name for player in self.players]
         elif path == "/games":
             return [game.name for game in self.games]
-        elif path == "/total":
-            return sum([len(game.winners) for game in self.games])
+
+        elif "/total" in path:
+            if "/total/" in path:
+                if path[7:] == "points":
+                    return sum([game.counter for game in self.games if game.type == "points"])
+                elif path[7:] == "places":
+                    return sum([game.counter for game in self.games if game.type == "places"])
+                elif path[7:] == "winner":
+                    return sum([game.counter for game in self.games if game.type == "winner"])
+            return sum([game.counter for game in self.games])
+
         if "/player" in path:
             return self.get_player_stat(path)
 
@@ -36,6 +48,7 @@ class Statistics:
             player_name = path[8:path.index("/amount")]
             player = self.find_player_in_list(player_name)
             return sum(player.games.values())
+
         elif "/favorite" in path:
             player_name = path[8:path.index("/favorite")]
             player = self.find_player_in_list(player_name)
@@ -46,6 +59,7 @@ class Statistics:
                     game_count = value
                     game = key
             return game
+
         elif "/won" in path:
             player_name = path[8:path.index("/won")]
             player = self.find_player_in_list(player_name)
@@ -55,14 +69,15 @@ class Statistics:
         """Create and add games."""
         for element in data_list:
             in_list = False
-            for game in self.games:
-                if element[0] == game.name:
-                    game = game
+            for game_from_list in self.games:
+                if element[0] == game_from_list.name:
                     in_list = True
+                    game = game_from_list
             if not in_list:
                 game = Game(element[0], element[2])
                 self.games.append(game)
             players = element[1].split(",")
+            game.add_count()
             game.winners.append(self.find_winner(players, element))
             if game.type == "points":
                 points = element[3].split(",")
@@ -96,13 +111,15 @@ class Statistics:
     def find_winner(self, players, element):
         """Find winner."""
         if element[2] == "points":
-            points = element[3].split(",")
+            points = [int(element) for element in element[3].split(",")]
             max_points = max(points)
             points_index = points.index(max_points)
             return players[points_index]
+
         elif element[2] == "places":
             places = element[3].split(",")
             return places[0]
+
         elif element[2] == "winner":
             return element[3]
 
@@ -149,6 +166,7 @@ class Game:
         self.type = game_type
         self.results = {}
         self.winners = []
+        self.counter = 0
 
     def __repr__(self):
         """Name."""
@@ -161,7 +179,11 @@ class Game:
         else:
             self.results[result[0]].append(result[1])
 
+    def add_count(self):
+        """Add game count."""
+        self.counter += 1
+
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    print(stat.get("/total"))
+    print(stat.get("/player/kristjan/won"))
