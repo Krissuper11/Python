@@ -98,12 +98,12 @@ class Statistics:
             return min(game.losers, key=game.losers.count)
         elif "/most-frequent-loser" in path:
             game_name = path[6:path.index("/most-frequent-loser")]
-            game_win_freq = 0
+            game_loss_freq = 0
             for player in self.players:
                 if game_name in player.losses and game_name in player.games:
-                    win_freq = player.losses[game_name] / player.losses[game_name]
-                    if win_freq > -game_win_freq:
-                        game_win_freq = -win_freq
+                    loss_freq = player.losses[game_name] / player.losses[game_name]
+                    if loss_freq > -game_loss_freq:
+                        game_loss_freq = -loss_freq
                         player_name = player.name
             return player_name
 
@@ -118,13 +118,14 @@ class Statistics:
             players = element[1].split(",")
             game.add_count(element[1])
             game.winners.append(self.find_winner(players, element))
-            game.losers.append(self.find_loser(players, element))
 
             if game.type == "points":
+                game.losers.append(self.find_loser(players, element))
                 points = element[3].split(",")
                 for i, player in enumerate(players):
                     game.add_results((player, points[i]))
             elif game.type == "places":
+                game.losers.append(self.find_loser(players, element))
                 players = element[3].split(",")
                 for i, player in enumerate(players):
                     game.add_results((player, i + 1))
@@ -143,7 +144,7 @@ class Statistics:
             players = element[1].split(",")
             winner_name = self.find_winner(players, element)
             if element[2] == "points" or element[2] == "places":
-                loser_name = self.find_winner(players, element)
+                loser_name = self.find_loser(players, element)
             for player_name in players:
                 player = self.find_player_in_list(player_name)
                 if not player:
@@ -267,6 +268,5 @@ class Game:
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    print(stat.get("/game/chess/player-amount"))
-    print(stat.get("/player/joosep/favourite"))
+    print(stat.get("/game/terraforming mars/most-frequent-loser"))
 
