@@ -82,7 +82,7 @@ class Statistics:
             game = self.find_game_in_list(game_name)
             return max(game.winners, key=game.winners.count)
         elif "/most-frequent-winner" in path:
-            self.get_most_freq_winner()
+            self.get_most_freq_winner(path)
         elif "/most-losses" in path:
             game_name = path[6:path.index("/most-losses")]
             game = self.find_game_in_list(game_name)
