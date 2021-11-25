@@ -20,26 +20,35 @@ class Statistics:
 
     def get(self, path: str):
         """Return requested statistics."""
+        if path == "/players":
+            return self.players
+        elif path == "/games":
+            return self.games
+        elif path == "/total":
+            return len(self.games)
         if "/player" in path:
+            self.get_player_stat(path)
 
-            if "/amount" in path:
-                player_name = path[8:path.index("/amount")]
-                player = self.find_player_in_list(player_name)
-                return len(player.games)
-            elif "/favorite" in path:
-                player_name = path[8:path.index("/favorite")]
-                player = self.find_player_in_list(player_name)
-                game_count = 0
-                game = ""
-                for key, value in player.games.items():
-                    if value > game_count:
-                        game_count = value
-                        game = key
-                return game
-            elif "/won" in path:
-                player_name = path[8:path.index("/won")]
-                player = self.find_player_in_list(player_name)
-                return sum(player.wins.values())
+    def get_player_stat(self, path):
+        """Get player statistics."""
+        if "/amount" in path:
+            player_name = path[8:path.index("/amount")]
+            player = self.find_player_in_list(player_name)
+            return len(player.games)
+        elif "/favorite" in path:
+            player_name = path[8:path.index("/favorite")]
+            player = self.find_player_in_list(player_name)
+            game_count = 0
+            game = ""
+            for key, value in player.games.items():
+                if value > game_count:
+                    game_count = value
+                    game = key
+            return game
+        elif "/won" in path:
+            player_name = path[8:path.index("/won")]
+            player = self.find_player_in_list(player_name)
+            return sum(player.wins.values())
 
     def add_games_from_data(self):
         """Create and add games."""
