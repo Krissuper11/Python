@@ -90,7 +90,7 @@ class Statistics:
                     win_freq = player.wins[game_name] / player.games[game_name]
                     if win_freq > game_win_freq:
                         game_win_freq = win_freq
-                        best_player = player
+                        best_player = player.name
             return best_player
 
 
