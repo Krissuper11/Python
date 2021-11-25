@@ -106,7 +106,16 @@ class Statistics:
                         game_loss_freq = -loss_freq
                         player_name = player.name
             return player_name
-
+        elif "/record-holder" in path:
+            game_name = path[6:path.index("/record-holder")]
+            game = self.find_game_in_list(game_name)
+            record = 0
+            for player in game.results:
+                max_result = int(max(game.results[player]))
+                if max_result > record:
+                    record = max_result
+                    record_holder = player
+            return record_holder
 
     def add_games_from_data(self, data_list):
         """Create and add games."""
@@ -268,5 +277,5 @@ class Game:
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    print(stat.get("/game/terraforming mars/most-frequent-loser"))
+    print(stat.get("/game/terraforming mars/record-holder"))
 
