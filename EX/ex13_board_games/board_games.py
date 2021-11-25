@@ -54,14 +54,8 @@ class Statistics:
     def add_games_from_data(self, data_list):
         """Create and add games."""
         for element in data_list:
-            in_list = False
-            for game in self.games:
-                if element[0] == game.name:
-                    game = game
-                    in_list = True
-            if not in_list:
-                game = Game(element[0], element[2])
-                self.games.append(game)
+            game = Game(element[0], element[2])
+            self.games.append(game)
             players = element[1].split(",")
             if game.type == "points":
                 points = element[3].split(",")
@@ -164,4 +158,4 @@ class Game:
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    print(stat.get("/player/gregor/won"))
+    print(stat.get("/players"))
