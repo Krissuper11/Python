@@ -6,17 +6,18 @@ class Statistics:
 
     def __init__(self, filename: str):
         """Statistics constructor."""
-        self.filename = filename
-        self.data = self.import_data()
         self.games = []
         self.players = []
+        self.filename = filename
+        self.import_data()
 
-    def import_data(self) -> list:
+    def import_data(self):
         data_list = []
         with open(self.filename) as file:
             for line in file:
                 data_list.append(tuple(line[:-1].split(";")))
-        return data_list
+        self.add_player_from_data(data_list)
+        self.add_games_from_data(data_list)
 
     def get(self, path: str):
         """Return requested statistics."""
@@ -27,7 +28,7 @@ class Statistics:
         elif path == "/total":
             return len(self.games)
         if "/player" in path:
-            self.get_player_stat(path)
+            return self.get_player_stat(path)
 
     def get_player_stat(self, path):
         """Get player statistics."""
@@ -50,9 +51,9 @@ class Statistics:
             player = self.find_player_in_list(player_name)
             return sum(player.wins.values())
 
-    def add_games_from_data(self):
+    def add_games_from_data(self, data_list):
         """Create and add games."""
-        for element in self.data:
+        for element in data_list:
             in_list = False
             for game in self.games:
                 if element[0] == game.name:
@@ -77,9 +78,9 @@ class Statistics:
                     else:
                         game.add_results((player, 2))
 
-    def add_player_from_data(self):
+    def add_player_from_data(self, data_list):
         """Create and add player."""
-        for element in self.data:
+        for element in data_list:
             players = element[1].split(",")
             if element[2] == "points":
                 points = element[3].split(",")
@@ -163,6 +164,4 @@ class Game:
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    stat.add_games_from_data()
-    stat.add_player_from_data()
     print(stat.get("/player/gregor/won"))
