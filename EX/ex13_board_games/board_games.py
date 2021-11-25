@@ -53,12 +53,11 @@ class Statistics:
             player_name = path[8:path.index("/favorite")]
             player = self.find_player_in_list(player_name)
             game_count = 0
-            game = ""
             for key, value in player.games.items():
                 if value > game_count:
                     game_count = value
-                    game = key
-            return game
+                    game = self.find_game_in_list(key)
+            return game.name
 
         elif "/won" in path:
             player_name = path[8:path.index("/won")]
@@ -68,12 +67,8 @@ class Statistics:
     def add_games_from_data(self, data_list):
         """Create and add games."""
         for element in data_list:
-            in_list = False
-            for game_from_list in self.games:
-                if element[0] == game_from_list.name:
-                    in_list = True
-                    game = game_from_list
-            if not in_list:
+            game = self.find_game_in_list(element[0])
+            if not game:
                 game = Game(element[0], element[2])
                 self.games.append(game)
             players = element[1].split(",")
@@ -128,6 +123,13 @@ class Statistics:
         for player in self.players:
             if player_name == player.name:
                 return player
+        return False
+
+    def find_game_in_list(self, game_name):
+        """Find game in game list."""
+        for game in self.games:
+            if game_name == game.name:
+                return game
         return False
 
 
@@ -186,4 +188,4 @@ class Game:
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    print(stat.get("/player/kristjan/won"))
+    print(stat.get("/player/siim/favorite"))
