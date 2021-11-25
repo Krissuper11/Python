@@ -39,8 +39,13 @@ class Statistics:
                     return sum([game.counter for game in self.games if game.type == "winner"])
             return sum([game.counter for game in self.games])
 
-        if "/player" in path:
+        elif "/game" in path:
+            return self.get_game_stat(path)
+
+        elif "/player" in path:
             return self.get_player_stat(path)
+
+
 
     def get_player_stat(self, path):
         """Get player statistics."""
@@ -64,6 +69,31 @@ class Statistics:
             player = self.find_player_in_list(player_name)
             return sum(player.wins.values())
 
+    def get_game_stat(self, path):
+        """Get game stat."""
+        if "/amount" in path:
+            game_name = path[6:path.index("/amount")]
+            return self.find_game_in_list(game_name).counter
+        elif "/player-amount" in path:
+            game_name = path[6:path.index("/player-amount")]
+            game = self.find_game_in_list(game_name)
+            return max(game.number_of_players, key=game.number_of_players.count)
+        elif "/most-wins" in path:
+            game_name = path[6:path.index("/most-wins")]
+            game = self.find_game_in_list(game_name)
+            return max(game.winners, key=game.winners.count)
+        elif "/most-frequent-winner" in path:
+            game_name = path[6:path.index("/most-frequent-winner")]
+            game_win_freq = 0
+            for player in self.players:
+                if game_name in player.wins and game_name in player.games:
+                    win_freq = player.wins[game_name] / player.games[game_name]
+                    if win_freq > game_win_freq:
+                        game_win_freq = win_freq
+                        best_player = player
+            return best_player
+
+
     def add_games_from_data(self, data_list):
         """Create and add games."""
         for element in data_list:
@@ -72,8 +102,9 @@ class Statistics:
                 game = Game(element[0], element[2])
                 self.games.append(game)
             players = element[1].split(",")
-            game.add_count()
+            game.add_count(element[1])
             game.winners.append(self.find_winner(players, element))
+
             if game.type == "points":
                 points = element[3].split(",")
                 for i, player in enumerate(players):
@@ -82,6 +113,7 @@ class Statistics:
                 players = element[3].split(",")
                 for i, player in enumerate(players):
                     game.add_results((player, i + 1))
+
             elif game.type == "winner":
                 for player in players:
                     if player == element[3]:
@@ -169,6 +201,7 @@ class Game:
         self.results = {}
         self.winners = []
         self.counter = 0
+        self.number_of_players = []
 
     def __repr__(self):
         """Name."""
@@ -181,11 +214,18 @@ class Game:
         else:
             self.results[result[0]].append(result[1])
 
-    def add_count(self):
-        """Add game count."""
+    def add_count(self, players):
+        """
+        Add game count.
+
+        Get string with players and add number of players to list.
+        """
         self.counter += 1
+        self.number_of_players.append(len(players.split(",")))
 
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    print(stat.get("/player/siim/favorite"))
+    print(stat.get("/game/chess/player-amount"))
+    print(stat.get("/game/terraforming mars/most-frequent-winner"))
+
