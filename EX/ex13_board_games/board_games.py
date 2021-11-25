@@ -5,13 +5,14 @@ class Statistics:
     """Collect data and create statistics."""
 
     def __init__(self, filename: str):
-        """Statistics constructor."""
+        """Stat constructor."""
         self.games = []
         self.players = []
         self.filename = filename
         self.import_data()
 
     def import_data(self):
+        """Get data from file."""
         data_list = []
         with open(self.filename) as file:
             for line in file:
@@ -44,8 +45,6 @@ class Statistics:
 
         elif "/player" in path:
             return self.get_player_stat(path)
-
-
 
     def get_player_stat(self, path):
         """Get player statistics."""
@@ -83,29 +82,13 @@ class Statistics:
             game = self.find_game_in_list(game_name)
             return max(game.winners, key=game.winners.count)
         elif "/most-frequent-winner" in path:
-            game_name = path[6:path.index("/most-frequent-winner")]
-            game_win_freq = 0
-            for player in self.players:
-                if game_name in player.wins and game_name in player.games:
-                    win_freq = player.wins[game_name] / player.games[game_name]
-                    if win_freq > game_win_freq:
-                        game_win_freq = win_freq
-                        best_player = player.name
-            return best_player
+            self.get_most_freq_winner()
         elif "/most-losses" in path:
             game_name = path[6:path.index("/most-losses")]
             game = self.find_game_in_list(game_name)
             return min(game.losers, key=game.losers.count)
         elif "/most-frequent-loser" in path:
-            game_name = path[6:path.index("/most-frequent-loser")]
-            game_loss_freq = 0
-            for player in self.players:
-                if game_name in player.losses and game_name in player.games:
-                    loss_freq = player.losses[game_name] / player.losses[game_name]
-                    if loss_freq > -game_loss_freq:
-                        game_loss_freq = -loss_freq
-                        player_name = player.name
-            return player_name
+            self.get_most_freq_loser(path)
         elif "/record-holder" in path:
             game_name = path[6:path.index("/record-holder")]
             game = self.find_game_in_list(game_name)
@@ -116,6 +99,30 @@ class Statistics:
                     record = max_result
                     record_holder = player
             return record_holder
+
+    def get_most_freq_winner(self, path: str):
+        """Find most frequent winner."""
+        game_name = path[6:path.index("/most-frequent-winner")]
+        game_win_freq = 0
+        for player in self.players:
+            if game_name in player.wins and game_name in player.games:
+                win_freq = player.wins[game_name] / player.games[game_name]
+                if win_freq > game_win_freq:
+                    game_win_freq = win_freq
+                    best_player = player.name
+        return best_player
+
+    def get_most_freq_loser(self, path: str):
+        """Find most frequent loser."""
+        game_name = path[6:path.index("/most-frequent-loser")]
+        game_loss_freq = 0
+        for player in self.players:
+            if game_name in player.losses and game_name in player.games:
+                loss_freq = player.losses[game_name] / player.losses[game_name]
+                if loss_freq > -game_loss_freq:
+                    game_loss_freq = -loss_freq
+                    player_name = player.name
+        return player_name
 
     def add_games_from_data(self, data_list):
         """Create and add games."""
@@ -245,7 +252,9 @@ class Player:
 
 class Game:
     """Statistics about games."""
+
     def __init__(self, name: str, game_type: str):
+        """Game constructor."""
         self.name = name
         self.type = game_type
         self.results = {}
@@ -278,4 +287,3 @@ class Game:
 if __name__ == "__main__":
     stat = Statistics("data.txt")
     print(stat.get("/game/terraforming mars/record-holder"))
-
