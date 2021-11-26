@@ -118,7 +118,7 @@ class Statistics:
         game_loss_freq = 0
         for player in self.players:
             if game_name in player.losses and game_name in player.games:
-                loss_freq = player.losses[game_name] / player.losses[game_name]
+                loss_freq = player.losses[game_name] / player.games[game_name]
                 if loss_freq > -game_loss_freq:
                     game_loss_freq = -loss_freq
                     player_name = player.name
@@ -286,4 +286,4 @@ class Game:
 
 if __name__ == "__main__":
     stat = Statistics("data.txt")
-    print(stat.get("/game/terraforming mars/record-holder"))
+    print(stat.get("/game/terraforming mars/most-frequent-loser"))
