@@ -73,30 +73,36 @@ class Statistics:
         if "/amount" in path:
             game_name = path[6:path.index("/amount")]
             return self.find_game_in_list(game_name).counter
+
         elif "/player-amount" in path:
             game_name = path[6:path.index("/player-amount")]
             game = self.find_game_in_list(game_name)
             return max(game.number_of_players, key=game.number_of_players.count)
+
         elif "/most-wins" in path:
             game_name = path[6:path.index("/most-wins")]
             game = self.find_game_in_list(game_name)
-            return max(game.winners, key=game.winners.count)
+            winners = [winner for winner in game.winners.keys()]
+            return max(winners, key=winners.count)
+
         elif "/most-frequent-winner" in path:
             return self.get_most_freq_winner(path)
+
         elif "/most-losses" in path:
             game_name = path[6:path.index("/most-losses")]
             game = self.find_game_in_list(game_name)
             return min(game.losers, key=game.losers.count)
+
         elif "/most-frequent-loser" in path:
             return self.get_most_freq_loser(path)
+
         elif "/record-holder" in path:
             game_name = path[6:path.index("/record-holder")]
             game = self.find_game_in_list(game_name)
             record = 0
-            for player in game.results:
-                max_result = int(max(game.results[player]))
-                if max_result > record:
-                    record = max_result
+            for player, result in game.winners.items():
+                if result > record:
+                    record = result
                     record_holder = player
             return record_holder
 
@@ -133,13 +139,14 @@ class Statistics:
                 self.games.append(game)
             players = element[1].split(",")
             game.add_count(element[1])
-            game.winners.append(self.find_winner(players, element))
+            game.add_winner(self.find_winner(players, element))
 
             if game.type == "points":
                 game.losers.append(self.find_loser(players, element))
                 points = element[3].split(",")
                 for i, player in enumerate(players):
                     game.add_results((player, points[i]))
+
             elif game.type == "places":
                 game.losers.append(self.find_loser(players, element))
                 players = element[3].split(",")
@@ -178,14 +185,17 @@ class Statistics:
             points = [int(element) for element in element[3].split(",")]
             max_points = max(points)
             points_index = points.index(max_points)
-            return players[points_index]
+            result = (players[points_index], max_points)
+            return result
 
         elif element[2] == "places":
             places = element[3].split(",")
-            return places[0]
+            result = (places[0], 1)
+            return result
 
         elif element[2] == "winner":
-            return element[3]
+            result = (element[3], 1)
+            return result
 
     def find_loser(self, players, element):
         """Find loser."""
@@ -258,7 +268,7 @@ class Game:
         self.name = name
         self.type = game_type
         self.results = {}
-        self.winners = []
+        self.winners = {}
         self.losers = []
         self.counter = 0
         self.number_of_players = []
@@ -267,8 +277,12 @@ class Game:
         """Name."""
         return self.name
 
+    def add_winner(self, result: tuple):
+        """Get tuple with winner and result and add to winners."""
+        self.winners[result[0]] = result[1]
+
     def add_results(self, result: tuple):
-        """Get list of tuples (player name, result) and add to results dict."""
+        """Get tuple (player name, result) and add to results dict."""
         if result[0] not in self.results:
             self.results[result[0]] = [result[1]]
         else:
@@ -282,8 +296,3 @@ class Game:
         """
         self.counter += 1
         self.number_of_players.append(len(players.split(",")))
-
-
-if __name__ == "__main__":
-    stat = Statistics("data.txt")
-    print(stat.get("/game/terraforming mars/most-frequent-loser"))
