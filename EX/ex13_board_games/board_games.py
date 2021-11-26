@@ -165,7 +165,7 @@ class Statistics:
         loser_name = ""
         for element in data_list:
             players = element[1].split(",")
-            winner_name = self.find_winner(players, element)
+            winner_name = self.find_winner(players, element)[0]
             if element[2] == "points" or element[2] == "places":
                 loser_name = self.find_loser(players, element)
             for player_name in players:
