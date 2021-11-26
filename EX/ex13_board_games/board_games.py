@@ -23,6 +23,55 @@ class Statistics:
         self.add_player_from_data(data_list)
         self.add_games_from_data(data_list)
 
+    def add_games_from_data(self, data_list):
+        """Create and add games."""
+        for element in data_list:
+            game = self.find_game_in_list(element[0])
+            if not game:
+                game = Game(element[0], element[2])
+                self.games.append(game)
+            players = element[1].split(",")
+            game.add_count(element[1])
+            game.add_winner(self.find_winner(players, element))
+
+            if game.type == "points":
+                game.losers.append(self.find_loser(players, element))
+                points = element[3].split(",")
+                for i, player in enumerate(players):
+                    game.add_results((player, points[i]))
+
+            elif game.type == "places":
+                game.losers.append(self.find_loser(players, element))
+                players = element[3].split(",")
+                for i, player in enumerate(players):
+                    game.add_results((player, i + 1))
+
+            elif game.type == "winner":
+                for player in players:
+                    if player == element[3]:
+                        game.add_results((player, 1))
+                    else:
+                        game.add_results((player, 2))
+
+    def add_player_from_data(self, data_list):
+        """Create and add player."""
+        loser_name = ""
+        for element in data_list:
+            players = element[1].split(",")
+            winner_name = self.find_winner(players, element)[0]
+            if element[2] == "points" or element[2] == "places":
+                loser_name = self.find_loser(players, element)
+            for player_name in players:
+                player = self.find_player_in_list(player_name)
+                if not player:
+                    player = Player(player_name)
+                    self.players.append(player)
+                if player_name == winner_name:
+                    player.add_win(element[0])
+                if player_name == loser_name:
+                    player.add_loss(element[0])
+                player.add_game_count(element[0])
+
     def get(self, path: str):
         """Return requested statistics."""
         if path == "/players":
@@ -129,55 +178,6 @@ class Statistics:
                     game_loss_freq = -loss_freq
                     player_name = player.name
         return player_name
-
-    def add_games_from_data(self, data_list):
-        """Create and add games."""
-        for element in data_list:
-            game = self.find_game_in_list(element[0])
-            if not game:
-                game = Game(element[0], element[2])
-                self.games.append(game)
-            players = element[1].split(",")
-            game.add_count(element[1])
-            game.add_winner(self.find_winner(players, element))
-
-            if game.type == "points":
-                game.losers.append(self.find_loser(players, element))
-                points = element[3].split(",")
-                for i, player in enumerate(players):
-                    game.add_results((player, points[i]))
-
-            elif game.type == "places":
-                game.losers.append(self.find_loser(players, element))
-                players = element[3].split(",")
-                for i, player in enumerate(players):
-                    game.add_results((player, i + 1))
-
-            elif game.type == "winner":
-                for player in players:
-                    if player == element[3]:
-                        game.add_results((player, 1))
-                    else:
-                        game.add_results((player, 2))
-
-    def add_player_from_data(self, data_list):
-        """Create and add player."""
-        loser_name = ""
-        for element in data_list:
-            players = element[1].split(",")
-            winner_name = self.find_winner(players, element)[0]
-            if element[2] == "points" or element[2] == "places":
-                loser_name = self.find_loser(players, element)
-            for player_name in players:
-                player = self.find_player_in_list(player_name)
-                if not player:
-                    player = Player(player_name)
-                    self.players.append(player)
-                if player_name == winner_name:
-                    player.add_win(element[0])
-                if player_name == loser_name:
-                    player.add_loss(element[0])
-                player.add_game_count(element[0])
 
     def find_winner(self, players, element):
         """Find winner."""
