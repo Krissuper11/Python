@@ -34,24 +34,21 @@ class Statistics:
             game.add_count(element[1])
             game.add_winner(self.find_winner(players, element))
 
-            if game.type == "points":
-                game.losers.append(self.find_loser(players, element))
-                points = element[3].split(",")
-                for i, player in enumerate(players):
-                    game.add_results((player, points[i]))
-
-            elif game.type == "places":
-                game.losers.append(self.find_loser(players, element))
-                players = element[3].split(",")
-                for i, player in enumerate(players):
-                    game.add_results((player, i + 1))
-
-            elif game.type == "winner":
+            if game.type == "winner":
                 for player in players:
                     if player == element[3]:
                         game.add_results((player, 1))
                     else:
                         game.add_results((player, 2))
+                        break
+
+            game.losers.append(self.find_loser(players, element))
+            points = element[3].split(",")
+            for i, player in enumerate(players):
+                if game.type == "points":
+                    game.add_results((player, points[i]))
+                elif game.type == "places":
+                    game.add_results((player, i + 1))
 
     def add_player_from_data(self, data_list):
         """Create and add player."""
@@ -76,18 +73,12 @@ class Statistics:
         """Return requested statistics."""
         if path == "/players":
             return [player.name for player in self.players]
+
         elif path == "/games":
             return [game.name for game in self.games]
 
         elif "/total" in path:
-            if "/total/" in path:
-                if path[7:] == "points":
-                    return sum([game.counter for game in self.games if game.type == "points"])
-                elif path[7:] == "places":
-                    return sum([game.counter for game in self.games if game.type == "places"])
-                elif path[7:] == "winner":
-                    return sum([game.counter for game in self.games if game.type == "winner"])
-            return sum([game.counter for game in self.games])
+            return self.get_stat_total(path)
 
         elif "/game" in path:
             return self.get_game_stat(path)
@@ -95,69 +86,72 @@ class Statistics:
         elif "/player" in path:
             return self.get_player_stat(path)
 
+    def get_stat_total(self, path):
+        """Get /total/... stat."""
+        if "/total/" in path:
+            stat_type = path[7:]
+            return sum([game.counter for game in self.games if game.type == stat_type])
+        return sum([game.counter for game in self.games])
+
     def get_player_stat(self, path):
         """Get player statistics."""
+        player_name = path[:path[8:].index("/")]
+        player = self.find_player_in_list(player_name)
         if "/amount" in path:
-            player_name = path[8:path.index("/amount")]
-            player = self.find_player_in_list(player_name)
             return sum(player.games.values())
 
         elif "/favourite" in path:
-            player_name = path[8:path.index("/favourite")]
-            player = self.find_player_in_list(player_name)
-            game_count = 0
-            for key, value in player.games.items():
-                if value > game_count:
-                    game_count = value
-                    game = self.find_game_in_list(key)
-            return game.name
+            return self.get_player_stat_favorite(player)
 
         elif "/won" in path:
-            player_name = path[8:path.index("/won")]
-            player = self.find_player_in_list(player_name)
             return sum(player.wins.values())
+
+    def get_player_stat_favorite(self, player):
+        """Get /player/favourite."""
+        game_count = 0
+        for key, value in player.games.items():
+            if value > game_count:
+                game_count = value
+                game = self.find_game_in_list(key)
+        return game.name
 
     def get_game_stat(self, path):
         """Get game stat."""
+        game_name = path[:path[6:].index("/")]
+        game = self.find_game_in_list(game_name)
         if "/amount" in path:
-            game_name = path[6:path.index("/amount")]
             return self.find_game_in_list(game_name).counter
 
         elif "/player-amount" in path:
-            game_name = path[6:path.index("/player-amount")]
-            game = self.find_game_in_list(game_name)
             return max(game.number_of_players, key=game.number_of_players.count)
 
         elif "/most-wins" in path:
-            game_name = path[6:path.index("/most-wins")]
-            game = self.find_game_in_list(game_name)
             winners = [winner for winner in game.winners.keys()]
             return max(winners, key=winners.count)
 
         elif "/most-frequent-winner" in path:
-            return self.get_most_freq_winner(path)
+            return self.get_most_freq_winner(game_name)
 
         elif "/most-losses" in path:
-            game_name = path[6:path.index("/most-losses")]
-            game = self.find_game_in_list(game_name)
             return min(game.losers, key=game.losers.count)
 
         elif "/most-frequent-loser" in path:
-            return self.get_most_freq_loser(path)
+            return self.get_most_freq_loser(game_name)
 
         elif "/record-holder" in path:
-            game_name = path[6:path.index("/record-holder")]
-            game = self.find_game_in_list(game_name)
-            record = 0
-            for player, result in game.winners.items():
-                if result > record:
-                    record = result
-                    record_holder = player
-            return record_holder
+            return self.get_game_record_holder(game)
 
-    def get_most_freq_winner(self, path: str):
+    def get_game_record_holder(self, game):
+        """Get /game/record-holder."""
+        record = 0
+        for player, result in game.winners.items():
+            if result > record:
+                record = result
+                record_holder = player
+        return record_holder
+
+    def get_most_freq_winner(self, game_name):
         """Find most frequent winner."""
-        game_name = path[6:path.index("/most-frequent-winner")]
         game_win_freq = 0
         for player in self.players:
             if game_name in player.wins and game_name in player.games:
@@ -167,9 +161,8 @@ class Statistics:
                     best_player = player.name
         return best_player
 
-    def get_most_freq_loser(self, path: str):
+    def get_most_freq_loser(self, game_name: str):
         """Find most frequent loser."""
-        game_name = path[6:path.index("/most-frequent-loser")]
         game_loss_freq = 0
         for player in self.players:
             if game_name in player.losses and game_name in player.games:
