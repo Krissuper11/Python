@@ -95,7 +95,8 @@ class Statistics:
 
     def get_player_stat(self, path):
         """Get player statistics."""
-        player_name = path[:path[8:].index("/")]
+        path = path[8:]
+        player_name = path[:path.index("/")]
         player = self.find_player_in_list(player_name)
         if "/amount" in path:
             return sum(player.games.values())
@@ -117,7 +118,8 @@ class Statistics:
 
     def get_game_stat(self, path):
         """Get game stat."""
-        game_name = path[:path[6:].index("/")]
+        path = path[6:]
+        game_name = path[:path.index("/")]
         game = self.find_game_in_list(game_name)
         if "/amount" in path:
             return self.find_game_in_list(game_name).counter
