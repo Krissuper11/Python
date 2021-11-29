@@ -79,3 +79,5 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
             next_page_token = response1['nextPageToken']
         else:
             return result_list
+print(get_links_from_playlist('https://www.youtube.com/playlist?list=PLFt_AvWsXl0ehjAfLFsp1PGaatzAwo0uK',
+                                'AIzaSyB5db-2e2k6AbOjZ3dRLPCKKMV1eMYsRzA'))
