@@ -24,9 +24,9 @@ def drive_to_line(robot: FollowerBot):
     """
     line_check = False
     while True:
-        robot.set_wheels_speed(5)
+        robot.set_wheels_speed(15)
         for number in robot.get_line_sensors():
-            if number < 20:
+            if number < 100:
                 line_check = True
         if line_check is True:
             robot.set_wheels_speed(30)
