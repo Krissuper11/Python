@@ -26,6 +26,8 @@ def drive_to_line(robot: FollowerBot):
         robot.set_wheels_speed(5)
         if range(1000, 1025) in robot.get_line_sensors():
             robot.set_wheels_speed(20)
+            robot.sleep(2)
+            break
         robot.sleep(2)
 
 
