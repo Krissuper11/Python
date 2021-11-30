@@ -29,7 +29,7 @@ def drive_to_line(robot: FollowerBot):
             if number < 500:
                 line_check = True
         if line_check is True:
-            robot.set_wheels_speed(30)
+            robot.set_wheels_speed(10)
             robot.sleep(0)
             robot.set_wheels_speed(0)
             robot.done()
