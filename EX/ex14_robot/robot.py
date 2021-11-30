@@ -25,7 +25,7 @@ def drive_to_line(robot: FollowerBot):
     while True:
         robot.set_wheels_speed(10)
         if 0 in robot.get_line_sensors():
-            robot.set_wheels_speed(10)
+            robot.set_wheels_speed(20)
             robot.sleep(1)
             robot.set_wheels_speed(0)
             robot.done()
