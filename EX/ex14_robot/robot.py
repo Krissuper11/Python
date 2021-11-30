@@ -22,10 +22,11 @@ def drive_to_line(robot: FollowerBot):
 
     :param FollowerBot robot: instance of the robot that you need to make move
     """
-    robot.set_wheels_speed(5)
-    if range(1000, 1025) in robot.get_line_sensors():
-        robot.set_wheels_speed(20)
-    robot.sleep(2)
+    while True:
+        robot.set_wheels_speed(5)
+        if range(1000, 1025) in robot.get_line_sensors():
+            robot.set_wheels_speed(20)
+        robot.sleep(2)
 
 
 def follow_the_line(robot: FollowerBot):
