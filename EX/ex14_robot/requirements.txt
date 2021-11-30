@@ -1,1 +1,1 @@
-pyserial==3.9
+github.com/Hattyot/FollowerBot
