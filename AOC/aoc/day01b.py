@@ -5,6 +5,7 @@ def count_depth(file):
     """."""
     data_list = []
     counter = 0
+    b = 0
     with open(file) as file:
         for row in file:
             if "\n" in row:
@@ -13,7 +14,7 @@ def count_depth(file):
                 data_list.append(int(row))
     for i in range(1, len(data_list)):
         if i == 1:
-                a = (data_list[i] + data_list[i - 1] + data_list[i + 1])
+            a = (data_list[i] + data_list[i - 1] + data_list[i + 1])
         else:
             a = b
         try:
