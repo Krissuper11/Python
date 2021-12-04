@@ -59,7 +59,7 @@ def follow_the_line(robot: FollowerBot):
             robot.set_wheels_speed(0)
             robot.done()
             break
-        robot.set_wheels_speed(5)
+        robot.set_wheels_speed(15)
         robot.sleep(1)
 
 
