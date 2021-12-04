@@ -2,7 +2,7 @@
 from FollowerBot import FollowerBot
 
 
-def run(robot: FollowerBot):
+def test_run(robot: FollowerBot):
     """
     Make the robot move, doesnt matter how much, just as long as it has moved from the starting position.
 
