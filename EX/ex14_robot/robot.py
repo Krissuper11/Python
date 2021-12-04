@@ -59,6 +59,8 @@ def follow_the_line(robot: FollowerBot):
             robot.set_wheels_speed(0)
             robot.done()
             break
+        robot.set_wheels_speed(5)
+        robot.sleep(1)
 
 
 def the_true_follower(robot: FollowerBot):
