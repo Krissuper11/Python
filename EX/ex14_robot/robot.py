@@ -49,17 +49,18 @@ def follow_the_line(robot: FollowerBot):
         if robot.get_left_line_sensor() == 0 and robot.get_right_line_sensor() == 0:
             robot.set_wheels_speed(10)
             robot.sleep(1)
-        elif robot.get_second_line_sensor_from_right() == 0:
+        elif robot.get_second_line_sensor_from_right() == 0 and robot.get_second_line_sensor_from_left() != 0:
             robot.set_left_wheel_speed(10)
             robot.sleep(1)
-        elif robot.get_second_line_sensor_from_left() == 0:
+        elif robot.get_second_line_sensor_from_left() == 0 and robot.get_second_line_sensor_from_right() != 0:
             robot.set_right_wheel_speed(10)
             robot.sleep(1)
-        else:
+        elif 0 in robot.get_line_sensors():
             robot.set_wheels_speed(0)
             robot.done()
             break
     robot.set_wheels_speed(0)
+
 
 def the_true_follower(robot: FollowerBot):
     """
