@@ -55,11 +55,10 @@ def follow_the_line(robot: FollowerBot):
         elif sum(robot.get_right_line_sensors()) < sum(robot.get_left_line_sensors()) != 0:
             robot.set_right_wheel_speed(10)
             robot.sleep(1)
-        elif 0 in robot.get_line_sensors():
+        else:
             robot.set_wheels_speed(0)
             robot.done()
             break
-    robot.set_wheels_speed(0)
 
 
 def the_true_follower(robot: FollowerBot):
