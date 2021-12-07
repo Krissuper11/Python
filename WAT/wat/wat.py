@@ -37,5 +37,5 @@ def function_g(g):
 
 
 def function_h(h):
-    """?."""
+    """??."""
     pass
