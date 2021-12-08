@@ -53,13 +53,13 @@ def follow_the_line(robot: FollowerBot):
             robot.set_left_wheel_speed(20)
             robot.sleep(0.1)
             robot.set_wheels_speed(10)
-            robot.sleep(0.1)
+            robot.sleep(0.01)
         elif sum(robot.get_left_line_sensors()) > sum(robot.get_right_line_sensors()):
             robot.set_left_wheel_speed(10)
-            robot.set_right_wheel_speed(20)
+            robot.set_right_wheel_speed(50)
             robot.sleep(0.1)
             robot.set_wheels_speed(10)
-            robot.sleep(0.1)
+            robot.sleep(0.01)
         else:
             robot.set_wheels_speed(0)
             robot.done()
