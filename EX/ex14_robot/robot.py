@@ -46,7 +46,7 @@ def follow_the_line(robot: FollowerBot):
     robot.sleep(0.5)
     robot.set_wheels_speed(0)
     counter = 0
-    while counter != 1000:
+    while counter != 500:
         if sum(robot.get_left_line_sensors()) < sum(robot.get_right_line_sensors()):
             robot.set_right_wheel_speed(50)
             robot.set_left_wheel_speed(100)
