@@ -67,7 +67,7 @@ def follow_the_line(robot: FollowerBot):
         elif counter == 1:
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
-            robot.sleep(0.44)
+            robot.sleep(0.42)
             counter += 1
             big_counter += 1
         elif counter == 2 or big_counter == 2:
