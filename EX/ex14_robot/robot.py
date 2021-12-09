@@ -75,5 +75,5 @@ def the_true_follower(robot: FollowerBot):
     """
     Create a FollowerBot that will follow the black line on the track and make it ignore all possible distractions.
 
-    :param FollowerBot robot: instance of the robot that you need to make move
+    :param FollowerBot robot: instance of the robot that you need to make move.
     """
