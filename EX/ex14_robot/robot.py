@@ -47,12 +47,7 @@ def follow_the_line(robot: FollowerBot):
         robot.sleep(0.01)
         robot.set_wheels_speed(0)
     while True:
-        if robot_stop == 2:
-            robot.set_right_wheel_speed(80)
-            robot.set_left_wheel_speed(-80)
-            robot.sleep(0.2)
-            robot_stop += 1
-        elif robot.get_left_line_sensor() == 0 and robot.get_right_line_sensor() == 0:
+        if robot.get_left_line_sensor() == 0 and robot.get_right_line_sensor() == 0:
             robot.set_wheels_speed(45)
             robot.sleep(0.01)
             robot_stop = 0
@@ -69,6 +64,11 @@ def follow_the_line(robot: FollowerBot):
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
         elif robot_stop == 1:
+            robot.set_right_wheel_speed(80)
+            robot.set_left_wheel_speed(-80)
+            robot.sleep(0.3)
+            robot_stop += 1
+        elif robot_stop == 2:
             robot.done()
             break
         elif sum(robot.get_line_sensors()) == 6144 or robot_stop == 1:
