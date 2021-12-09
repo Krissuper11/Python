@@ -58,14 +58,14 @@ def follow_the_line(robot: FollowerBot):
             robot.sleep(0.01)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
-        # elif robot.get_left_line_sensor() == 0 and robot.get_right_line_sensor() == 0:
-        #     robot.set_wheels_speed(30)
-        #     robot.sleep(0.01)
-        #     robot.set_wheels_speed(0)
-        else:
+        elif sum(robot.get_line_sensors()) == 6144:
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
             robot.done()
+        else:
+            robot.set_wheels_speed(100)
+            robot.sleep(0.01)
+            robot.set_wheels_speed(0)
 
 
 def the_true_follower(robot: FollowerBot):
