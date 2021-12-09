@@ -62,13 +62,13 @@ def follow_the_line(robot: FollowerBot):
             robot.sleep(0.01)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
-        elif robot_stop == 2:
+        elif robot_stop == 1:
             robot.done()
             break
         else:
-            robot.set_right_wheel_speed(50)
+            robot.set_right_wheel_speed(-50)
             robot.set_left_wheel_speed(100)
-            robot.sleep(1)
+            robot.sleep(0.5)
             robot_stop += 1
 
     robot.done()
