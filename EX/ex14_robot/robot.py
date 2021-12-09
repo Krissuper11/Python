@@ -57,11 +57,6 @@ def follow_the_line(robot: FollowerBot):
             robot.set_right_wheel_speed(100)
             robot.sleep(0.01)
             robot.set_wheels_speed(0)
-        else:
-            robot.set_wheels_speed(100)
-            robot.sleep(0.01)
-            robot.set_wheels_speed(0)
-            robot.set_wheels_speed(0)
     robot.done()
 
 
