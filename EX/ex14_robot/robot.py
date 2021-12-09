@@ -42,7 +42,7 @@ def follow_the_line(robot: FollowerBot):
     :param FollowerBot robot: instance of the robot that you need to make move
     """
     while 0 not in robot.get_line_sensors():
-        robot.set_right_wheel_speed(90)
+        robot.set_right_wheel_speed(80)
         robot.set_left_wheel_speed(100)
         robot.sleep(0.1)
         robot.set_wheels_speed(0)
