@@ -66,7 +66,7 @@ def follow_the_line(robot: FollowerBot):
             robot.done()
             break
         else:
-            robot.set_right_wheel_speed(-100)
+            robot.set_right_wheel_speed(50)
             robot.set_left_wheel_speed(100)
             robot.sleep(2)
             robot_stop += 1
