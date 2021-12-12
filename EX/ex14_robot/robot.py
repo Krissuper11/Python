@@ -71,6 +71,11 @@ def follow_the_line(robot: FollowerBot):
             counter += 1
             big_counter += 1
         elif counter == 2 or big_counter == 2:
+            robot.set_right_wheel_speed(80)
+            robot.set_left_wheel_speed(-80)
+            robot.sleep(0.15)
+            robot.set_wheels_speed(70)
+            robot.sleep(0.3)
             robot.done()
             break
         elif sum(robot.get_line_sensors()) == 6144 and big_counter != 2:
