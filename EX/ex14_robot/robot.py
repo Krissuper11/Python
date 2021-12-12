@@ -43,6 +43,7 @@ def follow_the_line(robot: FollowerBot):
     """
     counter = 0
     big_counter = 0
+    turn_counter = 0
     while 0 not in robot.get_line_sensors():
         robot.set_wheels_speed(100)
         robot.sleep(0.01)
@@ -64,6 +65,7 @@ def follow_the_line(robot: FollowerBot):
             robot.sleep(0.01)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
+            turn_counter += 1
         elif counter == 1:
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
@@ -74,8 +76,11 @@ def follow_the_line(robot: FollowerBot):
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
             robot.sleep(0.15)
-            robot.set_wheels_speed(50)
+            robot.set_wheels_speed(55)
             robot.sleep(0.3)
+            robot.done()
+            break
+        elif (counter == 2 or big_counter == 2) and turn_counter > 5:
             robot.done()
             break
         elif sum(robot.get_line_sensors()) == 6144 and big_counter != 2:
