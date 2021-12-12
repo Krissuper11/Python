@@ -59,6 +59,7 @@ def follow_the_line(robot: FollowerBot):
             robot.sleep(0.01)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
+            turn_counter += 1
         elif sum(robot.get_left_line_sensors()) > sum(robot.get_right_line_sensors()):
             robot.set_left_wheel_speed(70)
             robot.set_right_wheel_speed(100)
@@ -72,7 +73,7 @@ def follow_the_line(robot: FollowerBot):
             robot.sleep(0.42)
             counter += 1
             big_counter += 1
-        elif (counter == 2 or big_counter == 2) and turn_counter > 5:
+        elif (counter == 2 or big_counter == 2) and turn_counter > 8:
             robot.done()
             break
         elif counter == 2 or big_counter == 2:
