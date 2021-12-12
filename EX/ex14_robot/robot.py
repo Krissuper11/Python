@@ -59,13 +59,13 @@ def follow_the_line(robot: FollowerBot):
             robot.sleep(0.01)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
+            turn_counter += 1
         elif sum(robot.get_left_line_sensors()) > sum(robot.get_right_line_sensors()):
             robot.set_left_wheel_speed(70)
             robot.set_right_wheel_speed(100)
             robot.sleep(0.01)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
-            turn_counter += 1
         elif counter == 1:
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
