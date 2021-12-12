@@ -74,7 +74,7 @@ def follow_the_line(robot: FollowerBot):
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
             robot.sleep(0.15)
-            robot.set_wheels_speed(53)
+            robot.set_wheels_speed(52)
             robot.sleep(0.3)
             robot.done()
             break
