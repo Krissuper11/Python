@@ -73,7 +73,7 @@ def follow_the_line(robot: FollowerBot):
             robot.sleep(0.42)
             counter += 1
             big_counter += 1
-        elif (counter == 2 or big_counter == 2) and turn_counter > 8:
+        elif (counter == 2 or big_counter == 2) and turn_counter > 30:
             robot.done()
             break
         elif counter == 2 or big_counter == 2:
