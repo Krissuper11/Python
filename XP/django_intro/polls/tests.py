@@ -64,7 +64,7 @@ class QuestionIndexViewTests(TestCase):
 
     def test_past_question(self):
         """
-        Questions with a pub_date in the past are displayed on the.
+        Question with a pub_date in the past are displayed on the.
 
         index page.
         """
@@ -77,7 +77,7 @@ class QuestionIndexViewTests(TestCase):
 
     def test_future_question(self):
         """
-        Questions with a pub_date in the future aren't displayed on.
+        Question with a pub_date in the future aren't displayed on.
 
         the index page.
         """
