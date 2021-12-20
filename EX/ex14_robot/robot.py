@@ -127,12 +127,15 @@ def the_true_follower(robot: FollowerBot):
             robot.sleep(0.1)
             big_counter += 1
             counter = 0
+        elif big_counter == 17:
+            robot.done()
+            break
         elif sum(robot.get_line_sensors()) == 6144:
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
             robot.sleep(0.16)
             counter += 1
-            if big_counter == 9 or big_counter == 10:
+            if big_counter == 9 or big_counter == 10 or big_counter == 17:
                 big_counter += 1
         else:
             robot.set_wheels_speed(10)
