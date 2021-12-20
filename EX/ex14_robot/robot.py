@@ -89,6 +89,46 @@ def the_true_follower(robot: FollowerBot):
 
     :param FollowerBot robot: instance of the robot that you need to make move.
     """
+    counter = 0
+    big_counter = 0
+    while 0 not in robot.get_line_sensors():
+        robot.set_wheels_speed(100)
+        robot.sleep(0.01)
+        robot.set_wheels_speed(0)
+    for i in range(1000):
+        if robot.get_left_line_sensor() == 0 and robot.get_right_line_sensor() == 0:
+            robot.set_wheels_speed(100)
+            robot.sleep(0.05)
+            counter = 0
+        elif sum(robot.get_left_line_sensors()) < sum(robot.get_right_line_sensors()) and counter != 1:
+            robot.set_right_wheel_speed(70)
+            robot.set_left_wheel_speed(100)
+            robot.sleep(0.03)
+            robot.set_wheels_speed(0)
+            robot.sleep(0.01)
+        elif sum(robot.get_left_line_sensors()) > sum(robot.get_right_line_sensors()):
+            robot.set_left_wheel_speed(70)
+            robot.set_right_wheel_speed(100)
+            robot.sleep(0.03)
+            robot.set_wheels_speed(0)
+            robot.sleep(0.01)
+        elif counter == 1:
+            robot.set_right_wheel_speed(80)
+            robot.set_left_wheel_speed(-80)
+            robot.sleep(0.35)
+            counter += 1
+            big_counter += 1
+        elif counter == 2 or big_counter == 2:
+            robot.set_right_wheel_speed(80)
+            robot.set_left_wheel_speed(-80)
+            robot.sleep(0.15)
+            robot.done()
+            break
+        elif sum(robot.get_line_sensors()) == 6144 and big_counter != 2:
+            robot.set_right_wheel_speed(80)
+            robot.set_left_wheel_speed(-80)
+            robot.sleep(0.15)
+            counter += 1
 
 
 if __name__ == '__main__':
