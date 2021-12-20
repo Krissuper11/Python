@@ -115,7 +115,7 @@ def the_true_follower(robot: FollowerBot):
         elif 0 not in robot.get_line_sensors() and 1024 not in robot.get_line_sensors():
             robot.set_right_wheel_speed(100)
             robot.set_left_wheel_speed(-100)
-            robot.sleep(0.35)
+            robot.sleep(0.3)
         elif counter == 1:
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
