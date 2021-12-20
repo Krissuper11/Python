@@ -97,7 +97,7 @@ def the_true_follower(robot: FollowerBot):
         robot.set_wheels_speed(0)
     for i in range(5000):
         if robot.get_left_line_sensor() == 0 and robot.get_right_line_sensor() == 0:
-            robot.set_wheels_speed(75)
+            robot.set_wheels_speed(72)
             robot.sleep(0.05)
             counter = 0
         elif sum(robot.get_left_line_sensors()) < sum(robot.get_right_line_sensors()) and counter != 1:
