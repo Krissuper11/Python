@@ -135,13 +135,14 @@ def the_true_follower(robot: FollowerBot):
             robot.set_left_wheel_speed(-80)
             robot.sleep(0.16)
             counter += 1
-            if big_counter == 9 or big_counter == 10 or big_counter == 17:
-                big_counter += 1
+            big_counter = if_big_counter(big_counter)
         else:
             robot.set_wheels_speed(10)
             robot.sleep(0.05)
 
 
-if __name__ == '__main__':
-    robot = FollowerBot(start_x=194, start_y=307, starting_orientation=45)
-    follow_the_line(robot)
+def if_big_counter(big_counter):
+    """If big counter is 9, 10 or 17, +1."""
+    if big_counter == 9 or big_counter == 10 or big_counter == 17:
+        return big_counter + 1
+    return big_counter
