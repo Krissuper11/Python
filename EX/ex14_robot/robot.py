@@ -130,7 +130,7 @@ def the_true_follower(robot: FollowerBot):
         elif sum(robot.get_line_sensors()) == 6144:
             robot.set_right_wheel_speed(80)
             robot.set_left_wheel_speed(-80)
-            robot.sleep(0.17)
+            robot.sleep(0.16)
             counter += 1
 
 
