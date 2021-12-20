@@ -115,21 +115,16 @@ def the_true_follower(robot: FollowerBot):
             robot.sleep(0.02)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
-        elif counter == 1:
-            robot.set_right_wheel_speed(80)
-            robot.set_left_wheel_speed(-80)
-            robot.sleep(0.35)
-            counter += 1
-            big_counter += 1
-        elif big_counter in [1, 2, 3, 4, 5, 6, 7]:
+        elif big_counter in [1, 2, 3, 4, 5, 6]:
             robot.set_wheels_speed(100)
             robot.sleep(0.1)
             big_counter += 1
         elif sum(robot.get_line_sensors()) == 6144 and big_counter != 2:
-            robot.set_right_wheel_speed(80)
-            robot.set_left_wheel_speed(-80)
+            robot.set_right_wheel_speed(-80)
+            robot.set_left_wheel_speed(80)
             robot.sleep(0.15)
             counter += 1
+            big_counter += 1
 
 
 if __name__ == '__main__':
