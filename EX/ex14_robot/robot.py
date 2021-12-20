@@ -122,7 +122,7 @@ def the_true_follower(robot: FollowerBot):
             robot.sleep(0.35)
             counter += 1
             big_counter += 1
-        elif big_counter in [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14]:
+        elif big_counter in [1, 2, 3, 4, 5, 6, 10, 11, 11, 13, 14, 15]:
             robot.set_wheels_speed(100)
             robot.sleep(0.1)
             big_counter += 1
@@ -132,6 +132,8 @@ def the_true_follower(robot: FollowerBot):
             robot.set_left_wheel_speed(-80)
             robot.sleep(0.16)
             counter += 1
+            if big_counter == 9:
+                big_counter += 1
 
 
 if __name__ == '__main__':
