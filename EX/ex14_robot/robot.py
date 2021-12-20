@@ -127,7 +127,7 @@ def the_true_follower(robot: FollowerBot):
             robot.sleep(0.1)
             big_counter += 1
             counter = 0
-        elif big_counter == 17:
+        elif big_counter == 18:
             robot.done()
             break
         elif sum(robot.get_line_sensors()) == 6144:
