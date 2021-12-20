@@ -49,19 +49,19 @@ def follow_the_line(robot: FollowerBot):
         robot.set_wheels_speed(0)
     for i in range(200):
         if robot.get_left_line_sensor() == 0 and robot.get_right_line_sensor() == 0:
-            robot.set_wheels_speed(45)
-            robot.sleep(0.01)
+            robot.set_wheels_speed(100)
+            robot.sleep(0.1)
             counter = 0
         elif sum(robot.get_left_line_sensors()) < sum(robot.get_right_line_sensors()) and counter != 1:
             robot.set_right_wheel_speed(70)
             robot.set_left_wheel_speed(100)
-            robot.sleep(0.01)
+            robot.sleep(0.05)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
         elif sum(robot.get_left_line_sensors()) > sum(robot.get_right_line_sensors()):
             robot.set_left_wheel_speed(70)
             robot.set_right_wheel_speed(100)
-            robot.sleep(0.01)
+            robot.sleep(0.05)
             robot.set_wheels_speed(0)
             robot.sleep(0.01)
         elif counter == 1:
