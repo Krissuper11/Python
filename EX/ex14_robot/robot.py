@@ -101,6 +101,8 @@ def the_true_follower(robot: FollowerBot):
             robot.sleep(0.05)
             counter = 0
         elif 0 not in robot.get_line_sensors() and 1024 not in robot.get_line_sensors():
+            robot.set_wheels_speed(50)
+            robot.sleep(0.05)
             robot.done()
             break
         elif sum(robot.get_left_line_sensors()) < sum(robot.get_right_line_sensors()) and counter != 1:
