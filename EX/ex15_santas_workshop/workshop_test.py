@@ -126,26 +126,26 @@ def test_delivery_note():
     this_test_flight.create_flight_plan()
     this_test_flight.prepare_transport()
     assert this_test_flight.ready_transport["Estonia"][0].delivery_note == \
-        """                          DELIVERY ORDER
+        r"""                          DELIVERY ORDER
                                                           _v
                                                      __* (__)
              ff     ff     ff     ff                {\/ (_(__).-.
       ff    <_\__, <_\__, <_\__, <_\__,      __,~~.(`>|-(___)/ ,_)
     o<_\__,  (_ ff ~(_ ff ~(_ ff ~(_ ff~~~~~@ )\/_;-"``     |
       (___)~~//<_\__, <_\__, <_\__, <_\__,    | \__________/|
-      // >>     (___)~~(___)~~(___)~~(___)~~~~\\\\_/_______\_//
+      // >>     (___)~~(___)~~(___)~~(___)~~~~\\_/_______\_//
                 // >>  // >>  // >>  // >>     `'---------'` 
 
 FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED
 TO: ESTONIA
 
-//==========[]========================================================[]==================\\\\
+//==========[]========================================================[]==================\\
 ||   Name   ||                         Gifts                          || Total Weight(kg) ||
 |]==========[]========================================================[]==================[|
 || Smidl    || Cyberpunk 2077, Digital camera, Beyblade Burst spinner ||              1.2 ||
 || Danja    || World of Warcraft: Shadowlands Collectors Edition      ||              0.3 ||
 || Kristina || Ninja Turtles backpack, Tablet computer, VHS player    ||             1.98 ||
-\\\==========[]========================================================[]==================//"""
+\\==========[]========================================================[]==================//"""
     this_test_info = santas_workshop.Info("naughty_test.csv", "nice_test_note.csv", "wish_list_test.csv")
     this_test_factory = santas_workshop.Factory(this_test_info)
     this_test_factory.produce_presents()
@@ -153,24 +153,24 @@ TO: ESTONIA
     this_test_flight.create_flight_plan()
     this_test_flight.prepare_transport()
     assert this_test_flight.ready_transport["Estonia"][0].delivery_note == \
-        """                          DELIVERY ORDER
+        r"""                          DELIVERY ORDER
                                                           _v
                                                      __* (__)
              ff     ff     ff     ff                {\/ (_(__).-.
       ff    <_\__, <_\__, <_\__, <_\__,      __,~~.(`>|-(___)/ ,_)
     o<_\__,  (_ ff ~(_ ff ~(_ ff ~(_ ff~~~~~@ )\/_;-"``     |
       (___)~~//<_\__, <_\__, <_\__, <_\__,    | \__________/|
-      // >>     (___)~~(___)~~(___)~~(___)~~~~\\\\_/_______\_//
+      // >>     (___)~~(___)~~(___)~~(___)~~~~\\_/_______\_//
                 // >>  // >>  // >>  // >>     `'---------'` 
 
 FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED
 TO: ESTONIA
 
-//======[]=========[]==================\\\\
+//======[]=========[]==================\\
 || Name ||  Gifts  || Total Weight(kg) ||
 |]======[]=========[]==================[|
 || Eva  || Crayons ||             0.05 ||
-\\\======[]=========[]==================//"""
+\\======[]=========[]==================//"""
 
 
 def test_post_office():

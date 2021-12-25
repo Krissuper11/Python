@@ -100,6 +100,7 @@ class Factory:
                         time_count += self.add_gift_info(child, counter)
                     elif 8760 < time_count < max_counter:
                         counter += max_counter
+            counter += 1
 
     def add_gift_info(self, child, counter):
         """Add information about gift."""
@@ -124,6 +125,7 @@ class Factory:
             return 0
         except urllib.error.HTTPError:
             return 0
+
 
     def find_gift_in_list(self, gift_name):
         """Find gift."""
@@ -211,14 +213,14 @@ class Transport:
     def create_delivery_note(self):
         """Create delivery note."""
         self.delivery_note += \
-            """                          DELIVERY ORDER
+            r"""                          DELIVERY ORDER
                                                           _v
                                                      __* (__)
              ff     ff     ff     ff                {\/ (_(__).-.
       ff    <_\__, <_\__, <_\__, <_\__,      __,~~.(`>|-(___)/ ,_)
     o<_\__,  (_ ff ~(_ ff ~(_ ff ~(_ ff~~~~~@ )\/_;-"``     |
       (___)~~//<_\__, <_\__, <_\__, <_\__,    | \__________/|
-      // >>     (___)~~(___)~~(___)~~(___)~~~~\\\\_/_______\_//
+      // >>     (___)~~(___)~~(___)~~(___)~~~~\\_/_______\_//
                 // >>  // >>  // >>  // >>     `'---------'` 
 
 FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED
