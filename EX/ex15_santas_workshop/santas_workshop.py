@@ -84,10 +84,9 @@ class Factory:
         children_list = deepcopy(sorted(self.info.nice_children, key=lambda x: len(x.presents), reverse=True))
         counter = 0
         time_count = 0
-        try:
-            max_counter = len(children_list[0].presents)
-        except IndexError:
+        if len(children_list) == 0:
             return None
+        max_counter = len(children_list[0].presents)
         while counter <= max_counter:
             for i, child in enumerate(self.info.nice_children):
                 if time_count < 525600:
@@ -125,7 +124,6 @@ class Factory:
             return 0
         except urllib.error.HTTPError:
             return 0
-
 
     def find_gift_in_list(self, gift_name):
         """Find gift."""
@@ -195,12 +193,14 @@ class Transport:
     """Transport."""
 
     def __init__(self, country):
+        """Transport constructor."""
         self.country = country
         self.space_left = 50000
         self.gifts = {}
         self.delivery_note = ""
 
     def __repr__(self):
+        """."""
         return self.country
 
     def add_gifts(self, gift):
@@ -221,7 +221,7 @@ class Transport:
     o<_\__,  (_ ff ~(_ ff ~(_ ff ~(_ ff~~~~~@ )\/_;-"``     |
       (___)~~//<_\__, <_\__, <_\__, <_\__,    | \__________/|
       // >>     (___)~~(___)~~(___)~~(___)~~~~\\_/_______\_//
-                // >>  // >>  // >>  // >>     `'---------'` 
+                // >>  // >>  // >>  // >>     `'---------'`
 
 FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED
 TO: """
@@ -335,15 +335,3 @@ class PostOffice:
             else:
                 pass
         return new_letter
-
-
-if __name__ == '__main__':
-    info = Info("test_empty.csv", "test_empty.csv", "ex15_wish_list.csv")
-    factory = Factory(info)
-    PostOffice(info).read_letter("SGVsbG8sIFNhbnRhIQoKSSBoYXZlIGJlZW4gdmVyeSBuaWNlIHRvIG15IGZhbWlseSBhbmQgZnJpZW5kcywgYW5kIGV2ZW4gc29tZSBwZW9wbGUgd2hvIGhhdmUgbm90IGJlZW4gdmVyeSBuaWNlIHRvIG1lLCBsaWtlIG91ciBuZWlnaGJvciB3aG8geWVsbHMgYXQgbWUgd2hlbiBJIHBsYXkgd2l0aCB0aGUgd2F0ZXJob3NlLgoKVGhpcyB5ZWFyLCBJIHdhbnQgUGluayB0cmljeWNsZS4KCkNhbid0IHdhaXQgdG8gc2VlIHlvdSwKQnJlbm5hbiwgUHVlcnRvIFJpY28=")
-    factory.produce_presents()
-    flight = FlightPlan(factory)
-    flight.create_flight_plan()
-    flight.prepare_transport()
-    print(flight.ready_transport)
-    print(flight.ready_transport["Puerto Rico"][0].delivery_note)

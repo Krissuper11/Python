@@ -1,3 +1,4 @@
+"""Test."""
 import santas_workshop
 
 info = santas_workshop.Info("ex15_naughty_list.csv", "ex15_nice_list.csv", "ex15_wish_list.csv")
@@ -63,7 +64,7 @@ def test_presents_added_correctly():
 
 
 def test_gift_created_correctly():
-    """Test that gift has correct information (name, weight)"""
+    """Test that gift has correct information (name, weight)."""
     test_list = {"Stacy": factory.completed_presents["Stacy"], "Libby": factory.completed_presents["Libby"]}
     gifts = {"Stacy": {"Polyhedral dice set": 10, "Wall-mount diamond pickaxe": 695, "500 TikTok followers": 1},
              "Libby": {"Zebra Jumpy": 1337, "Princess dress": 278, "Lego death star": 2000}}
@@ -116,7 +117,6 @@ def test_optimized_transport():
            and "Pekka" in flight.ready_transport["Finland"][0].gifts
 
 
-
 def test_delivery_note():
     """Test delivery note."""
     this_test_info = santas_workshop.Info("naughty_test.csv", "nice_test.csv", "wish_list_test.csv")
@@ -134,7 +134,7 @@ def test_delivery_note():
     o<_\__,  (_ ff ~(_ ff ~(_ ff ~(_ ff~~~~~@ )\/_;-"``     |
       (___)~~//<_\__, <_\__, <_\__, <_\__,    | \__________/|
       // >>     (___)~~(___)~~(___)~~(___)~~~~\\_/_______\_//
-                // >>  // >>  // >>  // >>     `'---------'` 
+                // >>  // >>  // >>  // >>     `'---------'`
 
 FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED
 TO: ESTONIA
@@ -161,7 +161,7 @@ TO: ESTONIA
     o<_\__,  (_ ff ~(_ ff ~(_ ff ~(_ ff~~~~~@ )\/_;-"``     |
       (___)~~//<_\__, <_\__, <_\__, <_\__,    | \__________/|
       // >>     (___)~~(___)~~(___)~~(___)~~~~\\_/_______\_//
-                // >>  // >>  // >>  // >>     `'---------'` 
+                // >>  // >>  // >>  // >>     `'---------'`
 
 FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED
 TO: ESTONIA
