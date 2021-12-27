@@ -136,7 +136,7 @@ def the_true_follower(robot: FollowerBot):
 
 
 def if_big_counter(big_counter):
-    """If big counter is 9, 10 or 17, +1."""
+    """If big counter is 9, 10 or 17, + 1."""
     if big_counter == 9 or big_counter == 10 or big_counter == 17:
         return big_counter + 1
     return big_counter
