@@ -119,7 +119,7 @@ def tic_tac_toe(game: list) -> int:
         return game[2][0]
     else:
         return 0
-print(tic_tac_toe([[0, 0, 0], [1, 1, 1], [0, 0, 0]]))
+
 
 def rainbows(field: str, lower=False) -> int:
     """
