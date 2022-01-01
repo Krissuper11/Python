@@ -1,5 +1,6 @@
 """Exam0."""
 from typing import Optional
+import re
 
 
 def find_capital_letters(s: str) -> str:
@@ -48,7 +49,6 @@ def close_far(a: int, b: int, c: int) -> bool:
 
 
 def get_names_from_results(results_string: str, min_result: int) -> list:
-    import re
     """
     Given a string of names and scores, return a list of names where the score is higher than or equal to min_result.
 
@@ -92,14 +92,33 @@ def tic_tac_toe(game: list) -> int:
     There is only one winner or draw. You don't have to validate whether the game is in correct (possible) state.
     I.e the game could have four 1s and one 0 etc.
 
-    tic_tac_toe([[1, 2, 1], [2, 1, 2], [2, 2, 1]]) => 1
+    tic_tac_toe([[1, 2, 1],
+                 [2, 1, 2],
+                 [2, 2, 1]]) => 1
     tic_tac_toe([[1, 0, 1], [2, 1, 2], [2, 2, 0]]) => 0
     tic_tac_toe([[2, 2, 2], [0, 2, 0], [0, 1, 0]]) => 2
 
     :param game
     :return: winning player id
     """
-    pass
+    if game[0][0] == game[1][1] == game[2][2]:
+        return game[0][0]
+    elif game[0][2] == game[1][1] == game[2][0]:
+        return game[0][2]
+    elif game[0][0] == game[1][0] == game[2][0]:
+        return game[0][0]
+    elif game[0][1] == game[1][1] == game[2][1]:
+        return game[0][1]
+    elif game[0][2] == game[1][2] == game[2][2]:
+        return game[0][2]
+    elif game[0][0] == game[0][1] == game[0][2]:
+        return game[0][0]
+    elif game[1][0] == game[1][1] == game[1][2]:
+        return game[1][0]
+    elif game[2][0] == game[2][1] == game[2][2]:
+        return game[2][0]
+    else:
+        return 0
 
 
 def rainbows(field: str, lower=False) -> int:
@@ -117,7 +136,19 @@ def rainbows(field: str, lower=False) -> int:
     :param field: string to search rainbows from
     :return: number of rainbows in the string
     """
-    pass
+    if lower is False:
+        lower = 0
+    field = field.lower()
+    if "rainbow" not in field and "wobniar" not in field:
+        return lower
+    if "rainbow" in field:
+        index = field.index("rainbow")
+        lower += 1
+        return rainbows(field[:index] + field[index + 7:], lower)
+    elif "wobniar" in field:
+        index = field.index("wobniar")
+        lower += 1
+        return rainbows(field[:index] + field[index + 7:], lower)
 
 
 def longest_substring(text: str) -> str:
