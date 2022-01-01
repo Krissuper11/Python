@@ -16,7 +16,7 @@ def find_capital_letters(s: str) -> str:
     find_capital_letters("abc") => ""
     find_capital_letters("aAbBc") => "AB"
     """
-    capital_letters = "ABCDEFGHIJKLMOPQRSTUVWXYZ"
+    capital_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     result = ""
     for letter in s:
         if letter in capital_letters:
@@ -69,13 +69,13 @@ def get_names_from_results(results_string: str, min_result: int) -> list:
     result_list = []
     string_list = results_string.split(",")
     for result in string_list:
-        score = int(re.findall(r"\d+$", result)[0])
-        if score >= min_result:
-            try:
+        try:
+            score = int(re.findall(r"\d+$", result)[0])
+            if score >= min_result:
                 name = re.findall(r".*(?= \d)", result)[0]
                 result_list.append(name)
-            except IndexError:
-                pass
+        except IndexError:
+            pass
     return result_list
 
 
