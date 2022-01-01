@@ -151,7 +151,7 @@ def rainbows(field: str, lower=False) -> int:
         return rainbows(field[:index] + field[index + 7:], lower)
 
 
-def longest_substring(text: str) -> str:
+def longest_substring(text: str):
     """
     Find the longest substring.
 
@@ -169,7 +169,20 @@ def longest_substring(text: str) -> str:
     abBcd => Bcd
     '' -> ''
     """
-    pass
+    counter = 0
+    result = {}
+    while counter < len(text):
+        for letter in text:
+            if counter not in result:
+                result[counter] = letter
+            elif letter not in result[counter] and letter.lower() not in result[counter] and letter.upper() not in result[counter]:
+                result[counter] += letter
+            else:
+                counter += 1
+                text = text[1:]
+                break
+    result = sorted(result.values(), key=lambda x: len(x), reverse=True)
+    return result[0]
 
 
 class Student:
