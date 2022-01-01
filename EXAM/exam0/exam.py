@@ -48,6 +48,7 @@ def close_far(a: int, b: int, c: int) -> bool:
 
 
 def get_names_from_results(results_string: str, min_result: int) -> list:
+    import re
     """
     Given a string of names and scores, return a list of names where the score is higher than or equal to min_result.
 
@@ -65,7 +66,17 @@ def get_names_from_results(results_string: str, min_result: int) -> list:
     get_names_from_results("ago 123,peeter 11,kitty11!! 33", 11) => ["ago", "peeter",  "kitty11!!"]
     get_names_from_results("ago 123,peeter 11,kusti riin 14", 12) => ["ago", "kusti riin"]
     """
-    pass
+    result_list = []
+    string_list = results_string.split(",")
+    for result in string_list:
+        score = int(re.findall(r"\d+$", result)[0])
+        if score >= min_result:
+            try:
+                name = re.findall(r".*(?= \d)", result)[0]
+                result_list.append(name)
+            except IndexError:
+                pass
+    return result_list
 
 
 def tic_tac_toe(game: list) -> int:
