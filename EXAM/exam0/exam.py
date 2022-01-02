@@ -199,9 +199,6 @@ class Student:
         self.average_grade = average_grade
         self.name = name
 
-    def __repr__(self):
-        return self.name
-
 
 def create_student(name: str, grades: list, credit_points: int) -> Student:
     """
