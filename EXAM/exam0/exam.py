@@ -207,7 +207,10 @@ def create_student(name: str, grades: list, credit_points: int) -> Student:
     Round the average grade up to three decimal places.
     If the list of grades is empty, the average grade will be 0.
     """
-    average_grade = round(sum(grades) / len(grades), 3)
+    try:
+        average_grade = round(sum(grades) / len(grades), 3)
+    except ZeroDivisionError:
+        return Student(name, 0, credit_points)
     return Student(name, average_grade, credit_points)
 
 
