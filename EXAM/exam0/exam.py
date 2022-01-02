@@ -225,12 +225,10 @@ def get_top_student_with_credit_points(students: list, min_credit_points: int):
     If several students have the same average score, return the first.
     """
     students_by_points = sorted(students, key=lambda x: x.average_grade, reverse=True)
-    try:
-        if students_by_points[0].credit_points < min_credit_points:
-            return None
-        return students_by_points[0]
-    except IndexError:
-        return None
+    for student in students_by_points:
+        if student.credit_points >= min_credit_points:
+            return student
+    return None
 
 
 def add_result_to_student(student: Student, grades_count: int, new_grade: int, credit_points) -> Student:
@@ -363,9 +361,10 @@ class Hotel:
             for feature in required_features:
                 if feature in room.features:
                     counter += 1
-            if (counter > match_counter or match_counter == 0 and perfect_room is None) and room.is_booked is False:
-                match_counter = counter
-                perfect_room = room
+            if counter > match_counter or match_counter == 0 and perfect_room is None:
+                if room.is_booked is False:
+                    match_counter = counter
+                    perfect_room = room
         if perfect_room is not None:
             perfect_room.is_booked = True
             self.booked.append(perfect_room)
