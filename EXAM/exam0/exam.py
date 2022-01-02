@@ -341,7 +341,7 @@ class Hotel:
         If a room with the given number already exists, do not add a room and return False.
         Otherwise add the room to hotel and return True.
         """
-        if room in [room_.number for room_ in self.rooms]:
+        if room.number in [room_.number for room_ in self.rooms]:
             return False
         else:
             self.rooms.append(room)
