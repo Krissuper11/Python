@@ -354,6 +354,7 @@ class Hotel:
         If there is no available rooms, return None
         """
         rooms = sorted(self.rooms, key=lambda x: x.number)
+        required_features = set(required_features)
         match_counter = 0
         perfect_room = None
         for room in rooms:
@@ -440,7 +441,7 @@ if __name__ == '__main__':
     assert hotel.get_rooms() == [room1, room2]
     assert hotel.get_booked_rooms() == []
 
-    assert hotel.book_room(["tv", "president"]) == room1
+    assert hotel.book_room(["tv", "president", "tv"]) == room1
     assert hotel.get_available_rooms() == [room2]
     assert hotel.get_booked_rooms() == [room1]
 
