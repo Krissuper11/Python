@@ -171,7 +171,10 @@ def longest_substring(text: str):
     """
     counter = 0
     result = {}
-    while counter < len(text):
+    longest_str = ""
+    length = 0
+    l = len(text)
+    for i in range(len(text)):
         for letter in text:
             if counter not in result:
                 result[counter] = letter
@@ -181,8 +184,11 @@ def longest_substring(text: str):
                 counter += 1
                 text = text[1:]
                 break
-    result = sorted(result.values(), key=lambda x: len(x), reverse=True)
-    return result[0]
+    for substring in result.values():
+        if len(substring) > length:
+            length = len(substring)
+            longest_str = substring
+    return longest_str
 
 
 class Student:
